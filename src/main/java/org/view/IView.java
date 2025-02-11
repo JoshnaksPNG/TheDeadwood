@@ -1,4 +1,6 @@
 package org.view;
 
-public interface IView {
+public interface IView
+{
+
 }

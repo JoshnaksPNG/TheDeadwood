@@ -1,4 +1,8 @@
 package org.model;
 
-public class Room {
+import java.util.ArrayList;
+
+public class Room
+{
+    ArrayList<Player> occPlayers;
 }
