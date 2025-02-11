@@ -1,4 +1,4 @@
 package org.controller;
 
-public class Dice {
+public class SceneDeck {
 }
