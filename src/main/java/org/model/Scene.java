@@ -27,8 +27,8 @@ public class Scene extends Room
         return _isFaceUp;
     }
 
-    public void flipCard() throws ExecutionControl.NotImplementedException
+    public void flipCard()
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        _isFaceUp = !_isFaceUp;
     }
 }

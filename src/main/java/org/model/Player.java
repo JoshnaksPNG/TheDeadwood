@@ -5,22 +5,22 @@ import org.controller.BoardManager;
 
 public class Player
 {
-    int playerNumber;
+    public int playerNumber;
 
-    int rank;
+    public int rank;
 
-    int money;
+    public int money;
 
-    int credit;
+    public int credit;
 
-    Role role;
+    public Role role;
 
-    boolean isInRole;
+    public boolean isInRole;
 
-    int practiceChips;
+    public int practiceChips;
 
-    int currPositionX;
-    int currPositionY;
+    public int currPositionX;
+    public int currPositionY;
 
     public Player(int playerNumber, int rank, int money, int credit, int playerX, int playerY)
     {

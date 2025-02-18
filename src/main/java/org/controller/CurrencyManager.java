@@ -5,23 +5,23 @@ import org.model.Player;
 
 public class CurrencyManager
 {
-    int checkPlayerDollar(Player player) throws ExecutionControl.NotImplementedException
+    int checkPlayerDollar(Player player)
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        return player.money;
     }
 
-    int checkPlayerCredit(Player player) throws ExecutionControl.NotImplementedException
+    int checkPlayerCredit(Player player)
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        return player.credit;
     }
 
-    void updatePlayerDollar(Player player, int dollars) throws ExecutionControl.NotImplementedException
+    void updatePlayerDollar(Player player, int dollars)
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        player.money = dollars;
     }
 
-    void updatePlayerCredit(Player player, int credit) throws ExecutionControl.NotImplementedException
+    void updatePlayerCredit(Player player, int credit)
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        player.credit = credit;
     }
 }
