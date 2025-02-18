@@ -8,17 +8,19 @@ import java.util.List;
 
 public class SceneDeck
 {
-    ArrayList<Scene> SceneCards;
+    private ArrayList<Scene> SceneCards;
 
-    SceneDeck(List<Scene> sceneList)
+    public SceneDeck(List<Scene> sceneList)
     {
         // Constructing new ArrayList from List Parameter
-
         SceneCards = new ArrayList<>(sceneList);
     }
 
-    Scene getScene() throws ExecutionControl.NotImplementedException
+    public Scene getScene()
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        int random = (int) (Math.random() * SceneCards.size());
+        Scene scene = SceneCards.get(rand);
+        SceneCards.remove(random);
+        return scene;
     }
 }
