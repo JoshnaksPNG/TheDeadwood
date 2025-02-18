@@ -2,11 +2,11 @@ package org.model;
 
 public class Role
 {
-    boolean isOccupied;
+    public boolean isOccupied;
 
-    Player player;
+    public Player player;
 
-    boolean onCard;
+    public boolean onCard;
 
-    int roleRank;
+    public int roleRank;
 }

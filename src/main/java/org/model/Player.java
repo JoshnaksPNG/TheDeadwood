@@ -1,6 +1,7 @@
 package org.model;
 
 import jdk.jshell.spi.ExecutionControl;
+import org.controller.BoardManager;
 
 public class Player
 {
@@ -21,7 +22,7 @@ public class Player
     int currPositionX;
     int currPositionY;
 
-    Player(int playerNumber, int rank, int money, int credit, int playerX, int playerY)
+    public Player(int playerNumber, int rank, int money, int credit, int playerX, int playerY)
     {
         this.playerNumber = playerNumber;
         this.rank = rank;
@@ -31,18 +32,38 @@ public class Player
         this.currPositionY = playerY;
     }
 
-    void takeTurn() throws ExecutionControl.NotImplementedException
+    public void takeTurn() throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    boolean takeRole(Scene scene, Role role) throws ExecutionControl.NotImplementedException
+    public boolean takeRole(Scene scene, Role role) throws ExecutionControl.NotImplementedException
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        if(role.roleRank > this.rank)
+        {
+            throw new RuntimeException("Player attempting to take role with higher rank!");
+        }
+
+        role.isOccupied = true;
+        role.player = this;
+
+        return true;
     }
 
-    boolean move(int targetX, int targetY) throws ExecutionControl.NotImplementedException
+    public boolean move(int targetX, int targetY, BoardManager board) throws ExecutionControl.NotImplementedException
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        boolean canMove = board.checkDestination(this, targetX, targetY);
+
+        if(!canMove)
+        {
+            throw new RuntimeException("Player attempting to move to invalid destination");
+        }
+
+        currPositionY = targetY;
+        currPositionX = targetX;
+
+        board.movePlayer(this, targetX, targetY);
+
+        return canMove;
     }
 }

@@ -6,28 +6,28 @@ import java.util.ArrayList;
 
 public class Scene extends Room
 {
-    int budget;
+    public int budget;
 
-    boolean _isFaceUp;
+    public boolean _isFaceUp;
 
-    ArrayList<Role> roles;
+    public ArrayList<Role> roles;
 
-    String description;
+    public String description;
 
-    int shotsLeft;
+    public int shotsLeft;
 
-    Scene(int budget, ArrayList<Role> roles)
+    public Scene(int budget, ArrayList<Role> roles)
     {
         this.budget = budget;
         this.roles = roles;
     }
 
-    boolean IsFaceUp()
+    public boolean IsFaceUp()
     {
         return _isFaceUp;
     }
 
-    void flipCard() throws ExecutionControl.NotImplementedException
+    public void flipCard() throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }

@@ -8,22 +8,22 @@ public class BoardManager
 {
     Room[][] rooms;
 
-    boolean checkDestination(Player player, int x, int y) throws ExecutionControl.NotImplementedException
+    public boolean checkDestination(Player player, int x, int y) throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    void adjustBoard(int layout) throws ExecutionControl.NotImplementedException
+    public void adjustBoard(int layout) throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    void initializeBoard() throws ExecutionControl.NotImplementedException
+    public void initializeBoard() throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    void movePlayer(Player player, int targetX, int targetY) throws ExecutionControl.NotImplementedException
+    public void movePlayer(Player player, int targetX, int targetY) throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
