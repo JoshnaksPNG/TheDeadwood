@@ -5,23 +5,43 @@ import org.model.Player;
 
 public class CurrencyManager
 {
-    int checkPlayerDollar(Player player)
+    int checkPlayerMoney(Player player)
     {
-        return player.money;
+        return player.getMoney();
     }
 
     int checkPlayerCredit(Player player)
     {
-        return player.credit;
+        return player.getCredit();
     }
 
-    void updatePlayerDollar(Player player, int dollars)
+    /**
+     * Updates the Player's currency, specifically dollars here
+     * 
+     * For pay, the integer num is positive
+     * For upgrading, the integer num is negative
+     * 
+     * @param player Target player for changes
+     * @param num value to change currency by. Positive for increasing money, negative for decreasing money
+     */
+    void updatePlayerMoney(Player player, int num)
     {
-        player.money = dollars;
+        int currentMoney = player.getMoney();
+        player.setMoney(currentDollar + num);
     }
 
-    void updatePlayerCredit(Player player, int credit)
+    /**
+     * Updates the Player's currency, specifically dollars here
+     * 
+     * For pay, the integer num is positive
+     * For upgrading, the integer num is negative
+     * 
+     * @param player Target player for changes
+     * @param num value to change currency by. Positive for increasing money, negative for decreasing money
+     */
+    void updatePlayerCredit(Player player, int num)
     {
-        player.credit = credit;
+        int currentCredit = player.getCredit();
+        player.setCredit(currentCredit + num);
     }
 }
