@@ -22,11 +22,18 @@ public class Scene extends Room
         this.roles = roles;
     }
 
+
     public boolean IsFaceUp()
     {
         return _isFaceUp;
     }
 
+    /**
+     * Flips the Scene card.
+     *
+     * Toggles the flip state to opposite of current state.
+     *
+     * **/
     public void flipCard()
     {
         _isFaceUp = !_isFaceUp;

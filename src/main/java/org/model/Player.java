@@ -25,12 +25,23 @@ public class Player
         this.currPositionY = playerY;
     }
 
+
+    /**
+     * Prompts player to take turn, and processes turn.
+     * */
     public void takeTurn() throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    public boolean takeRole(Scene scene, Role role) throws ExecutionControl.NotImplementedException
+    /**
+     * Sets a Player's role
+     *
+     * @param scene Scene in which the Role is being taken.
+     * @param role Role to assign to the player.
+     *
+     * */
+    public boolean takeRole(Scene scene, Role role)
     {
         if(role.roleRank > this.rank)
         {
@@ -43,6 +54,14 @@ public class Player
         return true;
     }
 
+    /**
+     * Move the player to the target position on the board
+     *
+     * @param targetX Target X position to move player to.
+     * @param targetY Target Y position to move player to.
+     * @param board Board in which player is being moved within.
+     *
+     * */
     public boolean move(int targetX, int targetY, BoardManager board) throws ExecutionControl.NotImplementedException
     {
         boolean canMove = board.checkDestination(this, targetX, targetY);
