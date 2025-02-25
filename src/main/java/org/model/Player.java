@@ -45,13 +45,12 @@ public class Player
      * */
     public boolean takeRole(Scene scene, Role role)
     {
-        if(role.roleRank > this.rank)
+        if(role.getRank() > this.rank)
         {
             throw new RuntimeException("Player attempting to take role with higher rank!");
         }
 
-        role.isOccupied = true;
-        role.player = this;
+        role.setActor(this);
 
         return true;
     }
