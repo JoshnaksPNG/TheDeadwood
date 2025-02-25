@@ -15,6 +15,8 @@ public class Player
     private int currPositionX;
     private int currPositionY;
 
+    private Room currentRoom;
+
     public Player(int playerNumber, int rank, int money, int credit, int playerX, int playerY)
     {
         this.playerNumber = playerNumber;
@@ -57,24 +59,22 @@ public class Player
     /**
      * Move the player to the target position on the board
      *
-     * @param targetX Target X position to move player to.
-     * @param targetY Target Y position to move player to.
+     * @param targetPosition Target position to move player to.
      * @param board Board in which player is being moved within.
      *
      * */
-    public boolean move(int targetX, int targetY, BoardManager board) throws ExecutionControl.NotImplementedException
+    public boolean move(Room targetPosition, BoardManager board) throws ExecutionControl.NotImplementedException
     {
-        boolean canMove = board.checkDestination(this, targetX, targetY);
+        boolean canMove = board.checkDestination(this, targetPosition);
 
         if(!canMove)
         {
             throw new RuntimeException("Player attempting to move to invalid destination");
         }
 
-        currPositionY = targetY;
-        currPositionX = targetX;
+        currentRoom = targetPosition;
 
-        board.movePlayer(this, targetX, targetY);
+        board.movePlayer(this, targetPosition);
 
         return canMove;
     }
@@ -160,5 +160,10 @@ public class Player
 
     public void setCurrPositionY(int currPositionY) {
         this.currPositionY = currPositionY;
+    }
+
+    public Room getCurrentRoom()
+    {
+        return currentRoom;
     }
 }

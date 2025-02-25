@@ -4,7 +4,7 @@ import jdk.jshell.spi.ExecutionControl;
 
 import java.util.ArrayList;
 
-public class Scene extends Room
+public class Scene
 {
     public int budget;
 
@@ -18,6 +18,7 @@ public class Scene extends Room
 
     public Scene(int budget, ArrayList<Role> roles)
     {
+
         this.budget = budget;
         this.roles = roles;
     }

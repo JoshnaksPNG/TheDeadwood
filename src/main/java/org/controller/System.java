@@ -41,7 +41,7 @@ public class System
             players.add(p);
 
             // Replace the new Room() here
-            _View.AddPlayer(p, new Room() {});
+            _View.AddPlayer(p, new Room("test", 0, 0,0,0, new ArrayList<>()));
         }
     }
 

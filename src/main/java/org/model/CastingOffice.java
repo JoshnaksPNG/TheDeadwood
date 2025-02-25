@@ -3,12 +3,13 @@ package org.model;
 import jdk.jshell.spi.ExecutionControl;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.controller.CurrencyManager;
 
 public class CastingOffice extends Room
 {
-    private static CastingOffice castingOffice = new CastingOffice();
+    private static CastingOffice castingOffice;
     
     private static int[][] upgradeCosts = {
         {4, 5},    // rank 2
@@ -18,10 +19,21 @@ public class CastingOffice extends Room
         {40, 25}   // rank 6
     };
 
-    CastingOffice()
-    {}
+    CastingOffice(String name, int x, int y, int w, int h, List<String> neighborNames)
+    {
+
+
+        super(name, x, y, w, h, neighborNames);
+    }
 
     public static CastingOffice getCastingOffice() {
+        return castingOffice;
+    }
+
+    public static CastingOffice initCastingOffice(String name, int x, int y, int w, int h, List<String> neighborNames)
+    {
+        castingOffice = new CastingOffice(name, x, y, w, h, neighborNames);
+
         return castingOffice;
     }
 
