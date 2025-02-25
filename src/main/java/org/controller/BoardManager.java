@@ -8,6 +8,13 @@ public class BoardManager
 {
     Room[][] rooms;
 
+    SceneManager _SceneManager;
+
+    public BoardManager(SceneManager sceneManager)
+    {
+
+    }
+
     /**
      * Checks to see if the target destination is a valid position
      * for the player to move to.
@@ -18,15 +25,6 @@ public class BoardManager
      *
      * */
     public boolean checkDestination(Player player, int x, int y) throws ExecutionControl.NotImplementedException
-    {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
-    }
-
-    /**
-     *
-     *
-     * */
-    public void adjustBoard(int layout) throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }

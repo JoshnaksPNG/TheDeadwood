@@ -3,11 +3,15 @@ package org.controller;
 import jdk.jshell.spi.ExecutionControl;
 import org.model.Player;
 import org.model.Role;
+import org.model.Room;
+import org.view.IView;
 
 import java.util.ArrayList;
 
 public class System
 {
+    IView _View;
+
     int days;
 
     int currDay;
@@ -20,47 +24,63 @@ public class System
 
     int currTurn;
 
-    void initializePlayers(int numPlayers) throws ExecutionControl.NotImplementedException
+    public System(IView view)
+    {
+        _View = view;
+        players = new ArrayList<>();
+    }
+
+    public void initializePlayers(int numPlayers)
+    {
+        int playerCount = _View.PromptPlayerAmount();
+
+        for(int i = 0; i < playerCount; ++i)
+        {
+            Player p = new Player(i + 1, 1, 0, 0, 0, 0);
+
+            players.add(p);
+
+            // Replace the new Room() here
+            _View.AddPlayer(p, new Room() {});
+        }
+    }
+
+    public void setupBoard(BoardManager board) throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    void setupBoard(BoardManager board) throws ExecutionControl.NotImplementedException
+    public void updateRole(Role role) throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    void updateRole(Role role) throws ExecutionControl.NotImplementedException
+    public boolean checkEndOfGame() throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    boolean checkEndOfGame() throws ExecutionControl.NotImplementedException
+    public ArrayList<Player> determinePlayerOrder() throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    ArrayList<Player> determinePlayerOrder() throws ExecutionControl.NotImplementedException
+    public void endDay() throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    void endDay() throws ExecutionControl.NotImplementedException
+    public void endGame() throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    void endGame() throws ExecutionControl.NotImplementedException
+    public void manageTurns() throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    void manageTurns() throws ExecutionControl.NotImplementedException
-    {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
-    }
-
-    void movePlayerPosition(Player player, int targetX, int targetY) throws ExecutionControl.NotImplementedException
+    public void movePlayerPosition(Player player, int targetX, int targetY) throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }

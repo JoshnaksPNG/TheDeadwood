@@ -2,7 +2,9 @@ package org.model;
 
 import java.util.ArrayList;
 
-public class Room
+public abstract class Room
 {
     ArrayList<Player> occPlayers;
+
+    ArrayList<Room> NeighboringSets;
 }
