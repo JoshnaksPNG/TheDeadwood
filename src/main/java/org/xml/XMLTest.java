@@ -15,8 +15,8 @@ public class XMLTest{
       XMLParser parsing = new XMLParser();
       try{
       
-         doc = parsing.getDocFromFile("cards.xml");
-         parsing.readBookData(doc);
+         doc = parsing.getDocFromFile("TheDeadwood/src/main/java/org/xml/cards.xml");
+         parsing.readCardData(doc);
       
       }catch (Exception e){
       

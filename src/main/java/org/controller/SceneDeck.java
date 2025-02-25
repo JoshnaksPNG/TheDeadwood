@@ -19,7 +19,7 @@ public class SceneDeck
     public Scene getScene()
     {
         int random = (int) (Math.random() * SceneCards.size());
-        Scene scene = SceneCards.get(rand);
+        Scene scene = SceneCards.get(random);
         SceneCards.remove(random);
         return scene;
     }
