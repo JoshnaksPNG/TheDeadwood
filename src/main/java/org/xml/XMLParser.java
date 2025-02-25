@@ -5,6 +5,7 @@ import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.model.Role;
+import org.model.Scene;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
@@ -32,13 +33,15 @@ public class XMLParser{
    }  
    
    // reads data from XML file and prints data
-   public void readBookData(Document d){
+   public ArrayList<Scene> readCardData(Document d){
       Element root = d.getDocumentElement();
       NodeList cards = root.getElementsByTagName("card");
+      ArrayList<Scene> scenes = new ArrayList<Scene>();
       Role roleHolder = null;
+      Scene sceneHolder = null;
       ArrayList<Role> roles = new ArrayList<Role>();
       for (int i=0; i < cards.getLength();i++){
-         System.out.println("Printing information for book "+(i+1));
+         System.out.println("Printing information for Scene "+(i+1));
          
          //reads data from the nodes
          Node card = cards.item(i);
@@ -47,21 +50,24 @@ public class XMLParser{
          
          //reads data
          NodeList children = card.getChildNodes();
+         int sceneNum = 0;
+         String sceneText = "";
+         String partName = "";
+         int level = 0;
+         String partLine = "";
+         int budget = Integer.parseInt(card.getAttributes().getNamedItem("budget").getNodeValue());
          for (int j=0; j < children.getLength(); j++){
             Node sub = children.item(j);
-            
             if("scene".equals(sub.getNodeName())){
-               String sceneNum = sub.getAttributes().getNamedItem("number").getNodeValue();
-               String sceneText = sub.getTextContent();
+               sceneNum = Integer.parseInt(sub.getAttributes().getNamedItem("number").getNodeValue());
+               sceneText = sub.getTextContent();
                System.out.println("Scene # = "+sceneNum);
                System.out.println("Scene text = " + sceneText);
             } else if("part".equals(sub.getNodeName())){
-               String partName = sub.getAttributes().getNamedItem("name").getNodeValue();
+               partName = sub.getAttributes().getNamedItem("name").getNodeValue();
                System.out.println("part name = "+partName);
-               int level = Integer.parseInt(sub.getAttributes().getNamedItem("level").getNodeValue());
+               level = Integer.parseInt(sub.getAttributes().getNamedItem("level").getNodeValue());
                System.out.println("part level = "+level);
-
-               String partLine = "";
 
                NodeList partChildren = sub.getChildNodes();
                for (int k = 0; k < partChildren.getLength(); k++) {
@@ -75,12 +81,12 @@ public class XMLParser{
             }
             roles.add(roleHolder);
          } //for childnodes
-         
-         System.out.println("\n");
-            
-      }//for card node
-   
-   }// method
+         sceneHolder = new Scene(sceneNum, name, sceneText, budget, roles);
+         scenes.add(sceneHolder);
+         roles.clear();
+      } //for card node
+      return scenes;
+   } // method
 
 
 
