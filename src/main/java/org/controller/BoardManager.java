@@ -48,6 +48,21 @@ public class BoardManager
         }
     }
 
+    public void SetTrailer(Room trailer)
+    {
+        _Trailer = trailer;
+    }
+
+    public SceneManager GetSceneManager()
+    {
+        return _SceneManager;
+    }
+
+    public Room GetTrailer()
+    {
+        return _Trailer;
+    }
+
     /**
      * Initialize a board
      * */
