@@ -40,16 +40,23 @@ public class BoardManager
         return isValidDestination;
     }
 
+    public void AddRoom(Room room)
+    {
+        if(!_AllRooms.contains(room))
+        {
+            _AllRooms.add(room);
+        }
+    }
+
     /**
      * Initialize a board
      * */
-    public void initializeBoard() throws ExecutionControl.NotImplementedException
+    public void initializeBoard()
     {
         for (Room r: _AllRooms)
         {
             r.AttachNeighbors(this);
         }
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
 
@@ -59,11 +66,11 @@ public class BoardManager
      * @param player Player which will move
      * @param targetRoom Target room to move player to
      * */
-    public void movePlayer(Player player, Room targetRoom) throws ExecutionControl.NotImplementedException
+    public void movePlayer(Player player, Room targetRoom)
     {
+        player.getCurrentRoom().RemovePlayer(player);
 
-
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        targetRoom.AddPlayer(player);
     }
 
     public Room GetRoomByName(String name)

@@ -80,7 +80,7 @@ public class System
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    public void movePlayerPosition(Player player, int targetX, int targetY) throws ExecutionControl.NotImplementedException
+    public void movePlayerPosition(Player player, Room targetRoom) throws ExecutionControl.NotImplementedException
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
