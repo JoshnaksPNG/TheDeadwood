@@ -11,7 +11,7 @@ public class Room
 
     ArrayList<Room> NeighboringRooms;
 
-    ArrayList<String> _NeigborNames;
+    public ArrayList<String> _NeigborNames;
 
     String _Name;
 

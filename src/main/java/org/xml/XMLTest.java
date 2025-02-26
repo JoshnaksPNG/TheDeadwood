@@ -13,10 +13,9 @@ public class XMLTest{
       try{
       
          // doc1 = parsing.getDocFromFile("TheDeadwood/src/main/java/org/xml/cards.xml");
-         // parsing.readCardData(doc);
+         // parsing.readCardData(doc1);
 
          doc2 = parsing.getDocFromFile("TheDeadwood/src/main/java/org/xml/board.xml");
-         // doc2 = parsing.getDocFromFile("board.xml");
          parsing.readBoardData(doc2);
       }catch (Exception e){
       

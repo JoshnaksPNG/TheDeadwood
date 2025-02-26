@@ -43,4 +43,8 @@ public class Role {
         isOccupied = true;
         occupant = player;
     }
+
+    public void printString() {
+        System.out.println("Name = " + name + " Line = " + line + " Rank = " + rank + " isMain = " + isMain);
+    }
 }
