@@ -23,6 +23,10 @@ public class Room
 
     int _Height;
 
+    public Room() {
+        
+    }
+
     public Room(String name, int x, int y, int w, int h, List<String> neighborNames)
     {
         _Name = name;
