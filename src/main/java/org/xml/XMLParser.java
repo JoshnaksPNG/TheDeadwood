@@ -309,13 +309,13 @@ public class XMLParser{
       rooms[11] = new Room("office", sceneX, sceneY, sceneW, sceneH, neighbors);
       neighbors.clear();
       
-      for(int i = 0; i < 12; i++) {
-         System.out.println(rooms[i].GetName());
-         for (String element : rooms[i]._NeigborNames) {
-            System.out.println("Neighbor = " +element);
-         }
-        System.out.println();
-      }
+      // for(int i = 0; i < 12; i++) {
+      //    System.out.println(rooms[i].GetName());
+      //    for (String element : rooms[i]._NeigborNames) {
+      //       System.out.println("Neighbor = " +element);
+      //    }
+      //   System.out.println();
+      // }
 
       return rooms;
    }
