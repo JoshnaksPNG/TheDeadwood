@@ -46,7 +46,7 @@ public class System
 
         for(int i = 0; i < playerCount; ++i)
         {
-            Player p = new Player(i + 1, 1, 0, 0, 0, 0);
+            Player p = new Player(i + 1, 1, 0, 0, _Board._Trailer);
 
             players.add(p);
 
@@ -128,7 +128,9 @@ public class System
     {
         for(Player p: players)
         {
-            _View.PromptPlayerTurnAction(p);
+            p.takeTurn(
+                    _View.PromptPlayerTurnAction(p)
+            );
         }
     }
 

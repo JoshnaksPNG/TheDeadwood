@@ -2,6 +2,8 @@ package org.model;
 
 import jdk.jshell.spi.ExecutionControl;
 import org.controller.BoardManager;
+import org.controller.CurrencyManager;
+import org.controller.System;
 
 public class Player
 {
@@ -12,28 +14,75 @@ public class Player
     private Role role;
     private boolean isInRole;
     private int practiceChips;
-    private int currPositionX;
-    private int currPositionY;
 
     private Room currentRoom;
 
-    public Player(int playerNumber, int rank, int money, int credit, int playerX, int playerY)
+    public Player(int playerNumber, int rank, int money, int credit, Room startingRoom)
     {
         this.playerNumber = playerNumber;
         this.rank = rank;
         this.money = money;
         this.credit = credit;
-        this.currPositionX = playerX;
-        this.currPositionY = playerY;
+        currentRoom = startingRoom;
+
+        practiceChips = 0;
     }
 
 
     /**
      * Prompts player to take turn, and processes turn.
      * */
-    public void takeTurn() throws ExecutionControl.NotImplementedException
+    public void takeTurn(System.TurnDetails details)
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        //throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+
+        switch (details.TurnType)
+        {
+            case Act ->
+            {
+                boolean isActSuccess = role.roleRank <= Dice.Instance.BoostedRoll(practiceChips);
+                boolean isOnCard = !((Set)currentRoom).IsRoleOffCard(role);
+
+
+                if(isActSuccess)
+                {
+                    if(isOnCard)
+                    {
+                        CurrencyManager.updatePlayerCredit(this, 2);
+                        ((Set)currentRoom).DecrementShots();
+
+                    } else
+                    {
+                        CurrencyManager.updatePlayerMoney(this, 1);
+                        CurrencyManager.updatePlayerCredit(this, 1);
+                        ((Set)currentRoom).DecrementShots();
+                    }
+                } else if(!isOnCard)
+                {
+                    CurrencyManager.updatePlayerMoney(this, 1);
+                }
+            }
+
+            case Rehearse ->
+            {
+                practiceChips += 1;
+            }
+
+            case Upgrade ->
+            {
+                CastingOffice.upgrade(this, rank + 1, details.CurrencyType.equals(System.TurnDetails.UpgradeCurrency.Money));
+            }
+
+            case TakeRole ->
+            {
+                takeRole(null, details.TakenRole);
+            }
+
+            case Move ->
+            {
+                move(details.MoveDest, BoardManager.Instance);
+            }
+        }
     }
 
     /**
@@ -52,6 +101,8 @@ public class Player
 
         role.setActor(this);
 
+        practiceChips = 0;
+
         return true;
     }
 
@@ -62,7 +113,7 @@ public class Player
      * @param board Board in which player is being moved within.
      *
      * */
-    public boolean move(Room targetPosition, BoardManager board) throws ExecutionControl.NotImplementedException
+    public boolean move(Room targetPosition, BoardManager board)
     {
         boolean canMove = board.checkDestination(this, targetPosition);
 
@@ -141,24 +192,6 @@ public class Player
 
     public void setPracticeChips(int practiceChips) {
         this.practiceChips = practiceChips;
-    }
-
-    // Getter and Setter for currPositionX
-    public int getCurrPositionX() {
-        return currPositionX;
-    }
-
-    public void setCurrPositionX(int currPositionX) {
-        this.currPositionX = currPositionX;
-    }
-
-    // Getter and Setter for currPositionY
-    public int getCurrPositionY() {
-        return currPositionY;
-    }
-
-    public void setCurrPositionY(int currPositionY) {
-        this.currPositionY = currPositionY;
     }
 
     public Room getCurrentRoom()

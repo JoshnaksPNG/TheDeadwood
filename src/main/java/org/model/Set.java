@@ -9,6 +9,8 @@ public class Set extends Room
 
     ArrayList<Role> _OffCardRoles;
 
+    int _Shots;
+
     public Set(String name, int x, int y, int w, int h, List<String> neighborNames, Scene scene, List<Role> offCardRoles, int takes)
     {
         super(name, x, y, w, h, neighborNames);
@@ -80,5 +82,25 @@ public class Set extends Room
         }
 
         return false;
+    }
+
+    public boolean IsRoleOffCard(Role role)
+    {
+        return _OffCardRoles.contains(role);
+    }
+
+    public int GetShots()
+    {
+        return _Shots;
+    }
+
+    public void DecrementShots()
+    {
+        _Shots -= 1;
+
+        if(_Shots <= 0)
+        {
+            // Wrap Scenes Here
+        }
     }
 }
