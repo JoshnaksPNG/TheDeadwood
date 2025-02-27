@@ -22,4 +22,63 @@ public class Set extends Room
 
         _Scene = scene;
     }
+
+    public Role GetRoleByName(String roleName)
+    {
+        for(Role r: _OffCardRoles)
+        {
+            if(r.getName() == roleName)
+            {
+                return r;
+            }
+        }
+
+        for(Role r: _Scene.getRoles())
+        {
+            if(r.getName() == roleName)
+            {
+                return r;
+            }
+        }
+
+        return null;
+    }
+
+    public ArrayList<Role> GetAllRoles()
+    {
+        ArrayList<Role> roles = new ArrayList<>();
+
+        for(Role r: _OffCardRoles)
+        {
+            roles.add(r);
+        }
+
+        for(Role r: _Scene.getRoles())
+        {
+            roles.add(r);
+        }
+
+        return roles;
+    }
+
+    public boolean HasRoleName(String roleName)
+    {
+        for(Role r: _OffCardRoles)
+        {
+            if(r.getName() == roleName)
+            {
+                return true;
+            }
+        }
+
+        for(Role r: _Scene.getRoles())
+        {
+            if(r.getName() == roleName)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
 }

@@ -1,9 +1,14 @@
 package org.controller;
 
 import jdk.jshell.spi.ExecutionControl;
+import org.model.CastingOffice;
 import org.model.Player;
 import org.model.Room;
+import org.model.Scene;
+import org.w3c.dom.Document;
+import org.xml.XMLParser;
 
+import javax.xml.parsers.ParserConfigurationException;
 import java.util.ArrayList;
 
 public class BoardManager
@@ -14,6 +19,8 @@ public class BoardManager
 
     Room _Trailer;
 
+    CastingOffice _Office;
+
     SceneManager _SceneManager;
 
     public BoardManager(SceneManager sceneManager)
@@ -21,6 +28,27 @@ public class BoardManager
         _SceneManager = sceneManager;
 
         _AllRooms = new ArrayList<>();
+
+        XMLParser parser = new XMLParser(){};
+
+        Room[] loadedRooms;
+
+        ArrayList<Scene> loadedCards;
+
+        try
+        {
+            Document boardDoc = parser.getDocFromFile("org/xml/board.xml");
+            Document cardsDoc = parser.getDocFromFile("org/xml/cards.xml");
+
+            loadedRooms = parser.readBoardData(boardDoc);
+            loadedCards = parser.readCardData(cardsDoc);
+
+        } catch (ParserConfigurationException e)
+        {
+            throw new RuntimeException(e);
+        }
+
+        Instance = this;
     }
 
     /**
@@ -46,6 +74,16 @@ public class BoardManager
         {
             _AllRooms.add(room);
         }
+    }
+
+    public void SetOffice(CastingOffice office)
+    {
+        _Office = office;
+    }
+
+    public CastingOffice GetOffice()
+    {
+        return _Office;
     }
 
     public void SetTrailer(Room trailer)
@@ -100,4 +138,6 @@ public class BoardManager
 
         throw new RuntimeException("Board does not contain room with name: "+ name);
     }
+
+    public static BoardManager Instance;
 }

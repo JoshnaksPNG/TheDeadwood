@@ -72,4 +72,10 @@ public class CastingOffice extends Room
         player.setRank(rank);
         CurrencyManager.updatePlayerCredit(player, -getCost(rank, false));
     }
+
+    public static boolean CanUpgradePlayer(Player player)
+    {
+        return player.getMoney() >= getCost(player.getRank() + 1, true) ||
+                player.getCredit() >= getCost(player.getRank() + 1, false);
+    }
 }

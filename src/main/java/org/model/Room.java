@@ -58,6 +58,24 @@ public class Room
         return isValidNeighbor;
     }
 
+    public ArrayList<String> GetNeighborNames()
+    {
+        return _NeigborNames;
+    }
+
+    public boolean IsValidNeighborName(String name)
+    {
+        for(String n: _NeigborNames)
+        {
+            if(n == name)
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public void AddPlayer(Player player)
     {
         occPlayers.add(player);

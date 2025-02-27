@@ -1,5 +1,7 @@
 package org.model;
 
+import java.util.ArrayList;
+
 public class Role {
     private String name;
     private String line;
@@ -47,4 +49,6 @@ public class Role {
     public void printString() {
         System.out.println("Name = " + name + " Line = " + line + " Rank = " + rank + " isMain = " + isMain);
     }
+
+    public int roleRank;
 }
