@@ -45,6 +45,8 @@ public class Room
 
     public void AttachNeighbors(BoardManager boardManager)
     {
+        NeighboringRooms = new ArrayList<>(_NeigborNames.size());
+
         for (String neighborName: _NeigborNames)
         {
             NeighboringRooms.add(boardManager.GetRoomByName(neighborName));

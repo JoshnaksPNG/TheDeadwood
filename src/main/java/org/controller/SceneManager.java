@@ -23,6 +23,8 @@ public class SceneManager
         {
             currScenes.add(s);
         }
+
+        Instance = this;
     }
 
     boolean verifyRoleRequirement(Player player, Scene scene, Role role) throws ExecutionControl.NotImplementedException
@@ -49,4 +51,6 @@ public class SceneManager
     {
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
+
+    public static SceneManager Instance;
 }

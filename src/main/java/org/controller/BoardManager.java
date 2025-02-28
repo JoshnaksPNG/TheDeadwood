@@ -29,25 +29,6 @@ public class BoardManager
 
         _AllRooms = new ArrayList<>();
 
-        XMLParser parser = new XMLParser(){};
-
-        Room[] loadedRooms;
-
-        ArrayList<Scene> loadedCards;
-
-        try
-        {
-            Document boardDoc = parser.getDocFromFile("org/xml/board.xml");
-            Document cardsDoc = parser.getDocFromFile("org/xml/cards.xml");
-
-            loadedRooms = parser.readBoardData(boardDoc);
-            loadedCards = parser.readCardData(cardsDoc);
-
-        } catch (ParserConfigurationException e)
-        {
-            throw new RuntimeException(e);
-        }
-
         Instance = this;
     }
 

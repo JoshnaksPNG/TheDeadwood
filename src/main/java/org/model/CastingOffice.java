@@ -19,7 +19,7 @@ public class CastingOffice extends Room
         {40, 25}   // rank 6
     };
 
-    CastingOffice(String name, int x, int y, int w, int h, List<String> neighborNames)
+    public CastingOffice(String name, int x, int y, int w, int h, List<String> neighborNames)
     {
 
 
