@@ -10,12 +10,27 @@ import org.model.Room;
 import org.model.Scene;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
 
 public class SceneManager
 {
     int activeScenes;
 
     ArrayList<Scene> currScenes;
+
+    public SceneManager(List<Scene> scenes)
+    {
+        int activeScenes = 0;
+
+        currScenes = new ArrayList<>();
+
+        for(Scene s: scenes)
+        {
+            currScenes.add(s);
+        }
+
+        Instance = this;
+    }
 
     boolean verifyRoleRequirement(Player player, Scene scene, Role role)
     {
@@ -43,42 +58,13 @@ public class SceneManager
         }
     }
 
-    boolean actScene(Player player, Scene scene)
+    boolean actScene(Player player, Scene scene) throws ExecutionControl.NotImplementedException
     {
-        int roll = Dice.roll(player.getPracticeChips());
-        int buget = scene.getBudget();
-        
-        if(player.getRole().isMain()) { // on card role
-            if (roll >= buget) {
-                CurrencyManager.updatePlayerCredit(player, 2);
-                return true;
-            }
-        } else { // off card role
-            if (roll >= buget) {
-                CurrencyManager.updatePlayerCredit(player, 1);
-                CurrencyManager.updatePlayerMoney(player, 1);
-                return true;
-            } else { // acting failed
-                CurrencyManager.updatePlayerMoney(player, 1);
-            }
-        }
-
-        return false;
+        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    public static void wrapPay(Room room) {
-        
-
-    }
-
-    // method to be called by wrapPay based on players role type
-    private static void mainPay(Scene scene, ArrayList<Player> onCard) {
-
-    }
-
-    private static void extraPay(ArrayList<Player> offCard) {
-        for (Player player : offCard) {
-            CurrencyManager.updatePlayerMoney(player, player.getRole().getRank());
-        }
+    void wrapScene(Scene scene) throws ExecutionControl.NotImplementedException
+    {
+        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 }

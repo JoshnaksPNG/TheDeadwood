@@ -4,10 +4,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.DocumentBuilder;
 import javax.xml.parsers.ParserConfigurationException;
 
-import org.model.Role;
-import org.model.Room;
-import org.model.Scene;
-import org.model.Set;
+import org.model.*;
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
 import org.w3c.dom.Node;
@@ -17,7 +14,7 @@ import java.util.ArrayList;
 
 public class XMLParser{
 
-   public Document getDocFromFile(String filename)
+   public static Document getDocFromFile(String filename)
    throws ParserConfigurationException{
       {
          DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
@@ -35,7 +32,7 @@ public class XMLParser{
    }  
    
    // reads data from XML file and prints data
-   public ArrayList<Scene> readCardData(Document d){
+   public static ArrayList<Scene> readCardData(Document d){
       Element root = d.getDocumentElement();
       NodeList cards = root.getElementsByTagName("card");
       ArrayList<Scene> scenes = new ArrayList<Scene>();
@@ -111,7 +108,7 @@ public class XMLParser{
 
 
 
-   public Room[] readBoardData(Document d) {
+   public static Room[] readBoardData(Document d) {
       Element root = d.getDocumentElement();
       NodeList sets = root.getElementsByTagName("set");
       NodeList trailer = root.getElementsByTagName("trailer");
@@ -306,7 +303,7 @@ public class XMLParser{
             System.out.println(", w =" + sceneW);
          }
       }
-      rooms[11] = new Room("office", sceneX, sceneY, sceneW, sceneH, neighbors);
+      rooms[11] = new CastingOffice("office", sceneX, sceneY, sceneW, sceneH, neighbors);
       neighbors.clear();
       
       // for(int i = 0; i < 12; i++) {

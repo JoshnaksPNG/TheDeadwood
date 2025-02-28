@@ -7,6 +7,7 @@ import org.model.Room;
 import org.view.IView;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 public class System
 {
@@ -18,10 +19,11 @@ public class System
 
     ArrayList<Player> players;
 
-    BoardManager board;
+    BoardManager _Board;
 
     SceneManager sceneManager;
 
+    // Should start at 0;
     int currTurn;
 
     public System(IView view)
@@ -34,20 +36,47 @@ public class System
     {
         int playerCount = _View.PromptPlayerAmount();
 
+        if(playerCount <= 3)
+        {
+            days = 3;
+        } else
+        {
+            days = 4;
+        }
+
         for(int i = 0; i < playerCount; ++i)
         {
-            Player p = new Player(i + 1, 1, 0, 0, 0, 0);
+            Player p = new Player(i + 1, 1, 0, 0, _Board._Trailer);
 
             players.add(p);
 
+            if(playerCount == 5)
+            {
+                CurrencyManager.updatePlayerCredit(p, 2);
+            }
+
+            if(playerCount == 6)
+            {
+                CurrencyManager.updatePlayerCredit(p, 4);
+            }
+
+            if(playerCount >= 7)
+            {
+                p.setRank(2);
+            }
+
             // Replace the new Room() here
-            _View.AddPlayer(p, new Room("test", 0, 0,0,0, new ArrayList<>()));
+            _View.AddPlayer(p, _Board._Trailer);
         }
     }
 
-    public void setupBoard(BoardManager board) throws ExecutionControl.NotImplementedException
+    public void setupBoard(BoardManager board)
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        _Board = board;
+
+        _Board.initializeBoard();
+
+        sceneManager = _Board.GetSceneManager();
     }
 
     public void updateRole(Role role) throws ExecutionControl.NotImplementedException
@@ -55,33 +84,112 @@ public class System
         throw new ExecutionControl.NotImplementedException("Method Not Implemented");
     }
 
-    public boolean checkEndOfGame() throws ExecutionControl.NotImplementedException
+    public boolean checkEndOfGame()
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        return currDay >= days && currTurn >= players.size() - 1;
     }
 
-    public ArrayList<Player> determinePlayerOrder() throws ExecutionControl.NotImplementedException
+    public ArrayList<Player> determinePlayerOrder()
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        ArrayList<Player> NewPlayerOrder = new ArrayList<>(players.size());
+
+        Random r = new Random();
+
+        while (players.size() > 0)
+        {
+            Player p = players.get(r.nextInt(players.size()));
+
+            NewPlayerOrder.add(p);
+        }
+
+        players = NewPlayerOrder;
+
+        return players;
     }
 
     public void endDay() throws ExecutionControl.NotImplementedException
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        ++days;
+        currTurn = 0;
+
+        for (Player p: players)
+        {
+            movePlayerPosition(p, _Board.GetTrailer());
+            _View.PostPlayerMove(p, _Board.GetTrailer());
+        }
     }
 
-    public void endGame() throws ExecutionControl.NotImplementedException
+    public void endGame()
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        _View.EndGame();
     }
 
-    public void manageTurns() throws ExecutionControl.NotImplementedException
+    public void manageTurns()
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        for(Player p: players)
+        {
+            p.takeTurn(
+                    _View.PromptPlayerTurnAction(p)
+            );
+        }
     }
 
-    public void movePlayerPosition(Player player, Room targetRoom) throws ExecutionControl.NotImplementedException
+    public void movePlayerPosition(Player player, Room targetRoom)
     {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
+        _Board.movePlayer(player, targetRoom);
+    }
+
+    public static class TurnDetails
+    {
+        public enum ActionType
+        {
+            Move,
+            TakeRole,
+            Upgrade,
+            Work,
+            Act,
+            Rehearse,
+        }
+
+        public enum UpgradeCurrency
+        {
+            Money,
+            Credits,
+        }
+
+        public TurnDetails(ActionType a, Room r)
+        {
+            TurnType = a;
+
+            MoveDest = r;
+        }
+
+        public TurnDetails(ActionType a, UpgradeCurrency u)
+        {
+            TurnType = a;
+
+            CurrencyType = u;
+        }
+
+        public TurnDetails(ActionType a)
+        {
+            TurnType = a;
+        }
+
+        public TurnDetails(ActionType a, Role r)
+        {
+            TurnType = a;
+            TakenRole = r;
+        }
+
+        public ActionType TurnType;
+
+        public Room MoveDest;
+
+        public UpgradeCurrency CurrencyType;
+
+        public Role TakenRole;
+
+
     }
 }

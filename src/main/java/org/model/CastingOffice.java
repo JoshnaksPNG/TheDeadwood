@@ -19,7 +19,7 @@ public class CastingOffice extends Room
         {40, 25}   // rank 6
     };
 
-    CastingOffice(String name, int x, int y, int w, int h, List<String> neighborNames)
+    public CastingOffice(String name, int x, int y, int w, int h, List<String> neighborNames)
     {
 
 
@@ -71,5 +71,11 @@ public class CastingOffice extends Room
     public static void upgradeCredits(Player player, int rank) {
         player.setRank(rank);
         CurrencyManager.updatePlayerCredit(player, -getCost(rank, false));
+    }
+
+    public static boolean CanUpgradePlayer(Player player)
+    {
+        return player.getMoney() >= getCost(player.getRank() + 1, true) ||
+                player.getCredit() >= getCost(player.getRank() + 1, false);
     }
 }

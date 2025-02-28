@@ -45,6 +45,8 @@ public class Room
 
     public void AttachNeighbors(BoardManager boardManager)
     {
+        NeighboringRooms = new ArrayList<>(_NeigborNames.size());
+
         for (String neighborName: _NeigborNames)
         {
             NeighboringRooms.add(boardManager.GetRoomByName(neighborName));
@@ -56,6 +58,24 @@ public class Room
         boolean isValidNeighbor = NeighboringRooms.contains(neighbor);
 
         return isValidNeighbor;
+    }
+
+    public ArrayList<String> GetNeighborNames()
+    {
+        return _NeigborNames;
+    }
+
+    public boolean IsValidNeighborName(String name)
+    {
+        for(String n: _NeigborNames)
+        {
+            if(n == name)
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 
     public void AddPlayer(Player player)
