@@ -22,4 +22,8 @@ public class Set extends Room
 
         _Scene = scene;
     }
+
+    public Scene getScene() {
+        return _Scene;
+    }
 }

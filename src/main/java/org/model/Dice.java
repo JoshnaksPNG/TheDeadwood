@@ -6,19 +6,23 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Random;
 
+import org.controller.CurrencyManager;
+
 public class Dice
 {
-    public int result;
+    
+    public static int result;
 
-    public int[] results;
+    public static int[] results;
 
-    private Random _random;
+    private static Random _random;
 
     private static final int _DICELOW = 1;
 
     private static final int _DICEHIGH = 6;
+    private static Dice die = new Dice();
 
-    Dice()
+    private Dice()
     {
         long seed = new Date().getTime();
         _random = new Random(seed);
@@ -26,7 +30,11 @@ public class Dice
         results = new int[0];
     }
 
-    int roll()
+    public static Dice getDice() {
+        return die;
+    }
+
+    public static int roll()
     {
         int res = _random.nextInt(_DICELOW, _DICEHIGH + 1);
 
