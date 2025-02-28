@@ -89,4 +89,8 @@ public class Room
     }
 
     public String GetName(){return _Name;}
+
+    public ArrayList<Player> getOccPlayers() {
+        return occPlayers;
+    }
 }

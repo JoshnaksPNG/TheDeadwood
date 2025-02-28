@@ -102,5 +102,10 @@ public class Set extends Room
         {
             // Wrap Scenes Here
         }
+
+    }
+    
+    public Scene getScene() {
+        return _Scene;
     }
 }

@@ -22,6 +22,8 @@ public class Dice
     private static final int _DICEHIGH = 6;
     // private static Dice die = new Dice();
 
+    private static Dice die = new Dice();
+
     public Dice()
     {
         long seed = new Date().getTime();
@@ -30,8 +32,7 @@ public class Dice
         results = new int[0];
     }
 
-
-    public int roll()
+    public static int roll()
     {
         int res = _random.nextInt(_DICELOW, _DICEHIGH + 1);
 
