@@ -132,16 +132,6 @@ public class TextView implements IView
                 PrintPlayerInfo();
             }
 
-            if(choice.equals("debug kill scenes"))
-            {
-                DebugKillScenes(false);
-            }
-
-            if(choice.equals("debug advance day"))
-            {
-                DebugKillScenes(true);
-            }
-
             isValidChoice = (choice.equals("u") && isUpgradeValid) ||
                             (choice.equals("m") && !isWorkValid) ||
                             (choice.equals("w") && isWorkValid);
@@ -488,31 +478,4 @@ public class TextView implements IView
         }
     }
 
-    /// DEBUG METHOD SKIPS MOST OF DAY
-    private void DebugKillScenes(boolean killAll)
-    {
-        _OutStream.println("----Killing Most Scenes----");
-        for(Room r: BoardManager.Instance.GetAllRoomReadOnly())
-        {
-            _OutStream.println(r.GetName());
-            if(r instanceof Set)
-            {
-                if (((Set)r).getScene() != null && (!r.GetName().equals("Saloon") || killAll))
-                {
-                    SceneManager.Instance.wrapFilming((Set)r);
-                }
-            }
-
-        }
-
-        _OutStream.println("----Killing Scenes Complete----");
-    }
-
-    private void DebugAdvanceDay()
-    {
-        DebugKillScenes(true);
-        _OutStream.println("----Advancing Day----");
-
-        System.INSTANCE.endDay();
-    }
 }
