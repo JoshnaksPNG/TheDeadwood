@@ -61,6 +61,7 @@ public class Player
             case Move ->
             {
                 move(details.MoveDest, BoardManager.Instance);
+                System.INSTANCE.getView().PostPlayerMove(this, currentRoom);
             }
         }
     }
@@ -190,5 +191,10 @@ public class Player
     public Room getCurrentRoom()
     {
         return currentRoom;
+    }
+
+    public void ForceSetRoom(Room room)
+    {
+        currentRoom = room;
     }
 }

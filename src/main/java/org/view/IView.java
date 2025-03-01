@@ -34,6 +34,8 @@ public interface IView
 
     void PostPlayerAct(Player player, Role role, boolean isSuccess);
 
+    void PostPlayerRehearse(Player player);
+
     void SceneWrappedOnSet(Set set);
 
 }

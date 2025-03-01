@@ -37,8 +37,14 @@ public class CastingOffice extends Room
         return castingOffice;
     }
 
-    // I'd probably use an enum to distinguish currency instead
+
     public static int getCost(int rank, boolean money) {
+
+        if(rank - 2 >= upgradeCosts.length)
+        {
+            return Integer.MAX_VALUE;
+        }
+
         if (money) {
             return upgradeCosts[rank - 2][0];
         } else {

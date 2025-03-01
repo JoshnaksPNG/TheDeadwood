@@ -122,6 +122,26 @@ public class TextView implements IView
         {
             String choice = _Scanner.nextLine().toLowerCase();
 
+            if(choice.equals("info board"))
+            {
+                PrintBoardRoleInfo();
+            }
+
+            if(choice.equals("info player"))
+            {
+                PrintPlayerInfo();
+            }
+
+            if(choice.equals("debug kill scenes"))
+            {
+                DebugKillScenes(false);
+            }
+
+            if(choice.equals("debug advance day"))
+            {
+                DebugKillScenes(true);
+            }
+
             isValidChoice = (choice.equals("u") && isUpgradeValid) ||
                             (choice.equals("m") && !isWorkValid) ||
                             (choice.equals("w") && isWorkValid);
@@ -419,10 +439,77 @@ public class TextView implements IView
     }
 
     @Override
+    public void PostPlayerRehearse(Player player)
+    {
+        _OutStream.println("Player " + player.getPlayerNumber() +
+                " rehearsed and earned a practice chip for a total of: " +
+                player.getPracticeChips());
+    }
+
+    @Override
     public void SceneWrappedOnSet(Set set)
     {
         _OutStream.println("\nFilming of " + set.getScene().getName() +
                 " has wrapped on " + set.GetName() +
                 ". All Actors have been paid and released from their roles.");
+    }
+
+    private void PrintBoardRoleInfo()
+    {
+        _OutStream.println("----Board and Role Info----");
+        for(Room r: BoardManager.Instance.GetAllRoomReadOnly())
+        {
+            _OutStream.println(r.GetName());
+            if(r instanceof Set)
+            {
+                if (((Set)r).getScene() != null)
+                {
+                    for(Role role: ((Set)r).GetAvailableRoles())
+                    {
+                        _OutStream.println("    " + role.getName() + ": (" + role.getRank() + ")");
+                    }
+                }
+            }
+
+        }
+    }
+
+    private void PrintPlayerInfo()
+    {
+        _OutStream.println("----Player Info----");
+        for(Player p: System.INSTANCE.getPlayers())
+        {
+            _OutStream.println(p.getPlayerNumber() + ":\n    Money: " +
+                    p.getMoney() + "\n    Credit: " + p.getCredit() +
+                    "\n    Location: " + p.getCurrentRoom().GetName());
+        }
+    }
+
+    /// DEBUG METHOD SKIPS MOST OF DAY
+    private void DebugKillScenes(boolean killAll)
+    {
+        _OutStream.println("----Killing Most Scenes----");
+        for(Room r: BoardManager.Instance.GetAllRoomReadOnly())
+        {
+            _OutStream.println(r.GetName());
+            if(r instanceof Set)
+            {
+                if (((Set)r).getScene() != null && (!r.GetName().equals("Saloon") || killAll))
+                {
+                    SceneManager.Instance.wrapFilming((Set)r);
+                }
+            }
+
+        }
+
+        _OutStream.println("----Killing Scenes Complete----");
+    }
+
+    private void DebugAdvanceDay()
+    {
+        DebugKillScenes(true);
+        _OutStream.println("----Advancing Day----");
+
+        System.INSTANCE.endDay();
     }
 }

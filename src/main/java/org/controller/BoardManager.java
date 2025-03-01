@@ -105,6 +105,8 @@ public class BoardManager
     {
         player.getCurrentRoom().RemovePlayer(player);
 
+        player.ForceSetRoom(targetRoom);
+
         targetRoom.AddPlayer(player);
     }
 
@@ -119,6 +121,11 @@ public class BoardManager
         }
 
         throw new RuntimeException("Board does not contain room with name: "+ name);
+    }
+
+    public ArrayList<Room> GetAllRoomReadOnly()
+    {
+        return _AllRooms;
     }
 
     public static BoardManager Instance;

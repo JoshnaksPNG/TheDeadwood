@@ -51,6 +51,8 @@ public class SceneManager
         } else {
             int currentChips = player.getPracticeChips();
             player.setPracticeChips(currentChips + 1);
+
+            System.INSTANCE.getView().PostPlayerRehearse(player);
             return true;
         }
     }
@@ -108,7 +110,7 @@ public class SceneManager
                 }
             }
         }
-        Collections.sort(onCard, Collections.reverseOrder());
+        //Collections.sort(onCard, Collections.reverseOrder());
         if (onCard.size() != 0) {
             mainPay(onCard, set.getScene());
             extraPay(offCard);

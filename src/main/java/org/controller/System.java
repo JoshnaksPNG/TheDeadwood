@@ -16,7 +16,7 @@ public class System
 
     int days;
 
-    int currDay;
+    int currDay = 1;
 
     ArrayList<Player> players;
 
