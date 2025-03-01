@@ -5,15 +5,6 @@ import org.model.Player;
 
 public class CurrencyManager
 {
-    private static CurrencyManager currencyManager = new CurrencyManager();
-
-    CurrencyManager() {
-    }
-
-    public static CurrencyManager getCurrencyManager() {
-        return currencyManager;
-    }
-
     public static int checkPlayerMoney(Player player)
     {
         return player.getMoney();

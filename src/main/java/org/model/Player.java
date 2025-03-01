@@ -33,8 +33,6 @@ public class Player
      * */
     public void takeTurn(System.TurnDetails details)
     {
-        //throw new ExecutionControl.NotImplementedException("Method Not Implemented");
-
         switch (details.TurnType)
         {
             case Act ->
@@ -130,10 +128,6 @@ public class Player
         return playerNumber;
     }
 
-    public void setPlayerNumber(int playerNumber) {
-        this.playerNumber = playerNumber;
-    }
-
     // Getter and Setter for rank
     public int getRank() {
         return rank;
@@ -166,17 +160,9 @@ public class Player
         return role;
     }
 
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
     // Getter and Setter for isInRole
     public boolean isInRole() {
         return isInRole;
-    }
-
-    public void setInRole(boolean isInRole) {
-        this.isInRole = isInRole;
     }
 
     // Getter and Setter for practiceChips

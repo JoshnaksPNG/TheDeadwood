@@ -82,16 +82,6 @@ public class System
         sceneManager = _Board.GetSceneManager();
     }
 
-    public void updateRole(Role role) throws ExecutionControl.NotImplementedException
-    {
-        throw new ExecutionControl.NotImplementedException("Method Not Implemented");
-    }
-
-    public boolean checkEndOfGame()
-    {
-        return currDay >= days && currTurn >= players.size() - 1;
-    }
-
     public ArrayList<Player> determinePlayerOrder()
     {
         ArrayList<Player> NewPlayerOrder = new ArrayList<>(players.size());

@@ -368,6 +368,9 @@ public class TextView implements IView
         {
             playerCount = _Scanner.nextInt();
 
+            //Clear Newline
+            _Scanner.nextLine();
+
             if(playerCount > 8 || playerCount < 2)
             {
                 _OutStream.println("Please enter an integer between 2 and 8...");

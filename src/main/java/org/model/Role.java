@@ -25,10 +25,6 @@ public class Role {
         return rank;
     }
 
-    public Player getOccupant() {
-        return occupant;
-    }
-
     public String getLine() {
         return line;
     }
@@ -49,6 +45,4 @@ public class Role {
     public void printString() {
         System.out.println("Name = " + name + " Line = " + line + " Rank = " + rank + " isMain = " + isMain);
     }
-
-    public int roleRank;
 }

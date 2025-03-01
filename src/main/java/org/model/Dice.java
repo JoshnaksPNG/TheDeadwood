@@ -20,7 +20,6 @@ public class Dice
     private static final int _DICELOW = 1;
 
     private static final int _DICEHIGH = 6;
-    // private static Dice die = new Dice();
 
     private static Dice die = new Dice();
 
@@ -44,25 +43,6 @@ public class Dice
     public int BoostedRoll(int boost)
     {
         return roll() + boost;
-    }
-
-    public int[] rollMulti(int rollCount) throws ExecutionControl.NotImplementedException
-    {
-        results = new int[rollCount];
-
-        ArrayList<Integer> res = new ArrayList<>();
-
-        for(int i = 0; i < rollCount; ++i)
-        {
-            res.add(roll());
-        }
-
-        for(int i = 0; i < rollCount; ++i)
-        {
-            results[i] = res.get(i);
-        }
-
-        return results.clone();
     }
 
     public static Dice Instance = new Dice();

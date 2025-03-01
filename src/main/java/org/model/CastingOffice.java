@@ -9,8 +9,6 @@ import org.controller.CurrencyManager;
 
 public class CastingOffice extends Room
 {
-    private static CastingOffice castingOffice;
-    
     private static int[][] upgradeCosts = {
         {4, 5},    // rank 2
         {10, 10},  // rank 3
@@ -25,18 +23,6 @@ public class CastingOffice extends Room
 
         super(name, x, y, w, h, neighborNames);
     }
-
-    public static CastingOffice getCastingOffice() {
-        return castingOffice;
-    }
-
-    public static CastingOffice initCastingOffice(String name, int x, int y, int w, int h, List<String> neighborNames)
-    {
-        castingOffice = new CastingOffice(name, x, y, w, h, neighborNames);
-
-        return castingOffice;
-    }
-
 
     public static int getCost(int rank, boolean money) {
 

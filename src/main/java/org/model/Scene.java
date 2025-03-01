@@ -20,10 +20,6 @@ public class Scene{
         this._isFaceUp = false; // starts faced down
     }
 
-    public int getNum() {
-        return num;
-    }
-
     public String getName() {
         return name;
     }
