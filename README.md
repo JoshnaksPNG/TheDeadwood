@@ -23,3 +23,10 @@
 
 * The Game should now be running.
   
+## Playing
+Currently, *The Deadwood* is implemented through a command-line interface. 
+* For any in-game actions, the game will tell you explicitly which options are allowed.
+  * Names are CAse SEnsITivE, so be sure to match the name that the game provides you.
+* If you are looking for information about the board, there are two commands you can use in the first phase of your turn
+  * ```info board``` will return a list of the rooms on the board, and the roles that they have available
+  * ```info player``` will give you a list of the players in the game, as well as their money, currency, and location
