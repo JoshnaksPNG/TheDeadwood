@@ -37,6 +37,8 @@ public class CurrencyManager
     {
         int currentMoney = player.getMoney();
         player.setMoney(currentMoney + num);
+
+        System.INSTANCE.getView().PlayerPaid(player, num, true);
     }
 
     /**
@@ -52,5 +54,7 @@ public class CurrencyManager
     {
         int currentCredit = player.getCredit();
         player.setCredit(currentCredit + num);
+
+        System.INSTANCE.getView().PlayerPaid(player, num, false);
     }
 }

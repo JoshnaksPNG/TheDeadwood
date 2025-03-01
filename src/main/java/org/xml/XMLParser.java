@@ -24,8 +24,9 @@ public class XMLParser{
          try{
             doc = db.parse(filename);
          } catch (Exception ex){
-            System.out.println("XML parse failure");
-            ex.printStackTrace();
+            //System.out.println("XML parse failure");
+            //ex.printStackTrace();
+            throw new RuntimeException(ex);
          }
          return doc;
       } // exception handling
@@ -101,7 +102,7 @@ public class XMLParser{
          } // for childnodes
          sceneHolder = new Scene(sceneNum, name, sceneText, budget, roles);
          scenes.add(sceneHolder);
-         roles.clear();
+         roles = new ArrayList<>();
       } //for card node
       return scenes;
    } // method

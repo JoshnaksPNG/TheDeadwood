@@ -3,14 +3,13 @@ package org.model;
 import jdk.jshell.spi.ExecutionControl;
 import java.util.ArrayList;
 
-public class Scene extends Room {
+public class Scene{
     private int num; // scene card number
     private String name;
     private int budget;
     private String description;
     private boolean _isFaceUp;
     private ArrayList<Role> roles;
-    private int shotsLeft;
 
     public Scene(int num, String name, String description, int budget, ArrayList<Role> roles) {
         this.num = num;

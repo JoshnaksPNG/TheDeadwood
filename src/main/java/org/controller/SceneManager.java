@@ -1,53 +1,50 @@
 package org.controller;
 
-import jdk.jshell.spi.ExecutionControl;
+import org.model.*;
 
-import org.model.CastingOffice;
-import org.model.Dice;
-import org.model.Player;
-import org.model.Role;
-import org.model.Room;
-import org.model.Scene;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+import java.util.Random;
 
 public class SceneManager
 {
-    int activeScenes;
+    int _ActiveScenes;
 
-    ArrayList<Scene> currScenes;
+    ArrayList<Scene> _SceneDeck;
 
     public SceneManager(List<Scene> scenes)
     {
         int activeScenes = 0;
 
-        currScenes = new ArrayList<>();
+        _SceneDeck = new ArrayList<>();
 
         for(Scene s: scenes)
         {
-            currScenes.add(s);
+            _SceneDeck.add(s);
         }
+
+        java.lang.System.out.println("Loaded Scenes: " + _SceneDeck.size());
 
         Instance = this;
     }
 
-    boolean verifyRoleRequirement(Player player, Scene scene, Role role)
+    public boolean verifyRoleRequirement(Player player, Scene scene, Role role)
     {
-        if(player.getRank() >= role.getRank()) {
+        if(player.getRank() >= role.getRank() && !role.isOccupied()) {
             return true;
         } else {
             return false;
         }
     }
 
-    void updateRole(Player player, Scene scene, Role role)
+    public void updateRole(Player player, Scene scene, Role role)
     {
-        player.setRole(role);
+        player.takeRole(scene, role);
         role.setActor(player);
     }
 
-    boolean rehearseScene(Player player, Scene scene)
+    public boolean rehearseScene(Player player, Scene scene)
     {
         if (player.getPracticeChips() >= scene.getBudget() - 1) {
             return false; // Player must act, they have the max amount of practice chips
@@ -58,35 +55,51 @@ public class SceneManager
         }
     }
 
-    boolean actScene(Player player, Scene scene)
+    public boolean actScene(Player player, Scene scene)
     {
-        int roll = Dice.roll(player.getPracticeChips());
-        int buget = scene.getBudget();
+        int roll = Dice.Instance.BoostedRoll(player.getPracticeChips());
+        int budget = scene.getBudget();
+
+        boolean actSuccess = roll >= budget;
+
+
+        System.INSTANCE.getView().PostPlayerAct(player, player.getRole(), actSuccess);
+
         
         if(player.getRole().isMain()) { // on card role
-            if (roll >= buget) {
+            if (actSuccess) {
                 CurrencyManager.updatePlayerCredit(player, 2);
-                return true;
             }
         } else { // off card role
-            if (roll >= buget) {
+            if (actSuccess) {
                 CurrencyManager.updatePlayerCredit(player, 1);
                 CurrencyManager.updatePlayerMoney(player, 1);
-                return true;
             } else { // acting failed
                 CurrencyManager.updatePlayerMoney(player, 1);
             }
         }
 
-        
+        if(actSuccess)
+        {
+            ((Set)player.getCurrentRoom()).DecrementShots();
+        }
 
-        return false;
+        return actSuccess;
     }
 
-    public static void wrapPay(Scene scene) {
+    public Scene DrawScene()
+    {
+        Random r = new Random();
+
+        ++_ActiveScenes;
+
+        return _SceneDeck.remove(r.nextInt(_SceneDeck.size()));
+    }
+
+    public static void wrapPay(Set set) {
         ArrayList<Player> onCard = new ArrayList<Player>();
         ArrayList<Player> offCard = new ArrayList<Player>();
-        for (Player player : scene.getOccPlayers()) {
+        for (Player player : set.getOccPlayers()) {
             if (player.getRole() != null) {
                 if (player.getRole().isMain()) {
                     onCard.add(player);
@@ -97,10 +110,31 @@ public class SceneManager
         }
         Collections.sort(onCard, Collections.reverseOrder());
         if (onCard.size() != 0) {
-            mainPay(onCard, scene);
+            mainPay(onCard, set.getScene());
             extraPay(offCard);
         }
 
+    }
+
+    public void wrapFilming(Set set)
+    {
+        wrapPay(set);
+
+        for(Player p: set.getOccPlayers())
+        {
+            p.ResetAct();
+        }
+
+        System.INSTANCE.getView().SceneWrappedOnSet(set);
+
+        set.ClearScene();
+
+        --_ActiveScenes;
+    }
+
+    public boolean AreScenesWrapped()
+    {
+        return _ActiveScenes <= 1;
     }
 
     // method to be called by wrapPay based on players role type
@@ -123,4 +157,6 @@ public class SceneManager
             CurrencyManager.updatePlayerMoney(player, player.getRole().getRank());
         }
     }
+
+    public static SceneManager Instance;
 }

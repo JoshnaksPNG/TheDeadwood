@@ -1,14 +1,10 @@
 package org.controller;
 
-import jdk.jshell.spi.ExecutionControl;
 import org.model.CastingOffice;
 import org.model.Player;
 import org.model.Room;
-import org.model.Scene;
-import org.w3c.dom.Document;
-import org.xml.XMLParser;
+import org.model.Set;
 
-import javax.xml.parsers.ParserConfigurationException;
 import java.util.ArrayList;
 
 public class BoardManager
@@ -90,6 +86,11 @@ public class BoardManager
         for (Room r: _AllRooms)
         {
             r.AttachNeighbors(this);
+
+            if(r instanceof Set)
+            {
+                ((Set) r).RequestNewScene();
+            }
         }
     }
 
@@ -100,7 +101,7 @@ public class BoardManager
      * @param player Player which will move
      * @param targetRoom Target room to move player to
      * */
-    public void movePlayer(Player player, Room targetRoom)
+    public void forceMovePlayer(Player player, Room targetRoom)
     {
         player.getCurrentRoom().RemovePlayer(player);
 

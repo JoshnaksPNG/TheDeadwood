@@ -4,6 +4,7 @@ import jdk.jshell.spi.ExecutionControl;
 import org.model.Player;
 import org.model.Role;
 import org.model.Room;
+import org.model.Set;
 import org.view.IView;
 
 import java.util.ArrayList;
@@ -30,6 +31,8 @@ public class System
     {
         _View = view;
         players = new ArrayList<>();
+
+        INSTANCE = this;
     }
 
     public void initializePlayers(int numPlayers)
@@ -107,15 +110,33 @@ public class System
         return players;
     }
 
-    public void endDay() throws ExecutionControl.NotImplementedException
+    public void endDay()
     {
-        ++days;
+        _View.EndDay(currDay);
+
+        ++currDay;
         currTurn = 0;
 
-        for (Player p: players)
+        if(currDay >= days)
         {
-            movePlayerPosition(p, _Board.GetTrailer());
-            _View.PostPlayerMove(p, _Board.GetTrailer());
+            endGame();
+        } else
+        {
+            for (Player p: players)
+            {
+                movePlayerPosition(p, _Board.GetTrailer());
+                _View.PostPlayerMove(p, _Board.GetTrailer());
+
+                p.ResetAct();
+            }
+
+            for(Room r: BoardManager.Instance._AllRooms)
+            {
+                if(r instanceof Set)
+                {
+                    ((Set) r).RequestNewScene();
+                }
+            }
         }
     }
 
@@ -126,17 +147,47 @@ public class System
 
     public void manageTurns()
     {
-        for(Player p: players)
+        while (currDay < days)
         {
-            p.takeTurn(
-                    _View.PromptPlayerTurnAction(p)
-            );
+            playDay();
         }
+
+    }
+
+    public void playDay()
+    {
+        boolean AvailableScenes = true;
+
+        _View.BeginDay(currDay);
+
+        while (AvailableScenes)
+        {
+            for(Player p: players)
+            {
+                p.takeTurn(
+                        _View.PromptPlayerTurnAction(p)
+                );
+
+                AvailableScenes = !SceneManager.Instance.AreScenesWrapped();
+
+                if (!AvailableScenes)
+                {
+                    break;
+                }
+            }
+        }
+
+        endDay();
     }
 
     public void movePlayerPosition(Player player, Room targetRoom)
     {
-        _Board.movePlayer(player, targetRoom);
+        _Board.forceMovePlayer(player, targetRoom);
+    }
+
+    public IView getView ()
+    {
+        return _View;
     }
 
     public static class TurnDetails
@@ -192,4 +243,18 @@ public class System
 
 
     }
+
+    public ArrayList<Player> getPlayers()
+    {
+        ArrayList<Player> players = new ArrayList<>(this.players.size());
+
+        for(Player p : this.players)
+        {
+            players.add(p);
+        }
+
+        return players;
+    }
+
+    public static System INSTANCE;
 }

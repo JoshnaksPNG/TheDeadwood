@@ -1,6 +1,7 @@
 package org.view;
 
 import org.controller.BoardManager;
+import org.controller.SceneManager;
 import org.controller.System;
 import org.controller.System.TurnDetails;
 import org.model.*;
@@ -39,7 +40,7 @@ public class TextView implements IView
     public void PostPlayerMove(Player player, Room room)
     {
         _OutStream.println("Player " + player.getPlayerNumber()
-                + " moved to room: " + room.toString());
+                + " moved to room: " + room.GetName());
     }
 
     @Override
@@ -47,7 +48,7 @@ public class TextView implements IView
     {
 
         _OutStream.println("Player " + player.getPlayerNumber()
-                + " took role: " + role.toString());
+                + " took role: " + role.getName());
     }
 
     @Override
@@ -66,6 +67,27 @@ public class TextView implements IView
     }
 
     @Override
+    public void PlayerPaid(Player player, int amount, boolean isMoney)
+    {
+        int currencyTotal = 0;
+        String currencyType = "";
+
+        if(isMoney)
+        {
+            currencyTotal = player.getMoney();
+            currencyType = "dollars";
+        } else
+        {
+            currencyTotal = player.getCredit();
+            currencyType = "credits";
+        }
+
+        _OutStream.println("Player " + player.getPlayerNumber() +
+                " was paid an amount of " + amount + " " + currencyType +
+                ". They have a total of " + currencyTotal + " " + currencyType);
+    }
+
+    @Override
     public System.TurnDetails PromptPlayerTurnAction(Player player) {
 
         boolean isWorkValid = player.isInRole();
@@ -74,7 +96,7 @@ public class TextView implements IView
                 (player.getCurrentRoom() instanceof CastingOffice) &&
                 (CastingOffice.CanUpgradePlayer(player));
 
-        _OutStream.println( "Player " + player.getPlayerNumber() +
+        _OutStream.println( "\n\n\nPlayer " + player.getPlayerNumber() +
                 ", which action do you wish to take?");
 
         if(isWorkValid)
@@ -93,6 +115,8 @@ public class TextView implements IView
         boolean isValidChoice = false;
 
         String actionChoice = "";
+
+
 
         while (!isValidChoice)
         {
@@ -124,7 +148,9 @@ public class TextView implements IView
 
     private System.TurnDetails PromptMove(Player player)
     {
-        boolean canTakeRole = player.getCurrentRoom() instanceof Set;
+        boolean canTakeRole = player.getCurrentRoom() instanceof Set &&
+                ((Set)player.getCurrentRoom()).getScene() != null &&
+                ((Set) player.getCurrentRoom()).HasAvailableRank(player.getRank());
 
         _OutStream.println("Which Move Action do you want to take?");
         _OutStream.println("M: move to another room");
@@ -181,7 +207,7 @@ public class TextView implements IView
 
             if(!player.getCurrentRoom().IsValidNeighborName(chosenNeighbor))
             {
-                _OutStream.println("Please choose a valid number");
+                _OutStream.println("Please choose a valid room");
             }
         }
 
@@ -198,9 +224,13 @@ public class TextView implements IView
         {
             _OutStream.println("Select a role to take:");
 
-            for(Role role: ((Set) player.getCurrentRoom()).GetAllRoles())
+            for(Role role: ((Set) player.getCurrentRoom()).GetAvailableRoles())
             {
-                _OutStream.println(role.getName());
+                if(SceneManager.Instance.verifyRoleRequirement(player, null, role))
+                {
+                    _OutStream.println(role.getName());
+                }
+
             }
 
             chosenRName = _Scanner.nextLine();
@@ -265,9 +295,17 @@ public class TextView implements IView
 
     private System.TurnDetails PromptWork(Player player)
     {
+        boolean canRehearse = player.getPracticeChips() <
+                ((Set)player.getCurrentRoom()).getScene().getBudget() - 1;
+
         _OutStream.println("Which kind of work do you want to do?");
         _OutStream.println("A: act");
-        _OutStream.println("R: rehearse");
+
+        if(canRehearse)
+        {
+            _OutStream.println("R: rehearse");
+        }
+
 
         String actionChoice = "";
 
@@ -277,7 +315,7 @@ public class TextView implements IView
         {
             String choice = _Scanner.nextLine().toLowerCase();
 
-            isValidChoice = (choice.equals("r")) ||
+            isValidChoice = (choice.equals("r") && canRehearse) ||
                     (choice.equals("a"));
 
             if(!isValidChoice)
@@ -320,9 +358,14 @@ public class TextView implements IView
     }
 
     @Override
-    public void EndDay()
+    public void EndDay(int day)
     {
-        _OutStream.println("Ending of Day...");
+        _OutStream.println("Ending of Day...\nMoving all players back to trailer...");
+
+        for (Player p: System.INSTANCE.getPlayers())
+        {
+            DisplayPlayerCurrency(p);
+        }
     }
 
     @Override
@@ -356,5 +399,30 @@ public class TextView implements IView
         {
             _OutStream.println("Player " + topDog.getPlayerNumber() + " Wins!");
         }
+    }
+
+    @Override
+    public void PostPlayerAct(Player player, Role role, boolean isSuccess)
+    {
+        if (isSuccess)
+        {
+            _OutStream.println("\n\"" + role.getLine() + "\"");
+
+            _OutStream.println("Player " + player.getPlayerNumber() +
+                    " successfully acted out their role: " + role.getName() + ".\n" +
+                    "A shot has been finished, and they have received payment.");
+        } else
+        {
+            _OutStream.println("Player " + player.getPlayerNumber() +
+                    " failed to act out their role: " + role.getName() + ".");
+        }
+    }
+
+    @Override
+    public void SceneWrappedOnSet(Set set)
+    {
+        _OutStream.println("\nFilming of " + set.getScene().getName() +
+                " has wrapped on " + set.GetName() +
+                ". All Actors have been paid and released from their roles.");
     }
 }

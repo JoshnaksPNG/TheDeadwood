@@ -1,8 +1,7 @@
 package org.model;
 
-import jdk.jshell.spi.ExecutionControl;
 import org.controller.BoardManager;
-import org.controller.CurrencyManager;
+import org.controller.SceneManager;
 import org.controller.System;
 
 public class Player
@@ -40,32 +39,12 @@ public class Player
         {
             case Act ->
             {
-                boolean isActSuccess = role.roleRank <= Dice.Instance.BoostedRoll(practiceChips);
-                boolean isOnCard = !((Set)currentRoom).IsRoleOffCard(role);
-
-
-                if(isActSuccess)
-                {
-                    if(isOnCard)
-                    {
-                        CurrencyManager.updatePlayerCredit(this, 2);
-                        ((Set)currentRoom).DecrementShots();
-
-                    } else
-                    {
-                        CurrencyManager.updatePlayerMoney(this, 1);
-                        CurrencyManager.updatePlayerCredit(this, 1);
-                        ((Set)currentRoom).DecrementShots();
-                    }
-                } else if(!isOnCard)
-                {
-                    CurrencyManager.updatePlayerMoney(this, 1);
-                }
+                SceneManager.Instance.actScene(this, ((Set) currentRoom)._Scene);
             }
 
             case Rehearse ->
             {
-                practiceChips += 1;
+                SceneManager.Instance.rehearseScene(this, ((Set) currentRoom)._Scene);
             }
 
             case Upgrade ->
@@ -75,7 +54,8 @@ public class Player
 
             case TakeRole ->
             {
-                takeRole(null, details.TakenRole);
+                SceneManager.Instance.updateRole(this, null, details.TakenRole);
+                //takeRole(null, details.TakenRole);
             }
 
             case Move ->
@@ -94,12 +74,18 @@ public class Player
      * */
     public boolean takeRole(Scene scene, Role role)
     {
-        if(role.getRank() > this.rank)
+        if(!SceneManager.Instance.verifyRoleRequirement(this, scene, role))
         {
             throw new RuntimeException("Player attempting to take role with higher rank!");
         }
 
+        System.INSTANCE.getView().PlayerTakeRole(this, role);
+
         role.setActor(this);
+
+        this.role = role;
+
+        isInRole = true;
 
         practiceChips = 0;
 
@@ -124,12 +110,19 @@ public class Player
 
         currentRoom = targetPosition;
 
-        board.movePlayer(this, targetPosition);
+        board.forceMovePlayer(this, targetPosition);
 
         return canMove;
     }
 
+    public void ResetAct()
+    {
+        System.INSTANCE.getView().PlayerReleaseRole(this);
 
+        practiceChips = 0;
+        role = null;
+        isInRole = false;
+    }
 
     // Getter and Setter for playerNumber
     public int getPlayerNumber() {

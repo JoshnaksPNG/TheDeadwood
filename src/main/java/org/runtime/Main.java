@@ -24,7 +24,7 @@ public class Main {
         try
         {
             Document boardDoc = XMLParser.getDocFromFile("src/main/java/org/xml/board.xml");
-            Document cardsDoc = XMLParser.getDocFromFile("src/main/java/org/xml/board.xml");
+            Document cardsDoc = XMLParser.getDocFromFile("src/main/java/org/xml/cards.xml");
 
             loadedRooms = XMLParser.readBoardData(boardDoc);
             loadedCards = XMLParser.readCardData(cardsDoc);
@@ -64,5 +64,7 @@ public class Main {
         sys.setupBoard(BoardManager.Instance);
 
         sys.initializePlayers(0);
+
+        sys.manageTurns();
     }
 }

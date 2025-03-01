@@ -35,6 +35,8 @@ public class Room
         _Width = w;
         _Height = h;
 
+        occPlayers = new ArrayList<>();
+
         _NeigborNames = new ArrayList<>();
 
         for (String neighborName: neighborNames)
@@ -69,7 +71,7 @@ public class Room
     {
         for(String n: _NeigborNames)
         {
-            if(n == name)
+            if(n.equals(name))
             {
                 return true;
             }

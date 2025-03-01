@@ -1,7 +1,11 @@
 package org.model;
 
+import org.controller.SceneManager;
+
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class Set extends Room
 {
@@ -23,13 +27,21 @@ public class Set extends Room
         }
 
         _Scene = scene;
+
+        if(_SetShots.containsKey(name))
+        {
+            _Shots = _SetShots.get(name);
+        } else
+        {
+            _Shots = 2;
+        }
     }
 
     public Role GetRoleByName(String roleName)
     {
         for(Role r: _OffCardRoles)
         {
-            if(r.getName() == roleName)
+            if(r.getName().equals(roleName))
             {
                 return r;
             }
@@ -37,7 +49,7 @@ public class Set extends Room
 
         for(Role r: _Scene.getRoles())
         {
-            if(r.getName() == roleName)
+            if(r.getName().equals(roleName))
             {
                 return r;
             }
@@ -63,11 +75,51 @@ public class Set extends Room
         return roles;
     }
 
+    public ArrayList<Role> GetAvailableRoles()
+    {
+        ArrayList<Role> roles = new ArrayList<>();
+
+        for(Role r: _OffCardRoles)
+        {
+            if(!r.isOccupied())
+            {
+                roles.add(r);
+            }
+        }
+
+
+        for(Role r: _Scene.getRoles())
+        {
+            if(!r.isOccupied())
+            {
+                roles.add(r);
+            }
+        }
+
+        return roles;
+    }
+
+    public boolean HasAvailableRank(int rank)
+    {//System.out.println(rank);
+        ArrayList<Role> available = GetAvailableRoles();
+
+        for (Role r: available)
+        {
+            if(r.getRank() <= rank)
+            {
+                //System.out.println(r.getName());
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public boolean HasRoleName(String roleName)
     {
         for(Role r: _OffCardRoles)
         {
-            if(r.getName() == roleName)
+            if(r.getName().equals(roleName))
             {
                 return true;
             }
@@ -75,7 +127,7 @@ public class Set extends Room
 
         for(Role r: _Scene.getRoles())
         {
-            if(r.getName() == roleName)
+            if(r.getName().equals(roleName))
             {
                 return true;
             }
@@ -101,11 +153,34 @@ public class Set extends Room
         if(_Shots <= 0)
         {
             // Wrap Scenes Here
+            SceneManager.Instance.wrapFilming(this);
         }
+    }
 
+    public void RequestNewScene()
+    {
+        _Scene = SceneManager.Instance.DrawScene();
+    }
+
+    public void ClearScene()
+    {
+        _Scene = null;
     }
     
     public Scene getScene() {
         return _Scene;
     }
+
+    private static HashMap<String, Integer> _SetShots = new HashMap<>(Map.of(
+            "Train Station", 3,
+            "Secret Hideout", 3,
+            "Church", 2,
+            "Hotel", 3,
+            "Main Street", 3,
+            "Jail", 1,
+            "General Store", 2,
+            "Ranch", 2,
+            "Bank", 1,
+            "Saloon", 2
+    ));
 }
