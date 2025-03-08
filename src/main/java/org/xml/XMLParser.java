@@ -13,6 +13,29 @@ import java.io.File;
 import java.util.ArrayList;
 
 public class XMLParser{
+   private static Document cardsDoc = null;
+   private static Document boardDoc = null;
+
+   public XMLParser() {
+      setCardDoc("src/main/java/org/xml/cards.xml");
+      setBoardDoc("src/main/java/org/xml/board.xml");
+   }
+
+   private void setCardDoc(String fileName) {
+      try {
+         cardsDoc = getDocFromFile(fileName);
+      } catch (Exception e) {
+         System.out.println("Error = " + e);
+      }
+   }
+
+   private void setBoardDoc(String fileName) {
+      try {
+         boardDoc = getDocFromFile(fileName);
+      } catch (Exception e) {
+         System.out.println("Error = " + e);
+      }
+   }
 
    public static Document getDocFromFile(String filename)
    throws ParserConfigurationException{
@@ -33,8 +56,8 @@ public class XMLParser{
    }  
    
    // reads data from XML file and prints data
-   public static ArrayList<Scene> readCardData(Document d){
-      Element root = d.getDocumentElement();
+   public static ArrayList<Scene> readCardData(){
+      Element root = cardsDoc.getDocumentElement();
       NodeList cards = root.getElementsByTagName("card");
       ArrayList<Scene> scenes = new ArrayList<Scene>();
       Role roleHolder = null;
@@ -109,8 +132,8 @@ public class XMLParser{
 
 
 
-   public static Room[] readBoardData(Document d) {
-      Element root = d.getDocumentElement();
+   public static Room[] readBoardData() {
+      Element root = boardDoc.getDocumentElement();
       NodeList sets = root.getElementsByTagName("set");
       NodeList trailer = root.getElementsByTagName("trailer");
       NodeList office = root.getElementsByTagName("office");

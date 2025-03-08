@@ -21,18 +21,9 @@ public class Main {
 
         ArrayList<Scene> loadedCards;
 
-        try
-        {
-            Document boardDoc = XMLParser.getDocFromFile("src/main/java/org/xml/board.xml");
-            Document cardsDoc = XMLParser.getDocFromFile("src/main/java/org/xml/cards.xml");
-
-            loadedRooms = XMLParser.readBoardData(boardDoc);
-            loadedCards = XMLParser.readCardData(cardsDoc);
-
-        } catch (ParserConfigurationException e)
-        {
-            throw new RuntimeException(e);
-        }
+        XMLParser parser = new XMLParser();
+        loadedRooms = parser.readBoardData();
+        loadedCards = parser.readCardData();
 
         ArrayList<Room> AllRooms = new ArrayList<>();
 
