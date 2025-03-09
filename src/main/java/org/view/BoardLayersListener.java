@@ -191,6 +191,10 @@ public class BoardLayersListener extends JFrame implements IView {
       bPane.add(bEndTurn, Integer.valueOf(2));
    }
   
+
+
+
+
    @Override
    public void AddPlayer(Player player, Room room) {
 
@@ -229,7 +233,11 @@ public class BoardLayersListener extends JFrame implements IView {
 
    @Override
    public int PromptPlayerAmount() {
-      return 0;
+      int numPlayers = 0;
+      String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
+      int option =  JOptionPane.showOptionDialog(null, "How many players are playing?", "Message",
+      JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
+      return (Integer.parseInt(options[option]));
    }
 
    @Override
@@ -319,11 +327,12 @@ public class BoardLayersListener extends JFrame implements IView {
 
   public static void main(String[] args) {
   
-    BoardLayersListener board = new BoardLayersListener();
-    board.setVisible(true);
-    
-    // Take input from the user about number of players
-    String numPlayers = JOptionPane.showInputDialog(board, "How many players?"); 
+   BoardLayersListener board = new BoardLayersListener();
+   board.setVisible(true);
+   
+   // Take input from the user about number of players
+   // String numPlayers = JOptionPane.showInputDialog(board, "How many players?"); 
+   board.PromptPlayerAmount();
    //  System.out.println("Num players = " + numPlayers);
   }
 
