@@ -2,6 +2,8 @@ package org.view;
 
 import java.awt.*;
 import javax.swing.*;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Document;
 
 import org.model.Player;
 import org.model.Role;
@@ -38,6 +40,9 @@ public class BoardLayersListener extends JFrame implements IView {
   
   // JLayered Pane
   JLayeredPane bPane;
+
+  JTextPane textPane;
+  JScrollPane scrollPane;
   
   
   // Constructor
@@ -102,7 +107,7 @@ public class BoardLayersListener extends JFrame implements IView {
 
 
 
-      JTextPane textPane = new JTextPane();
+      textPane = new JTextPane();
 
       // Set some initial text in the JTextPane
       textPane.setText("This is a sample text in the JTextPane.\nYou can add more text here.\n");
@@ -111,10 +116,10 @@ public class BoardLayersListener extends JFrame implements IView {
       textPane.setEditable(false);
 
       // Create a JScrollPane and place the JTextPane inside it
-      JScrollPane scrollPane = new JScrollPane(textPane);
+      scrollPane = new JScrollPane(textPane);
 
       // Set the position and size for the JScrollPane using setBounds(x, y, width, height)
-      scrollPane.setBounds(50, 50, 500, 200); // Position (50, 50) and size (500x200)
+      scrollPane.setBounds(icon.getIconWidth()+10,300,200, 200); // Position (50, 50) and size (500x200)
 
       // Add the JScrollPane to the JLayeredPane
       bPane.add(scrollPane, Integer.valueOf(1));
@@ -236,8 +241,14 @@ public class BoardLayersListener extends JFrame implements IView {
       int numPlayers = 0;
       String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
       int option =  JOptionPane.showOptionDialog(null, "How many players are playing?", "Message",
-      JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
-      return (Integer.parseInt(options[option]));
+            JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
+      try {
+         addText(textPane, options[option] + " Players are playing");
+      } catch (BadLocationException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+      return Integer.parseInt(options[option]);
    }
 
    @Override
@@ -275,6 +286,11 @@ public class BoardLayersListener extends JFrame implements IView {
    }
 
 
+   // Method to append text to the JTextPane
+   private void addText(JTextPane textPane, String text) throws BadLocationException {
+      Document doc = textPane.getDocument();
+      doc.insertString(doc.getLength(), text + "\n", null); // Append text at the end
+   }
 
 
 
