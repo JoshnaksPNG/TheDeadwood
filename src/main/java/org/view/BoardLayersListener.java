@@ -16,6 +16,7 @@ import org.model.*;
 
 import javax.imageio.ImageIO;
 import java.awt.event.*;
+import java.util.ArrayList;
 
 public class BoardLayersListener extends JFrame implements IView {
 
@@ -32,7 +33,7 @@ public class BoardLayersListener extends JFrame implements IView {
   JButton bRehearse;
   JButton bMove;
   JButton bTakeRole;
-  JButton bRankUp;
+  JButton bUpgrade;
   JButton bEndTurn;
   
   // JLayered Pane
@@ -83,6 +84,14 @@ public class BoardLayersListener extends JFrame implements IView {
       playerlabel.setVisible(false);
       bPane.add(playerlabel, Integer.valueOf(3));
    
+      
+
+      addButtons(icon);
+      
+   }
+
+   // add the buttons to the board
+   public void addButtons(ImageIcon icon) {
       // Create the Menu for action buttons
       mLabel = new JLabel("MENU");
       mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
@@ -93,28 +102,40 @@ public class BoardLayersListener extends JFrame implements IView {
       bAct.setBackground(Color.white);
       bAct.setBounds(icon.getIconWidth()+10, 30,100, 20);
       bAct.addMouseListener(new boardMouseListener());
-      
+
       bRehearse = new JButton("REHEARSE");
       bRehearse.setBackground(Color.white);
       bRehearse.setBounds(icon.getIconWidth()+10,60,100, 20);
       bRehearse.addMouseListener(new boardMouseListener());
-      
+
       bMove = new JButton("MOVE");
       bMove.setBackground(Color.white);
       bMove.setBounds(icon.getIconWidth()+10,90,100, 20);
       bMove.addMouseListener(new boardMouseListener());
 
-      bRankUp = new JButton("Upgrade");
-      bRankUp.setBackground(Color.white);
-      bRankUp.setBounds(icon.getIconWidth()+10,120,100, 20);
-      bRankUp.addMouseListener(new boardMouseListener());
+      bTakeRole = new JButton("TAKE ROLE");
+      bTakeRole.setBackground(Color.white);
+      bTakeRole.setBounds(icon.getIconWidth()+10, 120, 100, 20);
+      bTakeRole.addMouseListener(new boardMouseListener());
+
+      bUpgrade = new JButton("Upgrade");
+      bUpgrade.setBackground(Color.white);
+      bUpgrade.setBounds(icon.getIconWidth()+10,150,100, 20);
+      bUpgrade.addMouseListener(new boardMouseListener());
+
+      bEndTurn = new JButton("END TURN");
+      bEndTurn.setBackground(Color.white);
+      bEndTurn.setBounds(icon.getIconWidth()+10,180,100, 20);
+      bEndTurn.addMouseListener(new boardMouseListener());
+
 
       // Place the action buttons in the top layer
       bPane.add(bAct, Integer.valueOf(2));
       bPane.add(bRehearse, Integer.valueOf(2));
       bPane.add(bMove, Integer.valueOf(2));
-      bPane.add(bRankUp, Integer.valueOf(2));
-      
+      bPane.add(bUpgrade, Integer.valueOf(2));
+      bPane.add(bTakeRole, Integer.valueOf(2));
+      bPane.add(bEndTurn, Integer.valueOf(2));
    }
   
    @Override
@@ -165,6 +186,10 @@ public class BoardLayersListener extends JFrame implements IView {
 
    @Override
    public void BeginDay(int DayNumber) {
+      ArrayList<Room> rooms = BoardManager.Instance.GetAllRoomReadOnly();
+
+
+
 
    }
 
@@ -218,7 +243,7 @@ public class BoardLayersListener extends JFrame implements IView {
          }
          else if (e.getSource()== bMove){
             // System.out.println("Move is Selected\n");
-         } else if (e.getSource() == bRankUp) {
+         } else if (e.getSource() == bUpgrade) {
             // System.out.println("Upgrade was selected\n");
          }       
       }
