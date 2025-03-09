@@ -20,19 +20,9 @@ public class Main {
         Room[] loadedRooms;
 
         ArrayList<Scene> loadedCards;
-
-        try
-        {
-            Document boardDoc = XMLParser.getDocFromFile("src/main/java/org/xml/board.xml");
-            Document cardsDoc = XMLParser.getDocFromFile("src/main/java/org/xml/cards.xml");
-
-            loadedRooms = XMLParser.readBoardData(boardDoc);
-            loadedCards = XMLParser.readCardData(cardsDoc);
-
-        } catch (ParserConfigurationException e)
-        {
-            throw new RuntimeException(e);
-        }
+        XMLParser parser = new XMLParser();
+        loadedRooms = parser.readBoardData();
+        loadedCards = parser.readCardData();
 
         ArrayList<Room> AllRooms = new ArrayList<>();
 
@@ -44,13 +34,11 @@ public class Main {
         {
             BoardManager.Instance.AddRoom(r);
 
-            if(r instanceof CastingOffice)
-            {
+            if(r instanceof CastingOffice) {
                 BoardManager.Instance.SetOffice((CastingOffice) r);
             }
 
-            if(r.GetName() == "trailer")
-            {
+            if(r.GetName() == "trailer") {
                 BoardManager.Instance.SetTrailer(r);
             }
         }

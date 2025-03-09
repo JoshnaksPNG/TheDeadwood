@@ -15,11 +15,12 @@ public class XMLTest{
          // doc1 = parsing.getDocFromFile("TheDeadwood/src/main/java/org/xml/cards.xml");
          // parsing.readCardData(doc1);
 
-         doc2 = parsing.getDocFromFile("TheDeadwood/src/main/java/org/xml/board.xml");
-         parsing.readBoardData(doc2);
+         // doc2 = parsing.getDocFromFile("src/main/java/org/xml/board.xml");
+         // parsing.readBoardData(doc2);
+         parsing.readBoardData();
       }catch (Exception e){
       
-         System.out.println("Error = "+e);
+         System.out.println("Error = " + e);
       
       }
       

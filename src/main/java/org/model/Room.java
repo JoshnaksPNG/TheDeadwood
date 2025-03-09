@@ -23,13 +23,13 @@ public class Room
 
     int _Height;
 
-    public Room(String name, int x, int y, int w, int h, List<String> neighborNames)
+    public Room(String name, int x, int y, int h, int w, List<String> neighborNames)
     {
         _Name = name;
         _PosX = x;
         _PosY = y;
-        _Width = w;
         _Height = h;
+        _Width = w;
 
         occPlayers = new ArrayList<>();
 

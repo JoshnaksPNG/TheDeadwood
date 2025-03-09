@@ -9,11 +9,13 @@ public class Role {
     private boolean isMain;
     private boolean isOccupied;
     private Player occupant;
+    private int[] area;
 
-    public Role(String name, String line, int rank, boolean isMain) {
+    public Role(String name, String line, int rank, int[] area, boolean isMain) {
         this.name = name;
         this.line = line;
         this.rank = rank;
+        this.area = area;
         this.isMain = isMain;
     }
 

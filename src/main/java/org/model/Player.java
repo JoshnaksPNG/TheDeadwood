@@ -10,9 +10,16 @@ public class Player
     private int rank;
     private int money;
     private int credit;
-    private Role role;
+    private Role role = null;
     private boolean isInRole;
     private int practiceChips;
+
+    private boolean canUpgrade = false;
+    private boolean canMove = true;
+    private boolean canAct = false;
+    private boolean canRehearse = false;
+    private String iconName;
+    private int iconIndex;
 
     private Room currentRoom;
 
