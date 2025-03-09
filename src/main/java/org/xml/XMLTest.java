@@ -17,10 +17,10 @@ public class XMLTest{
 
          // doc2 = parsing.getDocFromFile("src/main/java/org/xml/board.xml");
          // parsing.readBoardData(doc2);
-         parsing.readCardData();
+         parsing.readBoardData();
       }catch (Exception e){
       
-         System.out.println("Error = "+e);
+         System.out.println("Error = " + e);
       
       }
       

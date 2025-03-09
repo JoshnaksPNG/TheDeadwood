@@ -20,7 +20,6 @@ public class Main {
         Room[] loadedRooms;
 
         ArrayList<Scene> loadedCards;
-
         XMLParser parser = new XMLParser();
         loadedRooms = parser.readBoardData();
         loadedCards = parser.readCardData();
@@ -35,13 +34,11 @@ public class Main {
         {
             BoardManager.Instance.AddRoom(r);
 
-            if(r instanceof CastingOffice)
-            {
+            if(r instanceof CastingOffice) {
                 BoardManager.Instance.SetOffice((CastingOffice) r);
             }
 
-            if(r.GetName() == "trailer")
-            {
+            if(r.GetName() == "trailer") {
                 BoardManager.Instance.SetTrailer(r);
             }
         }

@@ -13,8 +13,7 @@ public class SceneManager
 
     ArrayList<Scene> _SceneDeck;
 
-    public SceneManager(List<Scene> scenes)
-    {
+    public SceneManager(List<Scene> scenes) {
         int activeScenes = 0;
 
         _SceneDeck = new ArrayList<>();
@@ -29,8 +28,7 @@ public class SceneManager
         Instance = this;
     }
 
-    public boolean verifyRoleRequirement(Player player, Scene scene, Role role)
-    {
+    public boolean verifyRoleRequirement(Player player, Scene scene, Role role) {
         if(player.getRank() >= role.getRank() && !role.isOccupied()) {
             return true;
         } else {

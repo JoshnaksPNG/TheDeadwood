@@ -9,7 +9,7 @@ import java.util.ArrayList;
 
 public class BoardManager
 {
-    Room[][] rooms;
+    Room[] rooms;
 
     ArrayList<Room> _AllRooms;
 
