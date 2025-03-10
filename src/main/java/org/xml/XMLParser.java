@@ -126,7 +126,7 @@ public class XMLParser{
             }
             
          } // for childnodes
-         sceneHolder = new Scene(sceneNum, name, sceneText, budget, roles);
+         sceneHolder = new Scene(sceneNum, name, sceneText, budget, roles, img);
          scenes.add(sceneHolder);
          roles = new ArrayList<>();
       } //for card node
@@ -187,10 +187,10 @@ public class XMLParser{
                // System.out.print(", h = " + sceneH);
                sceneW = Integer.parseInt(sub.getAttributes().getNamedItem("w").getNodeValue());
                // System.out.println(", w =" + sceneW);
-               sceneArea[0] = partX;
-               sceneArea[1] = partY;
-               sceneArea[2] = partH;
-               sceneArea[3] = partW;
+               sceneArea[0] = sceneX;
+               sceneArea[1] = sceneY;
+               sceneArea[2] = sceneH;
+               sceneArea[3] = sceneW;
             } else if ("takes".equals(sub.getNodeName())) {
                NodeList takeChildren = sub.getChildNodes();
                for (int k = 0; k < takeChildren.getLength(); k++) {
@@ -273,7 +273,7 @@ public class XMLParser{
             
          }
          // System.out.println("Takes = " + takes);
-         rooms[i] = new Set(setName, sceneX, sceneY, sceneH, sceneW, neighbors, null, roles, takes);
+         rooms[i] = new Set(setName, area, sceneArea, neighbors, null, roles, takes);
          // System.out.println("Size of roles = " + roles.size());
          takes = 0;
          neighbors.clear();
