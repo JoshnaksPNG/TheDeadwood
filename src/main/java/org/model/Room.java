@@ -91,4 +91,20 @@ public class Room
     public ArrayList<Player> getOccPlayers() {
         return occPlayers;
     }
+
+    public int getX() {
+        return _PosX;
+    }
+
+    public int getY() {
+        return _PosY;
+    }
+
+    public int getHeight() {
+        return _Height;
+    }
+
+    public int getWidth() {
+        return _Width;
+    }
 }

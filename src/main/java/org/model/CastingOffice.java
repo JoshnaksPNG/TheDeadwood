@@ -17,11 +17,11 @@ public class CastingOffice extends Room
         {40, 25}   // rank 6
     };
 
-    public CastingOffice(String name, int x, int y, int w, int h, List<String> neighborNames)
+    public CastingOffice(String name, int x, int y, int h, int w, List<String> neighborNames)
     {
 
 
-        super(name, x, y, w, h, neighborNames);
+        super(name, x, y, h, w, neighborNames);
     }
 
     public static int getCost(int rank, boolean money) {
