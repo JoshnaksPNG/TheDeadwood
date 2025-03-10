@@ -6,6 +6,7 @@ import org.controller.System;
 import org.model.CastingOffice;
 import org.model.Room;
 import org.model.Scene;
+import org.view.BoardLayersListener;
 import org.view.TextView;
 import org.w3c.dom.Document;
 import org.xml.XMLParser;
@@ -43,8 +44,10 @@ public class Main {
             }
         }
 
-        TextView textView = new TextView(java.lang.System.in, java.lang.System.out);
+        // TextView textView = new TextView(java.lang.System.in, java.lang.System.out);
 
+        BoardLayersListener textView = new BoardLayersListener();
+        textView.setVisible(true);
         java.lang.System.out.println("\n\n\nInitializing Game...");
 
         org.controller.System sys = new System(textView);

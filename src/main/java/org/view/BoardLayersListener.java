@@ -212,7 +212,7 @@ public class BoardLayersListener extends JFrame implements IView {
          if (rooms.get(i) instanceof Set) {
             Set s = (Set) rooms.get(i);
             placeScene(s);
-            // placeCardBack(s);
+            placeCardBack(s);
          }
       }
    }
