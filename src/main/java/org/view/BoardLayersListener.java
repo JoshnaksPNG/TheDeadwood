@@ -102,6 +102,33 @@ public class BoardLayersListener extends JFrame implements IView {
       bPane.add(cardlabel, Integer.valueOf(2));
       // addScenes();
 
+
+
+      String[] options = {"Option 1", "Option 2", "Option 3"};
+      JComboBox<String> comboBox = new JComboBox<>(options);
+
+      comboBox.setBounds(icon.getIconWidth()+150, 120, 100, 20);
+      
+      // Add an action listener to the combo box to get the selected item when changed
+      comboBox.addActionListener(e -> {
+          // Get the selected item
+          String selectedOption = (String) comboBox.getSelectedItem();
+          
+          // Print the selected option (or use it for other purposes)
+          try {
+            addText(textPane, "Selected option " + selectedOption);
+            comboBox.setVisible(false);
+         } catch (BadLocationException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+         }
+      });
+      
+      // Add the combo box to the frame
+      bPane.add(comboBox, Integer.valueOf(4));
+
+
+
       // JTextPane textPane = new JTextPane();
 
       // // Set the preferred size and position using setBounds(x, y, width, height)
@@ -265,7 +292,21 @@ public class BoardLayersListener extends JFrame implements IView {
          JComboBox<String> comboBox = new JComboBox<>(items);
 
          // Set the position and size of the JComboBox using setBounds(x, y, width, height)
-         comboBox.setBounds(icon.getIconWidth()+150, 30, 100, 20);
+         comboBox.setBounds(icon.getIconWidth()+150, 120, 100, 20);
+
+         comboBox.addActionListener(e -> {
+            // Get the selected item and perform whatever action here
+            String selectedOption = (String) comboBox.getSelectedItem();
+            
+            // Print the selected option
+            try {
+               addText(textPane, "Selected " + selectedOption);
+               comboBox.setVisible(false);
+            } catch (BadLocationException e1) {
+               // TODO Auto-generated catch block
+               e1.printStackTrace();
+            }
+        });
    
          // Add the JComboBox to the JLayeredPane at layer 1
          bPane.add(comboBox, Integer.valueOf(1)); // Adding at layer 1
@@ -394,21 +435,59 @@ public class BoardLayersListener extends JFrame implements IView {
          if (e.getSource()== bAct){
             playerlabel.setVisible(true);
             // System.out.println("Acting is Selected\n");
-            
-            if (System.INSTANCE.getActivePlayer().isInRole()) {
-               // act role
-            } else {
-               // not in role so can't act
+            try {
+               addText(textPane, "Act was selected");
+            } catch (BadLocationException e1) {
+               // TODO Auto-generated catch block
+               e1.printStackTrace();
             }
+            
+            // if (System.INSTANCE.getActivePlayer().isInRole()) {
+            //    // act role
+            // } else {
+            //    // not in role so can't act
+            // }
          }
          else if (e.getSource()== bRehearse){
             // System.out.println("Rehearse is Selected\n");
+            try {
+               addText(textPane, "Rehearse was selected");
+            } catch (BadLocationException e1) {
+               // TODO Auto-generated catch block
+               e1.printStackTrace();
+            }
          }
          else if (e.getSource()== bMove){
             // System.out.println("Move is Selected\n");
+            try {
+               addText(textPane, "Move was selected");
+            } catch (BadLocationException e1) {
+               // TODO Auto-generated catch block
+               e1.printStackTrace();
+            }
+         } else if (e.getSource() == bTakeRole) {
+            try {
+               addText(textPane, "Take role was selected");
+            } catch (BadLocationException e1) {
+               // TODO Auto-generated catch block
+               e1.printStackTrace();
+            }
          } else if (e.getSource() == bUpgrade) {
             // System.out.println("Upgrade was selected\n");
-         }       
+            try {
+               addText(textPane, "Upgrade was selected");
+            } catch (BadLocationException e1) {
+               // TODO Auto-generated catch block
+               e1.printStackTrace();
+            }
+         } else if (e.getSource() == bEndTurn) {
+            try {
+               addText(textPane, "End Turn was selected");
+            } catch (BadLocationException e1) {
+               // TODO Auto-generated catch block
+               e1.printStackTrace();
+            }
+         }      
       }
       public void mousePressed(MouseEvent e) {
       }
