@@ -198,18 +198,19 @@ public class BoardLayersListener extends JFrame implements IView {
       bPane.add(bEndTurn, Integer.valueOf(2));
    }
 
-   // add scenes to the board
+   // add scenes to the board, skeleton
    public void addScenes(){
       placeScenes();
+      placeCardBacks();
    }
   
-   // place the back of the cards to the board
+   // place the back of the cards to the board, skeleton
    public void placeScenes(){
 
    }
       
       
-   // place the back of the cards to the board
+   // place the back of the cards to the board, skeleton
    public void placeCardBacks(){
       
    }
@@ -217,7 +218,6 @@ public class BoardLayersListener extends JFrame implements IView {
    public void addRolesSelections(Player player) {
       // Create a JComboBox with some items
       Room currRoom = player.getCurrentRoom();
-      
 
       if (currRoom.GetName().equals("office") || currRoom.GetName().equals("trailer")) {
          try {
@@ -242,9 +242,6 @@ public class BoardLayersListener extends JFrame implements IView {
    
          // Add the JComboBox to the JLayeredPane at layer 1
          bPane.add(comboBox, Integer.valueOf(1)); // Adding at layer 1
-   
-         // Optional: Set a custom font for the combo box
-         comboBox.setFont(new Font("Arial", Font.PLAIN, 14));
       }
 
       
