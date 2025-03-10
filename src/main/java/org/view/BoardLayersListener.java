@@ -128,48 +128,12 @@ public class BoardLayersListener extends JFrame implements IView {
       bPane.add(comboBox, Integer.valueOf(4));
 
 
-      textPane = new JTextPane();
-
-      // Set some initial text in the JTextPane
-      textPane.setText("Beginning Deadwood\n");
-
-      // Set the JTextPane to be non-editable (optional)
-      textPane.setEditable(false);
-
-      // Create a JScrollPane and place the JTextPane inside it
-      scrollPane = new JScrollPane(textPane);
-
-      // Set the position and size for the JScrollPane using setBounds(x, y, width, height)
-      scrollPane.setBounds(icon.getIconWidth()+10,300,200, 200); // Position (50, 50) and size (500x200)
-      scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
-         public void adjustmentValueChanged(AdjustmentEvent e) {  
-             e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
-         }
-     });
-      // Add the JScrollPane to the JLayeredPane
-      bPane.add(scrollPane, Integer.valueOf(1));
+      setEventsText(); // noneditable text box that shows the system messages
 
 
 
 
 
-
-      
-      // JPanel panel = new JPanel();
-      // panel.setBounds(icon.getIconWidth() + 40, 200, 200, 400);
-      // // panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-    
-      // // Add a large number of labels to the panel.
-      // for (int i = 1; i <= 50; i++) {
-        
-      //     JLabel label = new JLabel("Label " + i);
-      //     panel.add(label);
-        
-      // }
-    
-      // // Create a JScrollPane and set the panel as its viewport.
-      // JScrollPane scrollPane = new JScrollPane(panel);
-      // bPane.add(scrollPane, Integer.valueOf(2));
       bPane.setVisible(true);
    }
 
@@ -221,6 +185,29 @@ public class BoardLayersListener extends JFrame implements IView {
       bPane.add(bEndTurn, Integer.valueOf(2));
    }
 
+   public void setEventsText() {
+      textPane = new JTextPane();
+
+      // Set some initial text in the JTextPane
+      textPane.setText("Beginning Deadwood\n");
+
+      // Set the JTextPane to be non-editable (optional)
+      textPane.setEditable(false);
+
+      // Create a JScrollPane and place the JTextPane inside it
+      scrollPane = new JScrollPane(textPane);
+
+      // Set the position and size for the JScrollPane using setBounds(x, y, width, height)
+      scrollPane.setBounds(icon.getIconWidth()+10,300,200, 200);
+      scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+         public void adjustmentValueChanged(AdjustmentEvent e) {  
+             e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+         }
+     });
+      // Add the JScrollPane to the JLayeredPane
+      bPane.add(scrollPane, Integer.valueOf(1));
+   }
+
    // add scenes to the board, skeleton
    public void addScenes(){
       ArrayList<Room> rooms = BoardManager.Instance.GetAllRoomReadOnly();
@@ -252,11 +239,11 @@ public class BoardLayersListener extends JFrame implements IView {
       cardlabel.setIcon(cardImage);
       cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
       cardlabel.setOpaque(true);
-      // Add the card to the lower layer
+      // Add the card back on top of card
       bPane.add(cardlabel, Integer.valueOf(3));
    }
 
-   public void addRolesSelections(Player player) {
+   public void promptRolesSelections(Player player) {
       // Create a JComboBox with some items
       Room currRoom = player.getCurrentRoom();
 
@@ -301,6 +288,42 @@ public class BoardLayersListener extends JFrame implements IView {
 
       
   }
+
+   // void for now, might become System.TurnDetails
+   private void PromptMove(Player player){
+      boolean canTakeRole = player.getCurrentRoom() instanceof Set &&
+               ((Set)player.getCurrentRoom()).getScene() != null &&
+               ((Set) player.getCurrentRoom()).HasAvailableRank(player.getRank());
+
+      Room currRoom = player.getCurrentRoom();
+      ArrayList<String> neighbors = currRoom.GetNeighborNames();
+      String[] items = new String[neighbors.size()];
+
+      for (int i = 0; i < neighbors.size(); i++) {
+         items[i] = neighbors.get(i);
+      }
+      JComboBox<String> comboBox = new JComboBox<>(items);
+
+      // Set the position and size of the JComboBox using setBounds(x, y, width, height)
+      comboBox.setBounds(icon.getIconWidth()+150,90,100, 20);
+
+      comboBox.addActionListener(e -> {
+         // Get the selected item and perform whatever action here
+         String selectedOption = (String) comboBox.getSelectedItem();
+         
+         // Print the selected option
+         try {
+            addText(textPane, "Selected " + selectedOption);
+            comboBox.setVisible(false);
+         } catch (BadLocationException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+         }
+      });
+
+      // Add the JComboBox to the JLayeredPane at layer 1
+      bPane.add(comboBox, Integer.valueOf(1)); // Adding at layer 1
+   }
 
    
   
@@ -362,6 +385,12 @@ public class BoardLayersListener extends JFrame implements IView {
    @Override
    public void EndDay(int day) {
       
+      try {
+         addText(textPane, "Ending Day");
+      } catch (BadLocationException e1) {
+         // TODO Auto-generated catch block
+         e1.printStackTrace();
+      }
    }
 
    @Override
