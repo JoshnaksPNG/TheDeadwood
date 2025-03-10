@@ -128,27 +128,10 @@ public class BoardLayersListener extends JFrame implements IView {
       bPane.add(comboBox, Integer.valueOf(4));
 
 
-
-      // JTextPane textPane = new JTextPane();
-
-      // // Set the preferred size and position using setBounds(x, y, width, height)
-      // textPane.setBounds(50, 50, 500, 200); // Position (50,50) and size (500x200)
-
-      // // Optional: Set some text in the JTextPane
-      // textPane.setText("This is a sample text in the JTextPane.\nYou can add more text here.\n");
-
-      // // Set the text pane to be non-editable (optional)
-      // textPane.setEditable(false);
-
-      // // Add the JTextPane to the JLayeredPane
-      // bPane.add(textPane, Integer.valueOf(5)); // Adding at layer 1
-
-
-
       textPane = new JTextPane();
 
       // Set some initial text in the JTextPane
-      textPane.setText("This is a sample text in the JTextPane.\nYou can add more text here.\n");
+      textPane.setText("Beginning Deadwood\n");
 
       // Set the JTextPane to be non-editable (optional)
       textPane.setEditable(false);
@@ -158,7 +141,11 @@ public class BoardLayersListener extends JFrame implements IView {
 
       // Set the position and size for the JScrollPane using setBounds(x, y, width, height)
       scrollPane.setBounds(icon.getIconWidth()+10,300,200, 200); // Position (50, 50) and size (500x200)
-
+      scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {  
+         public void adjustmentValueChanged(AdjustmentEvent e) {  
+             e.getAdjustable().setValue(e.getAdjustable().getMaximum());  
+         }
+     });
       // Add the JScrollPane to the JLayeredPane
       bPane.add(scrollPane, Integer.valueOf(1));
 
@@ -380,6 +367,13 @@ public class BoardLayersListener extends JFrame implements IView {
    @Override
    public void BeginDay(int DayNumber) {
       addScenes();
+
+      try {
+         addText(textPane, "Starting new Day");
+      } catch (BadLocationException e1) {
+         // TODO Auto-generated catch block
+         e1.printStackTrace();
+      }
 
 
 
