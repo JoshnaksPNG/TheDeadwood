@@ -10,6 +10,7 @@ public class Scene{
     private String description;
     private boolean _isFaceUp;
     private ArrayList<Role> roles;
+    private String img;
 
     public Scene(int num, String name, String description, int budget, ArrayList<Role> roles) {
         this.num = num;
@@ -18,6 +19,16 @@ public class Scene{
         this.budget = budget;
         this.roles = roles;
         this._isFaceUp = false; // starts faced down
+    }
+
+    public Scene(int num, String name, String description, int budget, ArrayList<Role> roles, String img) {
+        this.num = num;
+        this.name = name;
+        this.description = description;
+        this.budget = budget;
+        this.roles = roles;
+        this._isFaceUp = false; // starts faced down
+        this.img = img;
     }
 
     public String getName() {
