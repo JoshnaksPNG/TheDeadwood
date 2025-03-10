@@ -5,10 +5,6 @@ import javax.swing.*;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 
-import org.model.Player;
-import org.model.Role;
-import org.model.Room;
-import org.model.Set;
 import org.controller.BoardManager;
 import org.controller.SceneManager;
 import org.controller.System;
@@ -17,36 +13,42 @@ import org.controller.System.TurnDetails.ActionType;
 import org.model.*;
 
 import javax.imageio.ImageIO;
+import javax.smartcardio.Card;
+
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class BoardLayersListener extends JFrame implements IView {
 
+   ArrayList<Player> _AllPlayers;
+
   // JLabels
-  JLabel boardlabel;
-  JLabel cardlabel;
-  JLabel playerlabel;
-  JLabel mLabel;
-  JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), 
-                        new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};
+   JLabel boardlabel;
+   JLabel cardlabel;
+   JLabel playerlabel;
+   JLabel mLabel;
+   JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), 
+                           new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};
 
-  //JButtons
-  JButton bAct;
-  JButton bRehearse;
-  JButton bMove;
-  JButton bTakeRole;
-  JButton bUpgrade;
-  JButton bEndTurn;
-  
-  // JLayered Pane
-  JLayeredPane bPane;
+   //JButtons
+   JButton bAct;
+   JButton bRehearse;
+   JButton bMove;
+   JButton bTakeRole;
+   JButton bUpgrade;
+   JButton bEndTurn;
 
-  JTextPane textPane;
-  JScrollPane scrollPane;
+   ImageIcon icon;
+   
+   // JLayered Pane
+   JLayeredPane bPane;
+
+   JTextPane textPane;
+   JScrollPane scrollPane;
   
   
-  // Constructor
-  
+   // Constructor
    public BoardLayersListener() {
       
       // Set the title of the JFrame
@@ -59,7 +61,7 @@ public class BoardLayersListener extends JFrame implements IView {
    
       // Create the deadwood board
       boardlabel = new JLabel();
-      ImageIcon icon =  new ImageIcon("src/main/java/org/assets/board.jpg");
+      icon =  new ImageIcon("src/main/java/org/assets/board.jpg");
       boardlabel.setIcon(icon); 
       boardlabel.setBounds(0,0,icon.getIconWidth(),icon.getIconHeight());
    
@@ -195,6 +197,60 @@ public class BoardLayersListener extends JFrame implements IView {
       bPane.add(bTakeRole, Integer.valueOf(2));
       bPane.add(bEndTurn, Integer.valueOf(2));
    }
+
+   // add scenes to the board
+   public void addScenes(){
+      placeScenes();
+   }
+  
+   // place the back of the cards to the board
+   public void placeScenes(){
+
+   }
+      
+      
+   // place the back of the cards to the board
+   public void placeCardBacks(){
+      
+   }
+
+   public void addRolesSelections(Player player) {
+      // Create a JComboBox with some items
+      Room currRoom = player.getCurrentRoom();
+      
+
+      if (currRoom.GetName().equals("office") || currRoom.GetName().equals("trailer")) {
+         try {
+            addText(textPane, "No roles in this area");
+         } catch (BadLocationException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+         }
+      } else {
+
+         Set set = (Set) currRoom;
+         ArrayList<Role> roles = set.GetAllRoles();
+         String[] items = new String[roles.size()];
+
+         for (int i = 0; i < roles.size(); i++) {
+            items[i] = roles.get(i).getName();
+         }
+         JComboBox<String> comboBox = new JComboBox<>(items);
+
+         // Set the position and size of the JComboBox using setBounds(x, y, width, height)
+         comboBox.setBounds(icon.getIconWidth()+150, 30, 100, 20);
+   
+         // Add the JComboBox to the JLayeredPane at layer 1
+         bPane.add(comboBox, Integer.valueOf(1)); // Adding at layer 1
+   
+         // Optional: Set a custom font for the combo box
+         comboBox.setFont(new Font("Arial", Font.PLAIN, 14));
+      }
+
+      
+  }
+
+   
   
 
 
