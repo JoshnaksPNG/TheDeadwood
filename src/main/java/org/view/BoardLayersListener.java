@@ -92,6 +92,7 @@ public class BoardLayersListener extends JFrame implements IView {
       bPane.add(playerlabel, Integer.valueOf(3));
 
       addButtons(icon);
+      // addScenes();
 
       // JTextPane textPane = new JTextPane();
 
@@ -200,19 +201,39 @@ public class BoardLayersListener extends JFrame implements IView {
 
    // add scenes to the board, skeleton
    public void addScenes(){
-      placeScenes();
-      placeCardBacks();
+      ArrayList<Room> rooms = BoardManager.Instance.GetAllRoomReadOnly();
+      for (int i = 0; i < 10; i++) { // There are 10 rooms that are sets and they should be 0-9 inclusive
+         if (rooms.get(i) instanceof Set) {
+            Set s = (Set) rooms.get(i);
+            placeScene(s);
+            placeCardBack(s);
+         }
+      }
    }
   
-   // place the back of the cards to the board, skeleton
-   public void placeScenes(){
-
+   // place the cards to the board, skeleton
+   public void placeScene(Set s){
+      cardlabel = new JLabel();
+      ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/" + s.getScene().getImg() + ".png");
+      cardlabel.setIcon(cardImage);
+      // x+4 and y-4
+      cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
+      cardlabel.setOpaque(true);
+      // Add the card to the lower layer
+      bPane.add(cardlabel, Integer.valueOf(2));
    }
       
       
    // place the back of the cards to the board, skeleton
-   public void placeCardBacks(){
-      
+   public void placeCardBack(Set s){
+      cardlabel = new JLabel();
+      ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cardBack.png");
+      cardlabel.setIcon(cardImage);
+      // x+4 and y-4
+      cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
+      cardlabel.setOpaque(true);
+      // Add the card to the lower layer
+      bPane.add(cardlabel, Integer.valueOf(3));
    }
 
    public void addRolesSelections(Player player) {
@@ -311,7 +332,7 @@ public class BoardLayersListener extends JFrame implements IView {
 
    @Override
    public void BeginDay(int DayNumber) {
-      ArrayList<Room> rooms = BoardManager.Instance.GetAllRoomReadOnly();
+      addScenes();
 
 
 
