@@ -7,10 +7,7 @@ import org.model.Set;
 
 import java.util.ArrayList;
 
-public class BoardManager
-{
-    Room[] rooms;
-
+public class BoardManager {
     ArrayList<Room> _AllRooms;
 
     Room _Trailer;
