@@ -92,6 +92,14 @@ public class BoardLayersListener extends JFrame implements IView {
       bPane.add(playerlabel, Integer.valueOf(3));
 
       addButtons(icon);
+
+      cardlabel = new JLabel();
+      ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/01.png");
+      cardlabel.setIcon(cardImage);
+      cardlabel.setBounds(100,100,cardImage.getIconWidth(),cardImage.getIconHeight());
+      cardlabel.setOpaque(true);
+      // Add the card to the lower layer
+      bPane.add(cardlabel, Integer.valueOf(2));
       // addScenes();
 
       // JTextPane textPane = new JTextPane();
@@ -216,7 +224,6 @@ public class BoardLayersListener extends JFrame implements IView {
       cardlabel = new JLabel();
       ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/" + s.getScene().getImg() + ".png");
       cardlabel.setIcon(cardImage);
-      // x+4 and y-4
       cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
       cardlabel.setOpaque(true);
       // Add the card to the lower layer
@@ -229,7 +236,6 @@ public class BoardLayersListener extends JFrame implements IView {
       cardlabel = new JLabel();
       ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cardBack.png");
       cardlabel.setIcon(cardImage);
-      // x+4 and y-4
       cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
       cardlabel.setOpaque(true);
       // Add the card to the lower layer
