@@ -83,21 +83,22 @@ public class BoardLayersListener extends JFrame implements IView {
    
       // Add a dice to represent a player. 
       // Role for Crusty the prospector. The x and y co-ordiantes are taken from Board.xml file
-      playerlabel = new JLabel();
-      ImageIcon pIcon = new ImageIcon("r2.png");
-      playerlabel.setIcon(pIcon);
-      //playerlabel.setBounds(114,227,pIcon.getIconWidth(),pIcon.getIconHeight());  
-      playerlabel.setBounds(114,227,46,46);
-      playerlabel.setVisible(false);
-      bPane.add(playerlabel, Integer.valueOf(3));
+      // playerlabel = new JLabel();
+      // ImageIcon pIcon = new ImageIcon("r2.png");
+      // playerlabel.setIcon(pIcon);
+      // //playerlabel.setBounds(114,227,pIcon.getIconWidth(),pIcon.getIconHeight());  
+      // playerlabel.setBounds(114,227,46,46);
+      // playerlabel.setVisible(false);
+      // bPane.add(playerlabel, Integer.valueOf(3));
 
       addButtons(icon);
 
-      cardlabel = new JLabel();
-      ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/01.png");
-      cardlabel.setIcon(cardImage);
-      cardlabel.setBounds(100,100,cardImage.getIconWidth(),cardImage.getIconHeight());
-      cardlabel.setOpaque(true);
+      // cardlabel = new JLabel();
+      // ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/01.png");
+      // cardlabel.setIcon(cardImage);
+      // cardlabel.setBounds(100,100,cardImage.getIconWidth(),cardImage.getIconHeight());
+      // cardlabel.setOpaque(true);
+
       // Add the card to the lower layer
       bPane.add(cardlabel, Integer.valueOf(2));
       // addScenes();
@@ -127,15 +128,11 @@ public class BoardLayersListener extends JFrame implements IView {
       // Add the combo box to the frame
       bPane.add(comboBox, Integer.valueOf(4));
 
-
       setEventsText(); // noneditable text box that shows the system messages
-
-
-
-
 
       bPane.setVisible(true);
    }
+   
 
    // add the buttons to the board
    public void addButtons(ImageIcon icon) {
@@ -215,7 +212,7 @@ public class BoardLayersListener extends JFrame implements IView {
          if (rooms.get(i) instanceof Set) {
             Set s = (Set) rooms.get(i);
             placeScene(s);
-            placeCardBack(s);
+            // placeCardBack(s);
          }
       }
    }
@@ -223,7 +220,16 @@ public class BoardLayersListener extends JFrame implements IView {
    // place the cards to the board, skeleton
    public void placeScene(Set s){
       cardlabel = new JLabel();
-      ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/" + s.getScene().getImg() + ".png");
+      ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/" + s.getScene().getImg());
+
+      try {
+         addText(textPane, "Image = " + cardImage + " Dimentions w " + cardImage.getIconWidth() + 
+         " height = " + cardImage.getIconHeight());
+      } catch (BadLocationException e) {
+         // TODO Auto-generated catch block
+         e.printStackTrace();
+      }
+
       cardlabel.setIcon(cardImage);
       cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
       cardlabel.setOpaque(true);
@@ -314,11 +320,11 @@ public class BoardLayersListener extends JFrame implements IView {
          // Print the selected option
          try {
             addText(textPane, "Selected " + selectedOption);
-            comboBox.setVisible(false);
          } catch (BadLocationException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
          }
+         comboBox.setVisible(false);
       });
 
       // Add the JComboBox to the JLayeredPane at layer 1
@@ -510,7 +516,7 @@ public class BoardLayersListener extends JFrame implements IView {
                // TODO Auto-generated catch block
                e1.printStackTrace();
             }
-         }      
+         }  
       }
       public void mousePressed(MouseEvent e) {
       }
