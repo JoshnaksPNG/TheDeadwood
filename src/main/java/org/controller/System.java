@@ -1,6 +1,9 @@
 package org.controller;
 
 import jdk.jshell.spi.ExecutionControl;
+
+import org.model.CastingOffice;
+import org.model.Dice;
 import org.model.Player;
 import org.model.Role;
 import org.model.Room;
@@ -19,6 +22,17 @@ public class System
     BoardManager _Board;
     SceneManager sceneManager;
 
+    // private static Dice dice;
+    // private static int numActiveScenes;
+    // private static LocationManager locationManager;
+    // private static CurrencyManager currencyManager;
+    // private static CastingOffice castingOffice;
+
+    // private static Board board;
+    // private static SceneDeck deck;
+
+    private static Player activePlayer;
+
     // Should start at 0;
     int currTurn;
 
@@ -31,7 +45,7 @@ public class System
 
     public void initializePlayers(int numPlayers) {
         int playerCount = _View.PromptPlayerAmount();
-
+        // System.out.println("Num players = " + playerCount);
         if (playerCount <= 3){
             days = 3;
         } else {
@@ -121,6 +135,7 @@ public class System
 
         while (AvailableScenes) {
             for(Player p: players) {
+                activePlayer = p;
                 p.takeTurn(_View.PromptPlayerTurnAction(p));
 
                 AvailableScenes = !SceneManager.Instance.AreScenesWrapped();
@@ -197,4 +212,8 @@ public class System
     }
 
     public static System INSTANCE;
+
+    public static Player getActivePlayer() {
+        return activePlayer;
+    }
 }

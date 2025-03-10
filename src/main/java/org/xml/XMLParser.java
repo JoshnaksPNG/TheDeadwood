@@ -273,7 +273,7 @@ public class XMLParser{
             
          }
          // System.out.println("Takes = " + takes);
-         rooms[i] = new Set(setName, area, sceneArea, neighbors, null, roles, takes);
+         rooms[i] = new Set(setName, sceneX, sceneY, sceneH, sceneW, neighbors, null, roles, takes);
          // System.out.println("Size of roles = " + roles.size());
          takes = 0;
          neighbors.clear();

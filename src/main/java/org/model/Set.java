@@ -39,27 +39,6 @@ public class Set extends Room
         }
     }
 
-    public Set(String name, int[] area, int[] sceneArea, List<String> neighborNames, Scene scene, List<Role> offCardRoles, int takes)
-    {
-        super(name, area[0], area[1], area[2], area[3], neighborNames);
-
-        _OffCardRoles = new ArrayList<>();
-
-        for (Role role:offCardRoles)
-        {
-            _OffCardRoles.add(role);
-        }
-
-        _Scene = scene;
-
-        if(_SetShots.containsKey(name))
-        {
-            _Shots = _SetShots.get(name);
-        } else
-        {
-            _Shots = 2;
-        }
-    }
 
     public Role GetRoleByName(String roleName)
     {
