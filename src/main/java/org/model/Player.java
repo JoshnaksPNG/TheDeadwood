@@ -18,7 +18,7 @@ public class Player
     private boolean canMove = true;
     private boolean canAct = false;
     private boolean canRehearse = false;
-    private String iconName;
+    private String img;
     private int iconIndex;
 
     private Room currentRoom;
@@ -30,6 +30,18 @@ public class Player
         this.money = money;
         this.credit = credit;
         currentRoom = startingRoom;
+
+        practiceChips = 0;
+    }
+
+    public Player(int playerNumber, int rank, int money, int credit, Room startingRoom, String img)
+    {
+        this.playerNumber = playerNumber;
+        this.rank = rank;
+        this.money = money;
+        this.credit = credit;
+        currentRoom = startingRoom;
+        this.img = img;
 
         practiceChips = 0;
     }

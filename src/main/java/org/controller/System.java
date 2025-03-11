@@ -22,15 +22,6 @@ public class System
     BoardManager _Board;
     SceneManager sceneManager;
 
-    // private static Dice dice;
-    // private static int numActiveScenes;
-    // private static LocationManager locationManager;
-    // private static CurrencyManager currencyManager;
-    // private static CastingOffice castingOffice;
-
-    // private static Board board;
-    // private static SceneDeck deck;
-
     private static Player activePlayer;
 
     // Should start at 0;
