@@ -26,10 +26,13 @@ public class BoardLayersListener extends JFrame implements IView {
 
    HashMap<Player, PlayerDetails> PlayerBoardDetails;
 
+   HashMap<Integer, ImageIcon> PlayerRankDice;
+
   // JLabels
    JLabel boardlabel;
    JLabel cardlabel;
    JLabel playerlabel;
+   JLabel pRankLabel;
    JLabel mLabel;
    JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"), 
                            new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};
@@ -131,6 +134,16 @@ public class BoardLayersListener extends JFrame implements IView {
       });
 
        PlayerBoardDetails = new HashMap<>(8);
+       PlayerRankDice = new HashMap<>(6);
+
+       {
+           PlayerRankDice.put(1, new ImageIcon("src/main/java/org/assets/dice/DieOne.png"));
+           PlayerRankDice.put(2, new ImageIcon("src/main/java/org/assets/dice/DieTwo.png"));
+           PlayerRankDice.put(3, new ImageIcon("src/main/java/org/assets/dice/DieThree.png"));
+           PlayerRankDice.put(4, new ImageIcon("src/main/java/org/assets/dice/DieFour.png"));
+           PlayerRankDice.put(5, new ImageIcon("src/main/java/org/assets/dice/DieFive.png"));
+           PlayerRankDice.put(6, new ImageIcon("src/main/java/org/assets/dice/DieSix.png"));
+       }
       
       // Add the combo box to the frame
       bPane.add(comboBox, Integer.valueOf(4));
@@ -357,7 +370,7 @@ public class BoardLayersListener extends JFrame implements IView {
 
         LogText("Initialized Player " + player.getPlayerNumber() + " as: " + details.PlayerName);
 
-
+        setPlayerDie(player, 164, 287);
     }
 
    @Override
@@ -472,7 +485,26 @@ public class BoardLayersListener extends JFrame implements IView {
    }
 
 
+    private void setPlayerDie(Player p, int x, int y)
+    {
+        PlayerDetails details = PlayerBoardDetails.get(p);
 
+        playerlabel = new JLabel(details.PlayerIcon);
+        ImageIcon pIcon = details.PlayerIcon;
+        playerlabel.setOpaque(false);
+        playerlabel.setBounds(x,y,pIcon.getIconWidth(),pIcon.getIconHeight());
+        playerlabel.setVisible(false);
+        playerlabel.setVisible(true);
+        bPane.add(playerlabel, Integer.valueOf(3));
+
+        pRankLabel = new JLabel(PlayerRankDice.get(p.getRank()));
+        pRankLabel.setOpaque(false);
+        pRankLabel.setBounds(x,y,pIcon.getIconWidth(),pIcon.getIconHeight());
+        pRankLabel.setVisible(false);
+        pRankLabel.setVisible(true);
+        bPane.add(pRankLabel, Integer.valueOf(4));
+
+    }
 
 
 
@@ -571,14 +603,17 @@ public class BoardLayersListener extends JFrame implements IView {
 
   public static class PlayerDetails
   {
-      public PlayerDetails(String name, Color color)
+      public PlayerDetails(String name, Color color, ImageIcon icon)
       {
           PlayerColor = color;
           PlayerName = name;
+          PlayerIcon = icon;
       }
 
       public Color PlayerColor;
 
       public String PlayerName;
+
+      public ImageIcon PlayerIcon;
   }
 }
