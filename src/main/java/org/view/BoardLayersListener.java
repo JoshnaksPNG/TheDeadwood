@@ -469,13 +469,13 @@ public class BoardLayersListener extends JFrame implements IView
 
     private void LogText(String text)
     {
-       try
-       {
-           addText(textPane, text);
-       } catch (Exception e)
-       {
-           e.printStackTrace();
-       }
+        try
+        {
+            addText(textPane, text);
+        } catch (Exception e)
+        {
+            e.printStackTrace();
+        }
 
     }
 
@@ -517,104 +517,105 @@ public class BoardLayersListener extends JFrame implements IView
 
 
 
-   // This class implements Mouse Events
-   class boardMouseListener implements MouseListener{
+    // This class implements Mouse Events
+    class boardMouseListener implements MouseListener{
   
-      // Code for the different button clicks
-      public void mouseClicked(MouseEvent e) {
+        // Code for the different button clicks
+        public void mouseClicked(MouseEvent e) {
          
-         if (e.getSource()== bAct){
-            playerlabel.setVisible(true);
-            // System.out.println("Acting is Selected\n");
-            try {
-               addText(textPane, "Act was selected");
-            } catch (BadLocationException e1) {
-               // TODO Auto-generated catch block
-               e1.printStackTrace();
-            }
+            if (e.getSource()== bAct){
+                playerlabel.setVisible(true);
+                // System.out.println("Acting is Selected\n");
+                try {
+                    addText(textPane, "Act was selected");
+                } catch (BadLocationException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             
-            // if (System.INSTANCE.getActivePlayer().isInRole()) {
-            //    // act role
-            // } else {
-            //    // not in role so can't act
-            // }
-         }
-         else if (e.getSource()== bRehearse){
-            // System.out.println("Rehearse is Selected\n");
-            try {
-               addText(textPane, "Rehearse was selected");
-            } catch (BadLocationException e1) {
-               // TODO Auto-generated catch block
-               e1.printStackTrace();
+                // if (System.INSTANCE.getActivePlayer().isInRole()) {
+                //    // act role
+                // } else {
+                //    // not in role so can't act
+                // }
             }
-         }
-         else if (e.getSource()== bMove){
-            // System.out.println("Move is Selected\n");
-            try {
-               addText(textPane, "Move was selected");
-            } catch (BadLocationException e1) {
-               // TODO Auto-generated catch block
-               e1.printStackTrace();
+            else if (e.getSource()== bRehearse){
+                // System.out.println("Rehearse is Selected\n");
+                try {
+                    addText(textPane, "Rehearse was selected");
+                } catch (BadLocationException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
-         } else if (e.getSource() == bTakeRole) {
-            try {
-               addText(textPane, "Take role was selected");
-            } catch (BadLocationException e1) {
-               // TODO Auto-generated catch block
-               e1.printStackTrace();
+            else if (e.getSource()== bMove){
+                // System.out.println("Move is Selected\n");
+                try {
+                    addText(textPane, "Move was selected");
+                } catch (BadLocationException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            } else if (e.getSource() == bTakeRole) {
+                try {
+                    addText(textPane, "Take role was selected");
+                } catch (BadLocationException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            } else if (e.getSource() == bUpgrade) {
+                // System.out.println("Upgrade was selected\n");
+                try {
+                    addText(textPane, "Upgrade was selected");
+                } catch (BadLocationException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
+            } else if (e.getSource() == bEndTurn) {
+                try {
+                    addText(textPane, "End Turn was selected");
+                } catch (BadLocationException e1) {
+                    // TODO Auto-generated catch block
+                    e1.printStackTrace();
+                }
             }
-         } else if (e.getSource() == bUpgrade) {
-            // System.out.println("Upgrade was selected\n");
-            try {
-               addText(textPane, "Upgrade was selected");
-            } catch (BadLocationException e1) {
-               // TODO Auto-generated catch block
-               e1.printStackTrace();
-            }
-         } else if (e.getSource() == bEndTurn) {
-            try {
-               addText(textPane, "End Turn was selected");
-            } catch (BadLocationException e1) {
-               // TODO Auto-generated catch block
-               e1.printStackTrace();
-            }
-         }  
-      }
-      public void mousePressed(MouseEvent e) {
-      }
-      public void mouseReleased(MouseEvent e) {
-      }
-      public void mouseEntered(MouseEvent e) {
-      }
-      public void mouseExited(MouseEvent e) {
-      }
-   }
+        }
+        public void mousePressed(MouseEvent e) {
+        }
+        public void mouseReleased(MouseEvent e) {
+        }
+        public void mouseEntered(MouseEvent e) {
+        }
+        public void mouseExited(MouseEvent e) {
 
-  /*public static void main(String[] args) {
+        }
+    }
+
+    /*public static void main(String[] args) {
   
-   BoardLayersListener board = new BoardLayersListener();
-   board.setVisible(true);
+    BoardLayersListener board = new BoardLayersListener();
+    board.setVisible(true);
    
-   // Take input from the user about number of players
-   // String numPlayers = JOptionPane.showInputDialog(board, "How many players?"); 
-   board.PromptPlayerAmount();
-   //  System.out.println("Num players = " + numPlayers);
-  }*/
+    // Take input from the user about number of players
+    // String numPlayers = JOptionPane.showInputDialog(board, "How many players?");
+    board.PromptPlayerAmount();
+    //  System.out.println("Num players = " + numPlayers);
+    }*/
 
 
-  public static class PlayerDetails
-  {
-      public PlayerDetails(String name, Color color, ImageIcon icon)
-      {
-          PlayerColor = color;
-          PlayerName = name;
-          PlayerIcon = icon;
-      }
+    public static class PlayerDetails
+    {
+        public PlayerDetails(String name, Color color, ImageIcon icon)
+        {
+            PlayerColor = color;
+            PlayerName = name;
+            PlayerIcon = icon;
+        }
 
-      public Color PlayerColor;
+        public Color PlayerColor;
 
-      public String PlayerName;
+        public String PlayerName;
 
-      public ImageIcon PlayerIcon;
-  }
+        public ImageIcon PlayerIcon;
+    }
 }
