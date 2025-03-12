@@ -46,11 +46,12 @@ public class Main {
 
         // TextView textView = new TextView(java.lang.System.in, java.lang.System.out);
 
-        BoardLayersListener textView = new BoardLayersListener();
-        textView.setVisible(true);
+        BoardLayersListener GUIView = new BoardLayersListener();
+        GUIView.setVisible(true);
+
         java.lang.System.out.println("\n\n\nInitializing Game...");
 
-        org.controller.System sys = new System(textView);
+        org.controller.System sys = new System(GUIView);
 
         sys.setupBoard(BoardManager.Instance);
 

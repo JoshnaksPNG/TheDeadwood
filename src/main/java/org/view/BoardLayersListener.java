@@ -18,10 +18,13 @@ import javax.smartcardio.Card;
 import java.awt.event.*;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 
 public class BoardLayersListener extends JFrame implements IView {
 
    ArrayList<Player> _AllPlayers;
+
+   HashMap<Player, PlayerDetails> PlayerBoardDetails;
 
   // JLabels
    JLabel boardlabel;
@@ -123,7 +126,11 @@ public class BoardLayersListener extends JFrame implements IView {
             // TODO Auto-generated catch block
             e1.printStackTrace();
          }
+
+
       });
+
+       PlayerBoardDetails = new HashMap<>(8);
       
       // Add the combo box to the frame
       bPane.add(comboBox, Integer.valueOf(4));
@@ -337,10 +344,21 @@ public class BoardLayersListener extends JFrame implements IView {
 
 
 
-   @Override
-   public void AddPlayer(Player player, Room room) {
+    @Override
+    public void AddPlayer(Player player, Room room)
+    {
+        PlayerInitializerFrame initializerFrame = new PlayerInitializerFrame();
 
-   }
+        PlayerDetails details = initializerFrame.PromptPlayerCreation();
+
+        initializerFrame.dispose();
+
+        PlayerBoardDetails.put(player, details);
+
+        LogText("Initialized Player " + player.getPlayerNumber() + " as: " + details.PlayerName);
+
+
+    }
 
    @Override
    public void PostPlayerMove(Player player, Room room) {
@@ -435,6 +453,17 @@ public class BoardLayersListener extends JFrame implements IView {
 
    }
 
+   private void LogText(String text)
+   {
+       try
+       {
+           addText(textPane, text);
+       } catch (Exception e)
+       {
+           e.printStackTrace();
+       }
+
+   }
 
    // Method to append text to the JTextPane
    private void addText(JTextPane textPane, String text) throws BadLocationException {
@@ -528,8 +557,7 @@ public class BoardLayersListener extends JFrame implements IView {
       }
    }
 
-
-  public static void main(String[] args) {
+  /*public static void main(String[] args) {
   
    BoardLayersListener board = new BoardLayersListener();
    board.setVisible(true);
@@ -538,8 +566,19 @@ public class BoardLayersListener extends JFrame implements IView {
    // String numPlayers = JOptionPane.showInputDialog(board, "How many players?"); 
    board.PromptPlayerAmount();
    //  System.out.println("Num players = " + numPlayers);
+  }*/
+
+
+  public static class PlayerDetails
+  {
+      public PlayerDetails(String name, Color color)
+      {
+          PlayerColor = color;
+          PlayerName = name;
+      }
+
+      public Color PlayerColor;
+
+      public String PlayerName;
   }
-
-
-
 }
