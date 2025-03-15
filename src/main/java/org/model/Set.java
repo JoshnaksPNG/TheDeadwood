@@ -17,6 +17,8 @@ public class Set extends Room
 
     int[] sceneArea; // where the scene card area is
 
+    ArrayList<int[]> takeList;
+
     public Set(String name, int x, int y, int h, int w, List<String> neighborNames, Scene scene, List<Role> offCardRoles, int takes)
     {
         super(name, x, y, h, w, neighborNames);
@@ -37,6 +39,29 @@ public class Set extends Room
         {
             _Shots = 2;
         }
+    }
+
+    public Set(String name, int x, int y, int h, int w, List<String> neighborNames, Scene scene, List<Role> offCardRoles, int takes, ArrayList<int[]> takeList)
+    {
+        super(name, x, y, h, w, neighborNames);
+
+        _OffCardRoles = new ArrayList<>();
+
+        for (Role role:offCardRoles)
+        {
+            _OffCardRoles.add(role);
+        }
+
+        _Scene = scene;
+
+        if(_SetShots.containsKey(name))
+        {
+            _Shots = _SetShots.get(name);
+        } else
+        {
+            _Shots = 2;
+        }
+        this.takeList = takeList;
     }
 
 

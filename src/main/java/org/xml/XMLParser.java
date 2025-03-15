@@ -11,6 +11,7 @@ import org.w3c.dom.Node;
 import org.w3c.dom.Element;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class XMLParser{
    private static Document cardsDoc = null;
@@ -150,6 +151,7 @@ public class XMLParser{
       Room[] rooms = new Room[12];
       int[] area = new int[4];
       int[] sceneArea = new int[4];
+      ArrayList<int[]> takesList = new ArrayList<>(); // num -> [x,y,h,w]
 
       ArrayList<String> neighbors = new ArrayList<String>();
 
@@ -192,31 +194,36 @@ public class XMLParser{
                sceneArea[2] = sceneH;
                sceneArea[3] = sceneW;
             } else if ("takes".equals(sub.getNodeName())) {
+               
                NodeList takeChildren = sub.getChildNodes();
                for (int k = 0; k < takeChildren.getLength(); k++) {
                   Node takeSub = takeChildren.item(k);
+                  
 
                   if ("take".equals(takeSub.getNodeName())) {
                      takes++;
                      // takes = Integer.parseInt(takeSub.getAttributes().getNamedItem("number").getNodeValue());
-                     // System.out.println("takes = " + takes);
+                     System.out.println("takes = " + takes);
 
                      NodeList takeGrandchildren = takeSub.getChildNodes();
                      for (int h = 0; h < takeGrandchildren.getLength(); h++) {
                         Node takeSubSub = takeGrandchildren.item(h);
+                        
                         if ("area".equals(takeSubSub.getNodeName())) {
+                           int[] takeArea = new int[4];
                            takeX = Integer.parseInt(takeSubSub.getAttributes().getNamedItem("x").getNodeValue());
-                           // System.out.print("Take Dimensions: x = " + takeX);
+                           System.out.print("Take Dimensions: x = " + takeX);
                            takeY = Integer.parseInt(takeSubSub.getAttributes().getNamedItem("y").getNodeValue());
-                           // System.out.print(", y = " + takeY);
+                           System.out.print(", y = " + takeY);
                            takeH = Integer.parseInt(takeSubSub.getAttributes().getNamedItem("h").getNodeValue());
-                           // System.out.print(", h = " + takeH);
+                           System.out.print(", h = " + takeH);
                            takeW = Integer.parseInt(takeSubSub.getAttributes().getNamedItem("w").getNodeValue());
-                           // System.out.println(", w = " + takeW);
-                           area[0] = takeX;
-                           area[1] = takeY;
-                           area[2] = takeH;
-                           area[3] = takeW;
+                           System.out.println(", w = " + takeW);
+                           takeArea[0] = takeX;
+                           takeArea[1] = takeY;
+                           takeArea[2] = takeH;
+                           takeArea[3] = takeW;
+                           takesList.add(takeArea);
                         }
                      }
                   }
@@ -245,10 +252,10 @@ public class XMLParser{
                            // System.out.print(", h = " + partH);
                            partW = Integer.parseInt(partSubSub.getAttributes().getNamedItem("w").getNodeValue());
                            // System.out.println(", w = " + partW);
-                           area[0] = partX;
-                           area[1] = partY;
-                           area[2] = partH;
-                           area[3] = partW;
+                           // area[0] = partX;
+                           // area[1] = partY;
+                           // area[2] = partH;
+                           // area[3] = partW;
 
                         } else if ("line".equals(partSubSub.getNodeName())) {
                            line = partSubSub.getTextContent();
@@ -273,11 +280,16 @@ public class XMLParser{
             
          }
          // System.out.println("Takes = " + takes);
-         rooms[i] = new Set(setName, sceneX, sceneY, sceneH, sceneW, neighbors, null, roles, takes);
+         // rooms[i] = new Set(setName, sceneX, sceneY, sceneH, sceneW, neighbors, null, roles, takes);
+         rooms[i] = new Set(setName, sceneX, sceneY, sceneH, sceneW, neighbors, null, roles, takes, takesList);
          // System.out.println("Size of roles = " + roles.size());
+         // for (int[] arr : takesList) {
+         //    System.out.println(Arrays.toString(arr));
+         // }
          takes = 0;
          neighbors.clear();
          roles.clear();
+         takesList.clear();
          
          // System.out.println();
       }
