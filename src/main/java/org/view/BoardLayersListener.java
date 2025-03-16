@@ -267,14 +267,15 @@ public class BoardLayersListener extends JFrame implements IView
 
         // Create a JScrollPane and place the JTextPane inside it
         scrollPane = new JScrollPane(textPane);
+        scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
         // Set the position and size for the JScrollPane using setBounds(x, y, width, height)
         scrollPane.setBounds(icon.getIconWidth()+10,300,200, 200);
-        scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-            public void adjustmentValueChanged(AdjustmentEvent e) {
-                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-            }
-        });
+        // scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+        //     public void adjustmentValueChanged(AdjustmentEvent e) {
+        //         e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+        //     }
+        // });
         // Add the JScrollPane to the JLayeredPane
         bPane.add(scrollPane, Integer.valueOf(1));
     }
@@ -297,15 +298,6 @@ public class BoardLayersListener extends JFrame implements IView
     public void placeScene(Set s){
         cardlabel = new JLabel();
         ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/" + s.getScene().getImg());
-
-        // try {
-        //     addText(textPane, "Image = " + cardImage + " Dimentions w " + cardImage.getIconWidth() +
-        //     " height = " + cardImage.getIconHeight());
-        // } catch (BadLocationException e) {
-        //     // TODO Auto-generated catch block
-        //     e.printStackTrace();
-        // }
-
         cardlabel.setIcon(cardImage);
         cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
         cardlabel.setOpaque(true);
@@ -338,7 +330,7 @@ public class BoardLayersListener extends JFrame implements IView
         // // LogText("Fail");
         // s.printTakesList();
         // ArrayList<JLabel> takes = new ArrayList<>();
-        // LogText("" + takeList.size());
+        LogText("" + takeList.size());
         take = new JLabel();
         take.setIcon(shot);
         take.setBounds(s.getX(),s.getY(),shot.getIconWidth(),shot.getIconHeight());

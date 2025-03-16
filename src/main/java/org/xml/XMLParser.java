@@ -151,7 +151,7 @@ public class XMLParser{
       Room[] rooms = new Room[12];
       int[] area = new int[4];
       int[] sceneArea = new int[4];
-      ArrayList<int[]> takesList = new ArrayList<>(); // num -> [x,y,h,w]
+      
 
       ArrayList<String> neighbors = new ArrayList<String>();
 
@@ -164,9 +164,10 @@ public class XMLParser{
          // ArrayList<String> neighbors = new ArrayList<String>();
          
          // System.out.println("Set Name = " + setName);
-
+         ArrayList<int[]> takesList = new ArrayList<>(); // num -> [x,y,h,w]
          for (int j = 0; j < children.getLength(); j++) {
             Node sub = children.item(j);
+            
 
             if ("neighbors".equals(sub.getNodeName())) {
                NodeList neighborChildren = sub.getChildNodes();
@@ -196,6 +197,7 @@ public class XMLParser{
             } else if ("takes".equals(sub.getNodeName())) {
                
                NodeList takeChildren = sub.getChildNodes();
+               // ArrayList<int[]> takesList = new ArrayList<>(); // num -> [x,y,h,w]
                for (int k = 0; k < takeChildren.getLength(); k++) {
                   Node takeSub = takeChildren.item(k);
                   
@@ -223,7 +225,11 @@ public class XMLParser{
                            takeArea[1] = takeY;
                            takeArea[2] = takeH;
                            takeArea[3] = takeW;
-                           takesList.add(takeArea);
+                           
+                           if (h % 2 == 0) {
+                              takesList.add(takeArea);
+                              System.out.println(takesList.toString());
+                           }
                         }
                      }
                   }
@@ -289,7 +295,7 @@ public class XMLParser{
          takes = 0;
          neighbors.clear();
          roles.clear();
-         takesList.clear();
+         // takesList.clear();
          
          // System.out.println();
       }
