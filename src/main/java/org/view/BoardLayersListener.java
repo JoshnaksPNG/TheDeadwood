@@ -318,25 +318,33 @@ public class BoardLayersListener extends JFrame implements IView
     }
 
     public void placeTakes(Set s){
-        s.printTakesList();
+        // s.printTakesList();
         ArrayList<int[]> takeList = s.getTakeList(); // coordinates for shot
         if (takeList.isEmpty()) {
             LogText("The list is empty!");
         }
-        // for (int[] arr : takeList) {
-        // //    System.out.println(Arrays.toString(arr));
-        // //    LogText("" + Arrays.toString(arr));
-        // }
+        ArrayList<JLabel> takes = new ArrayList<>();
+        for (int[] arr : takeList) {
+        //    System.out.println(Arrays.toString(arr));
+           LogText("" + Arrays.toString(arr));
+           JLabel take = new JLabel();
+           take.setIcon(shot);
+           take.setBounds(arr[0], arr[1], arr[3], arr[2]);
+           take.setOpaque(true);
+           bPane.add(take, Integer.valueOf(4));
+           takes.add(take);
+        }  
+        s.setTakes(takes);
         // // LogText("Fail");
         // s.printTakesList();
         // ArrayList<JLabel> takes = new ArrayList<>();
-        LogText("" + takeList.size());
-        take = new JLabel();
-        take.setIcon(shot);
-        take.setBounds(s.getX(),s.getY(),shot.getIconWidth(),shot.getIconHeight());
-        take.setOpaque(true);
-        // Add the card back on top of card
-        bPane.add(take, Integer.valueOf(4));
+        // LogText("" + takeList.size());
+        // take = new JLabel();
+        // take.setIcon(shot);
+        // take.setBounds(s.getX(),s.getY(),shot.getIconWidth(),shot.getIconHeight());
+        // take.setOpaque(true);
+        // // Add the card back on top of card
+        // bPane.add(take, Integer.valueOf(4));
     }
 
     public void promptRolesSelections(Player player) {

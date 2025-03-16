@@ -22,7 +22,7 @@ public class Set extends Room
 
     ArrayList<int[]> takeList;
 
-    JLabel[] takes;
+    ArrayList<JLabel> takes;
 
     // public Set(String name, int x, int y, int h, int w, List<String> neighborNames, Scene scene, List<Role> offCardRoles, int takes)
     // {
@@ -229,11 +229,11 @@ public class Set extends Room
         }
     }
 
-    public void setTakes(JLabel[] takes) {
+    public void setTakes(ArrayList<JLabel> takes) {
         this.takes = takes;
     }
 
-    public JLabel[] getTakes() {
+    public ArrayList<JLabel> getTakes() {
         return takes;
     }
 }
