@@ -203,7 +203,7 @@ public class XMLParser{
                   if ("take".equals(takeSub.getNodeName())) {
                      takes++;
                      // takes = Integer.parseInt(takeSub.getAttributes().getNamedItem("number").getNodeValue());
-                     System.out.println("takes = " + takes);
+                     // System.out.println("takes = " + takes);
 
                      NodeList takeGrandchildren = takeSub.getChildNodes();
                      for (int h = 0; h < takeGrandchildren.getLength(); h++) {
@@ -212,13 +212,13 @@ public class XMLParser{
                         if ("area".equals(takeSubSub.getNodeName())) {
                            int[] takeArea = new int[4];
                            takeX = Integer.parseInt(takeSubSub.getAttributes().getNamedItem("x").getNodeValue());
-                           System.out.print("Take Dimensions: x = " + takeX);
+                           // System.out.print("Take Dimensions: x = " + takeX);
                            takeY = Integer.parseInt(takeSubSub.getAttributes().getNamedItem("y").getNodeValue());
-                           System.out.print(", y = " + takeY);
+                           // System.out.print(", y = " + takeY);
                            takeH = Integer.parseInt(takeSubSub.getAttributes().getNamedItem("h").getNodeValue());
-                           System.out.print(", h = " + takeH);
+                           // System.out.print(", h = " + takeH);
                            takeW = Integer.parseInt(takeSubSub.getAttributes().getNamedItem("w").getNodeValue());
-                           System.out.println(", w = " + takeW);
+                           // System.out.println(", w = " + takeW);
                            takeArea[0] = takeX;
                            takeArea[1] = takeY;
                            takeArea[2] = takeH;

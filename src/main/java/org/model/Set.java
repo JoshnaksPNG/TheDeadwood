@@ -3,9 +3,12 @@ package org.model;
 import org.controller.SceneManager;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import javax.swing.JLabel;
 
 public class Set extends Room
 {
@@ -19,27 +22,29 @@ public class Set extends Room
 
     ArrayList<int[]> takeList;
 
-    public Set(String name, int x, int y, int h, int w, List<String> neighborNames, Scene scene, List<Role> offCardRoles, int takes)
-    {
-        super(name, x, y, h, w, neighborNames);
+    JLabel[] takes;
 
-        _OffCardRoles = new ArrayList<>();
+    // public Set(String name, int x, int y, int h, int w, List<String> neighborNames, Scene scene, List<Role> offCardRoles, int takes)
+    // {
+    //     super(name, x, y, h, w, neighborNames);
 
-        for (Role role:offCardRoles)
-        {
-            _OffCardRoles.add(role);
-        }
+    //     _OffCardRoles = new ArrayList<>();
 
-        _Scene = scene;
+    //     for (Role role:offCardRoles)
+    //     {
+    //         _OffCardRoles.add(role);
+    //     }
 
-        if(_SetShots.containsKey(name))
-        {
-            _Shots = _SetShots.get(name);
-        } else
-        {
-            _Shots = 2;
-        }
-    }
+    //     _Scene = scene;
+
+    //     if(_SetShots.containsKey(name))
+    //     {
+    //         _Shots = _SetShots.get(name);
+    //     } else
+    //     {
+    //         _Shots = 2;
+    //     }
+    // }
 
     public Set(String name, int x, int y, int h, int w, List<String> neighborNames, Scene scene, List<Role> offCardRoles, int takes, ArrayList<int[]> takeList)
     {
@@ -62,6 +67,8 @@ public class Set extends Room
             _Shots = 2;
         }
         this.takeList = takeList;
+        // for (int[] arr : this.takeList) {System.out.println(Arrays.toString(arr));}
+        // printTakesList();
     }
 
 
@@ -211,4 +218,22 @@ public class Set extends Room
             "Bank", 1,
             "Saloon", 2
     ));
+
+    public ArrayList<int[]> getTakeList() {
+        return takeList;
+    }
+
+    public void printTakesList() {
+        for (int[] arr : takeList) {
+           System.out.println(Arrays.toString(arr));
+        }
+    }
+
+    public void setTakes(JLabel[] takes) {
+        this.takes = takes;
+    }
+
+    public JLabel[] getTakes() {
+        return takes;
+    }
 }

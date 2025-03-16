@@ -17,12 +17,14 @@ import javax.smartcardio.Card;
 
 import java.awt.event.*;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedList;
 
 public class BoardLayersListener extends JFrame implements IView
 {
     ArrayList<Player> _AllPlayers;
+    private static HashMap<String, JLabel[]> playerLabels = new HashMap<>();
 
     HashMap<Player, PlayerDetails> PlayerBoardDetails;
 
@@ -34,6 +36,7 @@ public class BoardLayersListener extends JFrame implements IView
     JLabel playerlabel;
     JLabel pRankLabel;
     JLabel mLabel;
+    JLabel take;
     JLabel[] playerInfo = {new JLabel("Player 1"), new JLabel("Player 2"), new JLabel("Player 3"), new JLabel("Player 4"),
                            new JLabel("Player 5"), new JLabel("Player 6"), new JLabel("Player 7"), new JLabel("Player 8")};
 
@@ -46,12 +49,16 @@ public class BoardLayersListener extends JFrame implements IView
     JButton bEndTurn;
 
     ImageIcon icon;
-   
+    ImageIcon shot = new ImageIcon("src/main/java/org/assets/shot.png");
+
     // JLayered Pane
     JLayeredPane bPane;
+    JPanel infoPanel;
 
     JTextPane textPane;
     JScrollPane scrollPane;
+
+    // ArrayList<JLabel[]> takes;
   
   
     // Constructor
@@ -96,7 +103,6 @@ public class BoardLayersListener extends JFrame implements IView
         // playerlabel.setBounds(114,227,46,46);
         // playerlabel.setVisible(false);
         // bPane.add(playerlabel, Integer.valueOf(3));
-
         addButtons(icon);
 
         // cardlabel = new JLabel();
@@ -107,8 +113,7 @@ public class BoardLayersListener extends JFrame implements IView
 
         // Add the card to the lower layer
         bPane.add(cardlabel, Integer.valueOf(2));
-        // addScenes();
-
+        addInfoPanel();
 
 
         String[] options = {"Option 1", "Option 2", "Option 3"};
@@ -202,6 +207,55 @@ public class BoardLayersListener extends JFrame implements IView
       bPane.add(bEndTurn, Integer.valueOf(2));
    }
 
+    public void addInfoPanel() {
+        infoPanel = new JPanel();
+        infoPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 5)); // Left-aligned, spaced out
+        infoPanel.setBackground(new Color(0, 0, 0, 150)); // Semi-transparent black
+        infoPanel.setBounds(50, 500, 700, 80); // Adjust position and size
+        // for (Player player : _AllPlayers) {
+        //     JPanel playerPanel = new JPanel(new GridLayout(4, 1)); // 4 rows for structured data
+        //     playerPanel.setPreferredSize(new Dimension(150, 70)); // Fixed size for consistency
+        //     playerPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // White border
+        //     playerPanel.setBackground(new Color(50, 50, 50, 200)); // Darker semi-transparent
+
+        //     // Create labels for player information
+        //     JLabel nameLabel = new JLabel("Player: " + player.getPlayerNumber());
+        //     JLabel rankLabel = new JLabel("Rank: " + player.getRank());
+        //     JLabel moneyLabel = new JLabel("Money: $" + player.getMoney());
+        //     JLabel creditLabel = new JLabel("Credits: " + player.getCredit());
+
+        //     // Set text color
+        //     nameLabel.setForeground(Color.WHITE);
+        //     rankLabel.setForeground(Color.WHITE);
+        //     moneyLabel.setForeground(Color.WHITE);
+        //     creditLabel.setForeground(Color.WHITE);
+
+        //     // Add labels to the player panel
+        //     playerPanel.add(nameLabel);
+        //     playerPanel.add(rankLabel);
+        //     playerPanel.add(moneyLabel);
+        //     playerPanel.add(creditLabel);
+
+        //     // Store references to the labels for updates
+        //     playerLabels.put("" + player.getPlayerNumber(), new JLabel[]{rankLabel, moneyLabel, creditLabel});
+
+        //     // Add player panel to the info panel
+        //     infoPanel.add(playerPanel);
+        // }
+
+    }
+
+    public void updatePlayerInfo() {
+        for (Player player : _AllPlayers) {
+            if (playerLabels.containsKey(player.getPlayerNumber())) {
+                JLabel[] labels = playerLabels.get(player.getPlayerNumber());
+                labels[0].setText("Rank: " + player.getRank());
+                labels[1].setText("Money: $" + player.getMoney());
+                labels[2].setText("Credits: " + player.getCredit());
+            }
+        }
+    }
+
     public void setEventsText() {
         textPane = new JTextPane();
 
@@ -231,8 +285,10 @@ public class BoardLayersListener extends JFrame implements IView
         for (int i = 0; i < 10; i++) { // There are 10 rooms that are sets and they should be 0-9 inclusive
             if (rooms.get(i) instanceof Set) {
                 Set s = (Set) rooms.get(i);
+                s.printTakesList();
                 placeScene(s);
                 placeCardBack(s);
+                placeTakes(s);
             }
         }
     }
@@ -242,13 +298,13 @@ public class BoardLayersListener extends JFrame implements IView
         cardlabel = new JLabel();
         ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/" + s.getScene().getImg());
 
-        try {
-            addText(textPane, "Image = " + cardImage + " Dimentions w " + cardImage.getIconWidth() +
-            " height = " + cardImage.getIconHeight());
-        } catch (BadLocationException e) {
-            // TODO Auto-generated catch block
-            e.printStackTrace();
-        }
+        // try {
+        //     addText(textPane, "Image = " + cardImage + " Dimentions w " + cardImage.getIconWidth() +
+        //     " height = " + cardImage.getIconHeight());
+        // } catch (BadLocationException e) {
+        //     // TODO Auto-generated catch block
+        //     e.printStackTrace();
+        // }
 
         cardlabel.setIcon(cardImage);
         cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
@@ -267,6 +323,28 @@ public class BoardLayersListener extends JFrame implements IView
         cardlabel.setOpaque(true);
         // Add the card back on top of card
         bPane.add(cardlabel, Integer.valueOf(3));
+    }
+
+    public void placeTakes(Set s){
+        s.printTakesList();
+        ArrayList<int[]> takeList = s.getTakeList(); // coordinates for shot
+        if (takeList.isEmpty()) {
+            LogText("The list is empty!");
+        }
+        // for (int[] arr : takeList) {
+        // //    System.out.println(Arrays.toString(arr));
+        // //    LogText("" + Arrays.toString(arr));
+        // }
+        // // LogText("Fail");
+        // s.printTakesList();
+        // ArrayList<JLabel> takes = new ArrayList<>();
+        // LogText("" + takeList.size());
+        take = new JLabel();
+        take.setIcon(shot);
+        take.setBounds(s.getX(),s.getY(),shot.getIconWidth(),shot.getIconHeight());
+        take.setOpaque(true);
+        // Add the card back on top of card
+        bPane.add(take, Integer.valueOf(4));
     }
 
     public void promptRolesSelections(Player player) {
