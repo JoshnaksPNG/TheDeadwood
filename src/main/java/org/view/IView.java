@@ -36,6 +36,8 @@ public interface IView
 
     void PostPlayerRehearse(Player player);
 
+    void PostPlayerSkip(Player player);
+
     void SceneWrappedOnSet(Set set);
 
 }

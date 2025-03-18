@@ -80,6 +80,11 @@ public class Player
                 move(details.MoveDest, BoardManager.Instance);
                 System.INSTANCE.getView().PostPlayerMove(this, currentRoom);
             }
+
+            case Skip ->
+            {
+                System.INSTANCE.getView().PostPlayerSkip(this);
+            }
         }
     }
 
@@ -140,6 +145,14 @@ public class Player
         practiceChips = 0;
         role = null;
         isInRole = false;
+    }
+
+    public boolean CanTakeSecondaryAction()
+    {
+        canUpgrade = (currentRoom instanceof CastingOffice) && CastingOffice.CanUpgradePlayer(this);
+        boolean canTakeRole = (currentRoom instanceof Set) && ( ((Set)currentRoom).GetAvailableRoles().size() > 0 );
+
+        return canUpgrade || canTakeRole;
     }
 
     // Getter and Setter for playerNumber

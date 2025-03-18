@@ -531,6 +531,11 @@ public class BoardLayersListener extends JFrame implements IView
     }
 
     @Override
+    public void PostPlayerSkip(Player player) {
+
+    }
+
+    @Override
     public void SceneWrappedOnSet(Set set) {
 
     }

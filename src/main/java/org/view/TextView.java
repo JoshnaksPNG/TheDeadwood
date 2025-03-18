@@ -450,6 +450,13 @@ public class TextView implements IView
     }
 
     @Override
+    public void PostPlayerSkip(Player player)
+    {
+        _OutStream.println("Player " + player.getPlayerNumber() +
+                " skipped their turn!");
+    }
+
+    @Override
     public void SceneWrappedOnSet(Set set)
     {
         _OutStream.println("\nFilming of " + set.getScene().getName() +

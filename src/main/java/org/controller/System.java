@@ -1,9 +1,5 @@
 package org.controller;
 
-import jdk.jshell.spi.ExecutionControl;
-
-import org.model.CastingOffice;
-import org.model.Dice;
 import org.model.Player;
 import org.model.Role;
 import org.model.Room;
@@ -23,6 +19,8 @@ public class System
     SceneManager sceneManager;
 
     private static Player activePlayer;
+
+
 
     // Should start at 0;
     int currTurn;
@@ -126,10 +124,26 @@ public class System
 
         while (AvailableScenes) {
             for(Player p: players) {
-                activePlayer = p;
-                p.takeTurn(_View.PromptPlayerTurnAction(p));
+                boolean availableActions = true;
 
-                AvailableScenes = !SceneManager.Instance.AreScenesWrapped();
+                while(availableActions && AvailableScenes)
+                {
+                    activePlayer = p;
+
+                    TurnDetails details = _View.PromptPlayerTurnAction(p);
+
+                    p.takeTurn(details);
+
+                    AvailableScenes = !SceneManager.Instance.AreScenesWrapped();
+
+                    availableActions = p.CanTakeSecondaryAction();
+
+                    if(details.TurnType == TurnDetails.ActionType.Skip)
+                    {
+                        availableActions = false;
+                    }
+                }
+
                 if (!AvailableScenes) {
                     break;
                 }
@@ -155,6 +169,7 @@ public class System
             Work,
             Act,
             Rehearse,
+            Skip
         }
 
         public enum UpgradeCurrency {
