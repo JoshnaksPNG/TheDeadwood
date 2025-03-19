@@ -3,6 +3,8 @@ package org.model;
 import jdk.jshell.spi.ExecutionControl;
 import java.util.ArrayList;
 
+import javax.swing.JLabel;
+
 public class Scene{
     private int num; // scene card number
     private String name;
@@ -11,6 +13,7 @@ public class Scene{
     private boolean _isFaceUp;
     private ArrayList<Role> roles;
     private String img;
+    private JLabel image;
 
     public Scene(int num, String name, String description, int budget, ArrayList<Role> roles) {
         this.num = num;
@@ -66,5 +69,13 @@ public class Scene{
 
     public String getImg() {
         return img;
+    }
+
+    public void setImage(JLabel image) {
+        this.image = image;
+    }
+
+    public JLabel getImage() {
+        return image;
     }
 }

@@ -86,13 +86,13 @@ public class BoardLayersListener extends JFrame implements IView
       
         // Add a scene card to this room
         cardlabel = new JLabel();
-        ImageIcon cIcon =  new ImageIcon("01.png");
-        cardlabel.setIcon(cIcon);
-        cardlabel.setBounds(20,65,cIcon.getIconWidth()+2,cIcon.getIconHeight());
-        cardlabel.setOpaque(true);
+        // ImageIcon cIcon =  new ImageIcon("01.png");
+        // cardlabel.setIcon(cIcon);
+        // cardlabel.setBounds(20,65,cIcon.getIconWidth()+2,cIcon.getIconHeight());
+        // cardlabel.setOpaque(true);
    
         // Add the card to the lower layer
-        bPane.add(cardlabel, Integer.valueOf(1));
+        // bPane.add(cardlabel, Integer.valueOf(1));
    
         // Add a dice to represent a player.
         // Role for Crusty the prospector. The x and y co-ordiantes are taken from Board.xml file
@@ -161,88 +161,89 @@ public class BoardLayersListener extends JFrame implements IView
 
     // add the buttons to the board
     public void addButtons(ImageIcon icon) {
-      // Create the Menu for action buttons
-      mLabel = new JLabel("MENU");
-      mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
-      bPane.add(mLabel, Integer.valueOf(2));
+        // Create the Menu for action buttons
+        mLabel = new JLabel("MENU");
+        mLabel.setBounds(icon.getIconWidth()+40,0,100,20);
+        bPane.add(mLabel, Integer.valueOf(2));
 
-      // Create Action buttons
-      bAct = new JButton("ACT");
-      bAct.setBackground(Color.white);
-      bAct.setBounds(icon.getIconWidth()+10, 30,100, 20);
-      bAct.addMouseListener(new boardMouseListener());
+        // Create Action buttons
+        bAct = new JButton("ACT");
+        bAct.setBackground(Color.white);
+        bAct.setBounds(icon.getIconWidth()+10, 30,100, 20);
+        bAct.addMouseListener(new boardMouseListener());
 
-      bRehearse = new JButton("REHEARSE");
-      bRehearse.setBackground(Color.white);
-      bRehearse.setBounds(icon.getIconWidth()+10,60,100, 20);
-      bRehearse.addMouseListener(new boardMouseListener());
+        bRehearse = new JButton("REHEARSE");
+        bRehearse.setBackground(Color.white);
+        bRehearse.setBounds(icon.getIconWidth()+10,60,100, 20);
+        bRehearse.addMouseListener(new boardMouseListener());
 
-      bMove = new JButton("MOVE");
-      bMove.setBackground(Color.white);
-      bMove.setBounds(icon.getIconWidth()+10,90,100, 20);
-      bMove.addMouseListener(new boardMouseListener());
+        bMove = new JButton("MOVE");
+        bMove.setBackground(Color.white);
+        bMove.setBounds(icon.getIconWidth()+10,90,100, 20);
+        bMove.addMouseListener(new boardMouseListener());
 
-      bTakeRole = new JButton("TAKE ROLE");
-      bTakeRole.setBackground(Color.white);
-      bTakeRole.setBounds(icon.getIconWidth()+10, 120, 100, 20);
-      bTakeRole.addMouseListener(new boardMouseListener());
+        bTakeRole = new JButton("TAKE ROLE");
+        bTakeRole.setBackground(Color.white);
+        bTakeRole.setBounds(icon.getIconWidth()+10, 120, 100, 20);
+        bTakeRole.addMouseListener(new boardMouseListener());
 
-      bUpgrade = new JButton("Upgrade");
-      bUpgrade.setBackground(Color.white);
-      bUpgrade.setBounds(icon.getIconWidth()+10,150,100, 20);
-      bUpgrade.addMouseListener(new boardMouseListener());
+        bUpgrade = new JButton("Upgrade");
+        bUpgrade.setBackground(Color.white);
+        bUpgrade.setBounds(icon.getIconWidth()+10,150,100, 20);
+        bUpgrade.addMouseListener(new boardMouseListener());
 
-      bEndTurn = new JButton("END TURN");
-      bEndTurn.setBackground(Color.white);
-      bEndTurn.setBounds(icon.getIconWidth()+10,180,100, 20);
-      bEndTurn.addMouseListener(new boardMouseListener());
+        bEndTurn = new JButton("END TURN");
+        bEndTurn.setBackground(Color.white);
+        bEndTurn.setBounds(icon.getIconWidth()+10,180,100, 20);
+        bEndTurn.addMouseListener(new boardMouseListener());
 
 
-      // Place the action buttons in the top layer
-      bPane.add(bAct, Integer.valueOf(2));
-      bPane.add(bRehearse, Integer.valueOf(2));
-      bPane.add(bMove, Integer.valueOf(2));
-      bPane.add(bUpgrade, Integer.valueOf(2));
-      bPane.add(bTakeRole, Integer.valueOf(2));
-      bPane.add(bEndTurn, Integer.valueOf(2));
+        // Place the action buttons in the top layer
+        bPane.add(bAct, Integer.valueOf(2));
+        bPane.add(bRehearse, Integer.valueOf(2));
+        bPane.add(bMove, Integer.valueOf(2));
+        bPane.add(bUpgrade, Integer.valueOf(2));
+        bPane.add(bTakeRole, Integer.valueOf(2));
+        bPane.add(bEndTurn, Integer.valueOf(2));
    }
 
     public void addInfoPanel() {
         infoPanel = new JPanel();
         infoPanel.setLayout(new FlowLayout(FlowLayout.LEFT, 15, 5)); // Left-aligned, spaced out
         infoPanel.setBackground(new Color(0, 0, 0, 150)); // Semi-transparent black
-        infoPanel.setBounds(50, 500, 700, 80); // Adjust position and size
-        // for (Player player : _AllPlayers) {
-        //     JPanel playerPanel = new JPanel(new GridLayout(4, 1)); // 4 rows for structured data
-        //     playerPanel.setPreferredSize(new Dimension(150, 70)); // Fixed size for consistency
-        //     playerPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // White border
-        //     playerPanel.setBackground(new Color(50, 50, 50, 200)); // Darker semi-transparent
+        infoPanel.setBounds(50, icon.getIconHeight()+10, 1400, 80); // Adjust position and size
+        bPane.add(infoPanel, Integer.valueOf(1));
+    }
 
-        //     // Create labels for player information
-        //     JLabel nameLabel = new JLabel("Player: " + player.getPlayerNumber());
-        //     JLabel rankLabel = new JLabel("Rank: " + player.getRank());
-        //     JLabel moneyLabel = new JLabel("Money: $" + player.getMoney());
-        //     JLabel creditLabel = new JLabel("Credits: " + player.getCredit());
+    public void initializePlayerInfo(Player player) {
+        JPanel playerPanel = new JPanel(new GridLayout(4, 1)); // 4 rows for structured data
+        playerPanel.setPreferredSize(new Dimension(150, 70)); // Fixed size for consistency
+        playerPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // White border
+        playerPanel.setBackground(new Color(50, 50, 50, 200)); // Darker semi-transparent
 
-        //     // Set text color
-        //     nameLabel.setForeground(Color.WHITE);
-        //     rankLabel.setForeground(Color.WHITE);
-        //     moneyLabel.setForeground(Color.WHITE);
-        //     creditLabel.setForeground(Color.WHITE);
+        // Create labels for player information
+        JLabel nameLabel = new JLabel("Player: " + player.getPlayerNumber());
+        JLabel rankLabel = new JLabel("Rank: " + player.getRank());
+        JLabel moneyLabel = new JLabel("Money: $" + player.getMoney());
+        JLabel creditLabel = new JLabel("Credits: " + player.getCredit());
 
-        //     // Add labels to the player panel
-        //     playerPanel.add(nameLabel);
-        //     playerPanel.add(rankLabel);
-        //     playerPanel.add(moneyLabel);
-        //     playerPanel.add(creditLabel);
+        // Set text color
+        nameLabel.setForeground(Color.WHITE);
+        rankLabel.setForeground(Color.WHITE);
+        moneyLabel.setForeground(Color.WHITE);
+        creditLabel.setForeground(Color.WHITE);
 
-        //     // Store references to the labels for updates
-        //     playerLabels.put("" + player.getPlayerNumber(), new JLabel[]{rankLabel, moneyLabel, creditLabel});
+        // Add labels to the player panel
+        playerPanel.add(nameLabel);
+        playerPanel.add(rankLabel);
+        playerPanel.add(moneyLabel);
+        playerPanel.add(creditLabel);
 
-        //     // Add player panel to the info panel
-        //     infoPanel.add(playerPanel);
-        // }
+        // Store references to the labels for updates
+        playerLabels.put("" + player.getPlayerNumber(), new JLabel[]{rankLabel, moneyLabel, creditLabel});
 
+        // Add player panel to the info panel
+        infoPanel.add(playerPanel,Integer.valueOf(4));
     }
 
     public void updatePlayerInfo() {
@@ -301,8 +302,9 @@ public class BoardLayersListener extends JFrame implements IView
         cardlabel.setIcon(cardImage);
         cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
         cardlabel.setOpaque(true);
+        s.setCardBack(cardlabel);
         // Add the card to the lower layer
-        bPane.add(cardlabel, Integer.valueOf(2));
+        bPane.add(cardlabel, Integer.valueOf(2));        
     }
       
       
@@ -313,6 +315,7 @@ public class BoardLayersListener extends JFrame implements IView
         cardlabel.setIcon(cardImage);
         cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
         cardlabel.setOpaque(true);
+        s.getScene().setImage(cardlabel);
         // Add the card back on top of card
         bPane.add(cardlabel, Integer.valueOf(3));
     }
@@ -320,13 +323,13 @@ public class BoardLayersListener extends JFrame implements IView
     public void placeTakes(Set s){
         // s.printTakesList();
         ArrayList<int[]> takeList = s.getTakeList(); // coordinates for shot
-        if (takeList.isEmpty()) {
-            LogText("The list is empty!");
-        }
+        // if (takeList.isEmpty()) {
+        //     LogText("The list is empty!");
+        // }
         ArrayList<JLabel> takes = new ArrayList<>();
         for (int[] arr : takeList) {
         //    System.out.println(Arrays.toString(arr));
-           LogText("" + Arrays.toString(arr));
+        //    LogText("" + Arrays.toString(arr));
            JLabel take = new JLabel();
            take.setIcon(shot);
            take.setBounds(arr[0], arr[1], arr[3], arr[2]);
@@ -335,6 +338,14 @@ public class BoardLayersListener extends JFrame implements IView
            takes.add(take);
         }  
         s.setTakes(takes);
+    }
+
+    public void removeTake(Set s) {
+        ArrayList<JLabel> takes = s.getTakes();
+        takes.remove(0);
+        s.setTakes(takes);
+        bPane.revalidate();
+        bPane.repaint();
     }
 
     public void promptRolesSelections(Player player) {
@@ -437,6 +448,8 @@ public class BoardLayersListener extends JFrame implements IView
         PlayerBoardDetails.put(player, details);
 
         LogText("Initialized Player " + player.getPlayerNumber() + " as: " + details.PlayerName);
+        
+        initializePlayerInfo(player);
 
         setPlayerDie(player, 164, 287);
     }

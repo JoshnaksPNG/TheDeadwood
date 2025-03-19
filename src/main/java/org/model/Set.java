@@ -14,6 +14,8 @@ public class Set extends Room
 {
     Scene _Scene;
 
+    JLabel cardBack;
+
     ArrayList<Role> _OffCardRoles;
 
     int _Shots;
@@ -235,5 +237,13 @@ public class Set extends Room
 
     public ArrayList<JLabel> getTakes() {
         return takes;
+    }
+
+    public void setCardBack(JLabel image) {
+        cardBack = image;
+    }
+
+    public JLabel getCardBack() {
+        return cardBack;
     }
 }
