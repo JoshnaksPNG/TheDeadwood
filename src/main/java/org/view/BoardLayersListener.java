@@ -82,7 +82,7 @@ public class BoardLayersListener extends JFrame implements IView
         bPane.add(boardlabel, Integer.valueOf(0));
    
         // Set the size of the GUI
-        setSize(icon.getIconWidth()+200,icon.getIconHeight());
+        setSize(icon.getIconWidth()+400,icon.getIconHeight()+200);
       
         // Add a scene card to this room
         cardlabel = new JLabel();
@@ -220,28 +220,31 @@ public class BoardLayersListener extends JFrame implements IView
         playerPanel.setPreferredSize(new Dimension(150, 70)); // Fixed size for consistency
         playerPanel.setBorder(BorderFactory.createLineBorder(Color.WHITE, 2)); // White border
         playerPanel.setBackground(new Color(50, 50, 50, 200)); // Darker semi-transparent
-
+    
         // Create labels for player information
         JLabel nameLabel = new JLabel("Player: " + player.getPlayerNumber());
         JLabel rankLabel = new JLabel("Rank: " + player.getRank());
         JLabel moneyLabel = new JLabel("Money: $" + player.getMoney());
         JLabel creditLabel = new JLabel("Credits: " + player.getCredit());
-
+        JLabel pchipLevel = new JLabel("PChips: " + player.getPracticeChips());
+    
         // Set text color
         nameLabel.setForeground(Color.WHITE);
         rankLabel.setForeground(Color.WHITE);
         moneyLabel.setForeground(Color.WHITE);
         creditLabel.setForeground(Color.WHITE);
-
+        pchipLevel.setForeground(Color.WHITE);
+    
         // Add labels to the player panel
         playerPanel.add(nameLabel);
         playerPanel.add(rankLabel);
         playerPanel.add(moneyLabel);
         playerPanel.add(creditLabel);
-
+        playerPanel.add(pchipLevel);
+    
         // Store references to the labels for updates
-        playerLabels.put("" + player.getPlayerNumber(), new JLabel[]{rankLabel, moneyLabel, creditLabel});
-
+        playerLabels.put("" + player.getPlayerNumber(), new JLabel[]{rankLabel, moneyLabel, creditLabel, pchipLevel});
+    
         // Add player panel to the info panel
         infoPanel.add(playerPanel,Integer.valueOf(4));
     }
@@ -253,6 +256,7 @@ public class BoardLayersListener extends JFrame implements IView
                 labels[0].setText("Rank: " + player.getRank());
                 labels[1].setText("Money: $" + player.getMoney());
                 labels[2].setText("Credits: " + player.getCredit());
+                labels[3].setText("PChips: " + player.getPracticeChips());
             }
         }
     }
@@ -272,11 +276,11 @@ public class BoardLayersListener extends JFrame implements IView
 
         // Set the position and size for the JScrollPane using setBounds(x, y, width, height)
         scrollPane.setBounds(icon.getIconWidth()+10,300,200, 200);
-        // scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
-        //     public void adjustmentValueChanged(AdjustmentEvent e) {
-        //         e.getAdjustable().setValue(e.getAdjustable().getMaximum());
-        //     }
-        // });
+        scrollPane.getVerticalScrollBar().addAdjustmentListener(new AdjustmentListener() {
+            public void adjustmentValueChanged(AdjustmentEvent e) {
+                e.getAdjustable().setValue(e.getAdjustable().getMaximum());
+            }
+        });
         // Add the JScrollPane to the JLayeredPane
         bPane.add(scrollPane, Integer.valueOf(1));
     }
@@ -289,7 +293,7 @@ public class BoardLayersListener extends JFrame implements IView
                 Set s = (Set) rooms.get(i);
                 s.printTakesList();
                 placeScene(s);
-                placeCardBack(s);
+                // placeCardBack(s);
                 placeTakes(s);
             }
         }
@@ -305,10 +309,12 @@ public class BoardLayersListener extends JFrame implements IView
         s.setCardBack(cardlabel);
         // Add the card to the lower layer
         bPane.add(cardlabel, Integer.valueOf(2));        
+        bPane.revalidate();
+        bPane.repaint();
     }
       
       
-    // place the back of the cards to the board, skeleton
+// place the back of the cards to the board, skeleton
     public void placeCardBack(Set s){
         cardlabel = new JLabel();
         ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cardBack.png");
@@ -318,18 +324,14 @@ public class BoardLayersListener extends JFrame implements IView
         s.getScene().setImage(cardlabel);
         // Add the card back on top of card
         bPane.add(cardlabel, Integer.valueOf(3));
+        bPane.revalidate();
+        bPane.repaint();
     }
 
     public void placeTakes(Set s){
-        // s.printTakesList();
         ArrayList<int[]> takeList = s.getTakeList(); // coordinates for shot
-        // if (takeList.isEmpty()) {
-        //     LogText("The list is empty!");
-        // }
         ArrayList<JLabel> takes = new ArrayList<>();
         for (int[] arr : takeList) {
-        //    System.out.println(Arrays.toString(arr));
-        //    LogText("" + Arrays.toString(arr));
            JLabel take = new JLabel();
            take.setIcon(shot);
            take.setBounds(arr[0], arr[1], arr[3], arr[2]);
@@ -338,6 +340,8 @@ public class BoardLayersListener extends JFrame implements IView
            takes.add(take);
         }  
         s.setTakes(takes);
+        bPane.revalidate();
+        bPane.repaint();
     }
 
     public void removeTake(Set s) {
@@ -430,7 +434,21 @@ public class BoardLayersListener extends JFrame implements IView
         bPane.add(comboBox, Integer.valueOf(1)); // Adding at layer 1
     }
 
-   
+    // remove a scene card from the board
+    public void removeCard(Set set) {
+        Scene scene = set.getScene();
+        JLabel cardlabel = scene.getImage();
+        bPane.remove(cardlabel);
+        bPane.revalidate();
+        bPane.repaint();
+    }
+
+    public void flipCard(Set set) {
+        JLabel cardBack = set.getCardBack();
+        bPane.remove(cardBack);
+        bPane.revalidate();
+        bPane.repaint();
+    }
   
 
 
@@ -456,33 +474,53 @@ public class BoardLayersListener extends JFrame implements IView
 
     @Override
     public void PostPlayerMove(Player player, Room room) {
+        PlayerDetails details = PlayerBoardDetails.get(player);
 
+        playerlabel = new JLabel(details.PlayerIcon);
+        ImageIcon pIcon = details.PlayerIcon;
+        playerlabel.setOpaque(false);
+        playerlabel.setBounds(room.getX(),room.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
+        playerlabel.setVisible(false);
+        playerlabel.setVisible(true);
+        bPane.add(playerlabel, Integer.valueOf(3));
+
+        pRankLabel = new JLabel(PlayerRankDice.get(player.getRank()));
+        pRankLabel.setOpaque(false);
+        pRankLabel.setBounds(room.getX(),room.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
+        pRankLabel.setVisible(false);
+        pRankLabel.setVisible(true);
+        bPane.add(pRankLabel, Integer.valueOf(4));
+        bPane.revalidate();
+        bPane.repaint();
+
+        LogText("Player " + player.getPlayerNumber() + " moved to room: " + room.GetName());
     }
 
     @Override
     public void PlayerTakeRole(Player player, Role role) {
-
+        LogText("Player take role");
     }
 
     @Override
     public void PlayerReleaseRole(Player player) {
-
+        LogText("Player release role");
     }
 
     @Override
     public void DisplayPlayerCurrency(Player player) {
-
+        LogText("Display player currency");
     }
 
     @Override
     public void PlayerPaid(Player player, int amount, boolean isMoney)
     {
-
+        LogText("Player paid");
     }
 
     @Override
     public TurnDetails PromptPlayerTurnAction(Player player)
     {
+        LogText("Prompt player turn action");
         boolean isWorkValid = player.isInRole();
 
         boolean isUpgradeValid =
