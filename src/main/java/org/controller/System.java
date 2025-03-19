@@ -126,6 +126,8 @@ public class System
             for(Player p: players) {
                 boolean availableActions = true;
 
+                p.SetCanMove(true);
+
                 while(availableActions && AvailableScenes)
                 {
                     activePlayer = p;

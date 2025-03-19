@@ -77,6 +77,7 @@ public class Player
 
             case Move ->
             {
+                canMove = false;
                 move(details.MoveDest, BoardManager.Instance);
                 System.INSTANCE.getView().PostPlayerMove(this, currentRoom);
             }
@@ -214,5 +215,15 @@ public class Player
     public void ForceSetRoom(Room room)
     {
         currentRoom = room;
+    }
+
+    public boolean GetCanMove()
+    {
+        return canMove;
+    }
+
+    public void SetCanMove(boolean b)
+    {
+        canMove = b;
     }
 }

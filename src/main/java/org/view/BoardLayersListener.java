@@ -481,16 +481,191 @@ public class BoardLayersListener extends JFrame implements IView
     }
 
     @Override
-    public TurnDetails PromptPlayerTurnAction(Player player) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'PromptPlayerTurnAction'");
+    public TurnDetails PromptPlayerTurnAction(Player player)
+    {
+        boolean isWorkValid = player.isInRole();
+
+        boolean isUpgradeValid =
+                (player.getCurrentRoom() instanceof CastingOffice) &&
+                        (CastingOffice.CanUpgradePlayer(player));
+
+        boolean canTakeRole = player.getCurrentRoom() instanceof Set &&
+                ((Set)player.getCurrentRoom()).getScene() != null &&
+                ((Set) player.getCurrentRoom()).HasAvailableRank(player.getRank());
+
+        ArrayList<String> ActionOptions = new ArrayList<>();
+
+        if(isWorkValid)
+        {
+            boolean canRehearse = player.getPracticeChips() <
+                    ((Set)player.getCurrentRoom()).getScene().getBudget() - 1;
+
+            ActionOptions.add("Act");
+
+            if(canRehearse)
+            {
+                ActionOptions.add("Rehearse");
+            }
+        } else
+        {
+            if(player.GetCanMove())
+            {
+                ActionOptions.add("Move");
+            }
+
+            if(canTakeRole)
+            {
+                ActionOptions.add("Take Role");
+            }
+        }
+
+        if(isUpgradeValid)
+        {
+            ActionOptions.add("Upgrade");
+        }
+
+        ActionOptions.add("Skip");
+
+        String[] optionArray = new String[ActionOptions.size()];
+        optionArray = ActionOptions.toArray(optionArray);
+
+        int optionIDX = JOptionPane.showOptionDialog(null, "What action would you like to take?",
+                "Action Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
+
+        String ChosenOption = optionArray[optionIDX];
+
+        TurnDetails details = null;
+
+        switch (ChosenOption)
+        {
+            case "Act" ->
+            {
+                details = new TurnDetails(ActionType.Act);
+            }
+
+            case "Rehearse" ->
+            {
+                details = new TurnDetails(ActionType.Rehearse);
+            }
+
+            case "Move" ->
+            {
+                details = PromptMoveRoom(player);
+            }
+
+            case "Take Role" ->
+            {
+                details = PromptRoleTaking(player);
+            }
+
+            case "Upgrade" ->
+            {
+                details = PromptUpgrade(player);
+            }
+
+            case "Skip" ->
+            {
+                details = new TurnDetails(ActionType.Skip);
+            }
+        }
+
+        return details;
+    }
+
+    private System.TurnDetails PromptUpgrade(Player player)
+    {
+        boolean isMoneyValid = player.getMoney() >= CastingOffice.getCost(player.getRank() + 1, true);
+        boolean isCreditsValid = player.getCredit() >= CastingOffice.getCost(player.getRank() + 1, false);
+
+        ArrayList<String> UpgradeOptions = new ArrayList<>();
+
+        if(isMoneyValid)
+        {
+            UpgradeOptions.add("Money");
+        }
+
+        if(isCreditsValid)
+        {
+            UpgradeOptions.add("Credits");
+        }
+        String[] optionArray = new String[UpgradeOptions.size()];
+        optionArray = UpgradeOptions.toArray(optionArray);
+
+        int optionIDX = JOptionPane.showOptionDialog(null, "How do you want to upgrade your rank?",
+                "Upgrade Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
+
+        String ChosenOption = optionArray[optionIDX];
+
+        TurnDetails.UpgradeCurrency currency = null;
+
+        switch (ChosenOption)
+        {
+            case "Money" ->
+            {
+                currency = TurnDetails.UpgradeCurrency.Money;
+            }
+
+            case "Credits" ->
+            {
+                currency = TurnDetails.UpgradeCurrency.Credits;
+            }
+        }
+
+        return new TurnDetails(ActionType.Upgrade, currency);
+    }
+
+    private System.TurnDetails PromptRoleTaking(Player player)
+    {
+        ArrayList<String> RoleOptions = new ArrayList<>();
+
+        for(Role role: ((Set) player.getCurrentRoom()).GetAvailableRoles())
+        {
+            if(SceneManager.Instance.verifyRoleRequirement(player, null, role))
+            {
+                RoleOptions.add(role.getName());
+            }
+        }
+
+        String[] optionArray = new String[RoleOptions.size()];
+        optionArray = RoleOptions.toArray(optionArray);
+
+        int optionIDX = JOptionPane.showOptionDialog(null, "Which role would you like to take?",
+                "Role Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
+
+        String ChosenOption = optionArray[optionIDX];
+
+        Role chosenRole = ((Set) player.getCurrentRoom()).GetRoleByName(ChosenOption);
+
+        return new TurnDetails(TurnDetails.ActionType.TakeRole, chosenRole);
+    }
+
+    private System.TurnDetails PromptMoveRoom(Player player)
+    {
+        ArrayList<String> RoomOptions = new ArrayList<>();
+
+        for(String neigborName: player.getCurrentRoom().GetNeighborNames())
+        {
+            RoomOptions.add(neigborName);
+        }
+
+        String[] optionArray = new String[RoomOptions.size()];
+        optionArray = RoomOptions.toArray(optionArray);
+
+        int optionIDX = JOptionPane.showOptionDialog(null, "Which room would you like to move to?",
+                "Room Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
+
+        String ChosenOption = optionArray[optionIDX];
+
+        Room chosenRoom = BoardManager.Instance.GetRoomByName(ChosenOption);
+
+        return new TurnDetails(ActionType.Move, chosenRoom);
     }
 
     @Override
     public int PromptPlayerAmount() {
         int numPlayers = 0;
         String[] options = new String[] {"2", "3", "4", "5", "6", "7", "8"};
-        int option =  JOptionPane.showOptionDialog(null, "How many players are playing?", "Message",
+        int option =  JOptionPane.showOptionDialog(null, "How many players are playing?", "Player Selection",
             JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE,null, options, options[0]);
         try {
             addText(textPane, options[option] + " Players are playing");
