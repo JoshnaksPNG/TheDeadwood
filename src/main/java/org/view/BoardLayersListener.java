@@ -537,7 +537,7 @@ public class BoardLayersListener extends JFrame implements IView
         if (role.isMain()) {
             playerlabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         } else {
-            //playerlabel.setBounds(area[0], area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+            playerlabel.setBounds(area[0], area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         }
         playerlabel.setVisible(false);
         playerlabel.setVisible(true);
@@ -548,7 +548,7 @@ public class BoardLayersListener extends JFrame implements IView
         if (role.isMain()) {
             pRankLabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         } else {
-            //pRankLabel.setBounds(area[0], area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+            pRankLabel.setBounds(area[0], area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         }
         // pRankLabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         pRankLabel.setVisible(false);
@@ -589,7 +589,7 @@ public class BoardLayersListener extends JFrame implements IView
         for(Player p: _AllPlayers)
         {
             updatePlayerDieRank(p);
-            viewPlayerdie(p, false);
+            // viewPlayerdie(p, false);
 
         }
 
