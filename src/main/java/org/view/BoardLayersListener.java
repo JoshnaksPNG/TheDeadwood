@@ -348,8 +348,8 @@ public class BoardLayersListener extends JFrame implements IView
 
     public void removeTake(Set s) {
         ArrayList<JLabel> takes = s.getTakes();
-        takes.remove(0);
-        s.setTakes(takes);
+        bPane.remove(takes.remove(0));
+        // s.setTakes(takes);
         bPane.revalidate();
         bPane.repaint();
     }
@@ -815,6 +815,7 @@ public class BoardLayersListener extends JFrame implements IView
                     "A shot has been finished, and they have received payment.");
             Set set = (Set) player.getCurrentRoom();
             removeTake(set);
+            
         } else
         {
             LogText("Player " + player.getPlayerNumber() +
