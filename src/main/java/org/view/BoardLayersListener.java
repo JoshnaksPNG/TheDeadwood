@@ -24,7 +24,7 @@ import java.util.LinkedList;
 public class BoardLayersListener extends JFrame implements IView
 {
     ArrayList<Player> _AllPlayers = new ArrayList<>(8);
-    private static HashMap<String, JLabel[]> playerLabels = new HashMap<>();
+    private static HashMap<Integer, JLabel[]> playerLabels = new HashMap<>();
 
     HashMap<Player, PlayerDetails> PlayerBoardDetails;
 
@@ -243,7 +243,7 @@ public class BoardLayersListener extends JFrame implements IView
         playerPanel.add(pchipLevel);
     
         // Store references to the labels for updates
-        playerLabels.put("" + player.getPlayerNumber(), new JLabel[]{rankLabel, moneyLabel, creditLabel, pchipLevel});
+        playerLabels.put(player.getPlayerNumber(), new JLabel[]{rankLabel, moneyLabel, creditLabel, pchipLevel});
     
         // Add player panel to the info panel
         infoPanel.add(playerPanel,Integer.valueOf(4));
