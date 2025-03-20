@@ -664,7 +664,7 @@ public class BoardLayersListener extends JFrame implements IView
                 details = new TurnDetails(ActionType.Skip);
             }
         }
-
+        updatePlayerInfo();
         return details;
     }
 
@@ -806,22 +806,44 @@ public class BoardLayersListener extends JFrame implements IView
 
     @Override
     public void PostPlayerAct(Player player, Role role, boolean isSuccess) {
-        LogText("Post player act");
+        if (isSuccess)
+        {
+            LogText("\n\"" + role.getLine() + "\"");
+
+            LogText("Player " + player.getPlayerNumber() +
+                    " successfully acted out their role: " + role.getName() + ".\n" +
+                    "A shot has been finished, and they have received payment.");
+            Set set = (Set) player.getCurrentRoom();
+            removeTake(set);
+        } else
+        {
+            LogText("Player " + player.getPlayerNumber() +
+                    " failed to act out their role: " + role.getName() + ".");
+        }
     }
 
     @Override
     public void PostPlayerRehearse(Player player) {
-        LogText("Post player rehearse");
+        LogText("Player " + player.getPlayerNumber() +
+                " rehearsed and earned a practice chip for a total of: " +
+                player.getPracticeChips());
+        updatePlayerInfo();
     }
 
     @Override
     public void PostPlayerSkip(Player player) {
-        LogText("post player skip");
+        LogText("Player " + player.getPlayerNumber() +
+                " skipped their turn!");
+        updatePlayerInfo();
     }
 
     @Override
     public void SceneWrappedOnSet(Set set) {
-        LogText("scene wrapped on set");
+        LogText("\nFilming of " + set.getScene().getName() +
+                " has wrapped on " + set.GetName() +
+                ". All Actors have been paid and released from their roles.");
+        bPane.remove(set.getScene().getImage());
+        set.ClearScene();
     }
 
     private void LogText(String text)
