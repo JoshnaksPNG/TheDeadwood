@@ -242,26 +242,27 @@ public class XMLParser{
 
                   if ("part".equals(partSub.getNodeName())) {
                      partName = partSub.getAttributes().getNamedItem("name").getNodeValue();
-                     // System.out.println("partName = " + partName);
+                     System.out.println("partName = " + partName);
                      partLevel = Integer.parseInt(partSub.getAttributes().getNamedItem("level").getNodeValue());
-                     // System.out.println("partLvl  = " + partLevel);
+                     System.out.println("partLvl  = " + partLevel);
 
                      NodeList partGrandchildren = partSub.getChildNodes();
                      for (int l = 0; l < partGrandchildren.getLength(); l++) {
                         Node partSubSub = partGrandchildren.item(l);
                         if ("area".equals(partSubSub.getNodeName())) {
+                           area = new int[4];
                            partX = Integer.parseInt(partSubSub.getAttributes().getNamedItem("x").getNodeValue());
-                           // System.out.print("Part Dimensions: x = " + partX);
+                           System.out.print("Part Dimensions: x = " + partX);
                            partY = Integer.parseInt(partSubSub.getAttributes().getNamedItem("y").getNodeValue());
-                           // System.out.print(", y = " + partY);
+                           System.out.print(", y = " + partY);
                            partH = Integer.parseInt(partSubSub.getAttributes().getNamedItem("h").getNodeValue());
-                           // System.out.print(", h = " + partH);
+                           System.out.print(", h = " + partH);
                            partW = Integer.parseInt(partSubSub.getAttributes().getNamedItem("w").getNodeValue());
-                           // System.out.println(", w = " + partW);
-                           // area[0] = partX;
-                           // area[1] = partY;
-                           // area[2] = partH;
-                           // area[3] = partW;
+                           System.out.println(", w = " + partW);
+                           area[0] = partX;
+                           area[1] = partY;
+                           area[2] = partH;
+                           area[3] = partW;
 
                         } else if ("line".equals(partSubSub.getNodeName())) {
                            line = partSubSub.getTextContent();
