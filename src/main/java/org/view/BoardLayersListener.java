@@ -103,7 +103,7 @@ public class BoardLayersListener extends JFrame implements IView
         // playerlabel.setBounds(114,227,46,46);
         // playerlabel.setVisible(false);
         // bPane.add(playerlabel, Integer.valueOf(3));
-        addButtons(icon);
+        // addButtons(icon);
 
         // cardlabel = new JLabel();
         // ImageIcon cardImage =  new ImageIcon("src/main/java/org/assets/cards/01.png");
@@ -116,27 +116,27 @@ public class BoardLayersListener extends JFrame implements IView
         addInfoPanel();
 
 
-        String[] options = {"Option 1", "Option 2", "Option 3"};
-        JComboBox<String> comboBox = new JComboBox<>(options);
+        // String[] options = {"Option 1", "Option 2", "Option 3"};
+        // JComboBox<String> comboBox = new JComboBox<>(options);
 
-        comboBox.setBounds(icon.getIconWidth()+150, 120, 100, 20);
+        // comboBox.setBounds(icon.getIconWidth()+150, 120, 100, 20);
       
-        // Add an action listener to the combo box to get the selected item when changed
-        comboBox.addActionListener(e -> {
-            // Get the selected item
-            String selectedOption = (String) comboBox.getSelectedItem();
+        // // Add an action listener to the combo box to get the selected item when changed
+        // comboBox.addActionListener(e -> {
+        //     // Get the selected item
+        //     String selectedOption = (String) comboBox.getSelectedItem();
           
-            // Print the selected option (or use it for other purposes)
-            try {
-                addText(textPane, "Selected option " + selectedOption);
-                comboBox.setVisible(false);
-            } catch (BadLocationException e1) {
-                // TODO Auto-generated catch block
-                e1.printStackTrace();
-            }
+        //     // Print the selected option (or use it for other purposes)
+        //     try {
+        //         addText(textPane, "Selected option " + selectedOption);
+        //         comboBox.setVisible(false);
+        //     } catch (BadLocationException e1) {
+        //         // TODO Auto-generated catch block
+        //         e1.printStackTrace();
+        //     }
 
 
-        });
+        // });
 
         PlayerBoardDetails = new HashMap<>(8);
         PlayerRankDice = new HashMap<>(6);
@@ -151,7 +151,7 @@ public class BoardLayersListener extends JFrame implements IView
         }
       
         // Add the combo box to the frame
-        bPane.add(comboBox, Integer.valueOf(4));
+        // bPane.add(comboBox, Integer.valueOf(4));
 
         setEventsText(); // noneditable text box that shows the system messages
 
