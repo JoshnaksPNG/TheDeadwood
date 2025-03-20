@@ -25,6 +25,7 @@ public class XMLParser{
    private void setCardDoc(String fileName) {
       try {
          cardsDoc = getDocFromFile(fileName);
+         cardsDoc.getDocumentElement().normalize();
       } catch (Exception e) {
          System.out.println("Error = " + e);
       }
@@ -33,6 +34,7 @@ public class XMLParser{
    private void setBoardDoc(String fileName) {
       try {
          boardDoc = getDocFromFile(fileName);
+         boardDoc.getDocumentElement().normalize();
       } catch (Exception e) {
          System.out.println("Error = " + e);
       }
@@ -95,22 +97,23 @@ public class XMLParser{
 
             } else if("part".equals(sub.getNodeName())){
                partName = sub.getAttributes().getNamedItem("name").getNodeValue();
-               // System.out.println("part name = "+partName);
+               System.out.println("part name = "+partName);
                partLevel = Integer.parseInt(sub.getAttributes().getNamedItem("level").getNodeValue());
-               // System.out.println("part level = " + partLevel);
+               System.out.println("part level = " + partLevel);
 
                NodeList partChildren = sub.getChildNodes();
                for (int k = 0; k < partChildren.getLength(); k++) {
                   Node partSub = partChildren.item(k);
                   if ("area".equals(partSub.getNodeName())) {
+                     area = new int[4];
                      partX = Integer.parseInt(partSub.getAttributes().getNamedItem("x").getNodeValue());
-                     // System.out.print("x=" + partX);
+                     System.out.print("x=" + partX);
                      partY = Integer.parseInt(partSub.getAttributes().getNamedItem("y").getNodeValue());
-                     // System.out.print(" y=" + partY);
+                     System.out.print(" y=" + partY);
                      partH = Integer.parseInt(partSub.getAttributes().getNamedItem("h").getNodeValue());
-                     // System.out.print(" h=" + partH);
+                     System.out.print(" h=" + partH);
                      partW = Integer.parseInt(partSub.getAttributes().getNamedItem("w").getNodeValue());
-                     // System.out.println(" w=" + partW);
+                     System.out.println(" w=" + partW);
                      area[0] = partX;
                      area[1] = partY;
                      area[2] = partH;
