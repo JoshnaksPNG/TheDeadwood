@@ -499,6 +499,30 @@ public class BoardLayersListener extends JFrame implements IView
     @Override
     public void PlayerTakeRole(Player player, Role role) {
         LogText("Player take role");
+        
+        PlayerDetails details = PlayerBoardDetails.get(player);
+        Room room = player.getCurrentRoom();
+        int[] area = role.getArea();
+
+        playerlabel = new JLabel(details.PlayerIcon);
+        ImageIcon pIcon = details.PlayerIcon;
+        playerlabel.setOpaque(false);
+        playerlabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+        playerlabel.setVisible(false);
+        playerlabel.setVisible(true);
+        bPane.add(playerlabel, Integer.valueOf(3));
+
+        pRankLabel = new JLabel(PlayerRankDice.get(player.getRank()));
+        pRankLabel.setOpaque(false);
+        pRankLabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+        pRankLabel.setVisible(false);
+        pRankLabel.setVisible(true);
+        bPane.add(pRankLabel, Integer.valueOf(4));
+        bPane.revalidate();
+        bPane.repaint();
+
+        LogText("Player " + player.getPlayerNumber() + " took role: " + role.getName());
+
     }
 
     @Override
@@ -514,7 +538,12 @@ public class BoardLayersListener extends JFrame implements IView
     @Override
     public void PlayerPaid(Player player, int amount, boolean isMoney)
     {
-        LogText("Player paid");
+        if (isMoney) {
+            LogText("Player " + player.getPlayerNumber()+" paid " + amount + " Dollars");
+        } else {
+            LogText("Player " + player.getPlayerNumber()+" paid " + amount + " Credits");
+        }
+        updatePlayerInfo();
     }
 
     @Override
@@ -748,22 +777,22 @@ public class BoardLayersListener extends JFrame implements IView
 
     @Override
     public void PostPlayerAct(Player player, Role role, boolean isSuccess) {
-
+        LogText("Post player act");
     }
 
     @Override
     public void PostPlayerRehearse(Player player) {
-
+        LogText("Post player rehearse");
     }
 
     @Override
     public void PostPlayerSkip(Player player) {
-
+        LogText("post player skip");
     }
 
     @Override
     public void SceneWrappedOnSet(Set set) {
-
+        LogText("scene wrapped on set");
     }
 
     private void LogText(String text)
