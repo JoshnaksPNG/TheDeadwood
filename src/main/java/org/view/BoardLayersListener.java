@@ -251,8 +251,9 @@ public class BoardLayersListener extends JFrame implements IView
 
     public void updatePlayerInfo() {
         for (Player player : _AllPlayers) {
-            if (playerLabels.containsKey("" + player.getPlayerNumber())) {
-                JLabel[] labels = playerLabels.get("" + player.getPlayerNumber());
+            java.lang.System.out.println("sh" + player.getPlayerNumber());
+            if (playerLabels.containsKey(player.getPlayerNumber())) {
+                JLabel[] labels = playerLabels.get(player.getPlayerNumber());
                 labels[0].setText("Rank: " + player.getRank());
                 labels[1].setText("Money: $" + player.getMoney());
                 labels[2].setText("Credits: " + player.getCredit());
@@ -529,24 +530,25 @@ public class BoardLayersListener extends JFrame implements IView
         Room room = player.getCurrentRoom();
         int[] area = role.getArea();
 
-        playerlabel = new JLabel(details.PlayerIcon);
+
+        playerlabel = details.DiePanel;
         ImageIcon pIcon = details.PlayerIcon;
         playerlabel.setOpaque(false);
         if (role.isMain()) {
             playerlabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         } else {
-            playerlabel.setBounds(area[0],area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+            //playerlabel.setBounds(area[0], area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         }
         playerlabel.setVisible(false);
         playerlabel.setVisible(true);
         bPane.add(playerlabel, Integer.valueOf(3));
 
-        pRankLabel = new JLabel(PlayerRankDice.get(player.getRank()));
+        pRankLabel = details.RankPanel;
         pRankLabel.setOpaque(false);
         if (role.isMain()) {
             pRankLabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         } else {
-            pRankLabel.setBounds(area[0],area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+            //pRankLabel.setBounds(area[0], area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         }
         // pRankLabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         pRankLabel.setVisible(false);
@@ -561,12 +563,12 @@ public class BoardLayersListener extends JFrame implements IView
 
     @Override
     public void PlayerReleaseRole(Player player) {
-        LogText("Player release role");
+        LogText("Player" + player.getPlayerNumber() + " has released their role");
     }
 
     @Override
     public void DisplayPlayerCurrency(Player player) {
-        LogText("Display player currency");
+        updatePlayerInfo();
     }
 
     @Override
@@ -793,7 +795,7 @@ public class BoardLayersListener extends JFrame implements IView
     public void EndDay(int day) {
       
         try {
-            addText(textPane, "Ending Day");
+            addText(textPane, "Ending Day: Day(" + day + ")");
         } catch (BadLocationException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -805,7 +807,7 @@ public class BoardLayersListener extends JFrame implements IView
         addScenes();
 
         try {
-            addText(textPane, "Starting new Day");
+            addText(textPane, "Starting new Day: Day(" + DayNumber + ")");
         } catch (BadLocationException e1) {
             // TODO Auto-generated catch block
             e1.printStackTrace();
@@ -817,8 +819,30 @@ public class BoardLayersListener extends JFrame implements IView
     }
 
     @Override
-    public void EndGame() {
+    public void EndGame()
+    {
+        Player topDog = null;
 
+        int topScore = -1;
+
+        for (Player p: _AllPlayers)
+        {
+            int score = p.getCredit() + p.getMoney() + (p.getRank() * 5);
+
+            LogText( "Player " + p.getPlayerNumber() + " scored: "
+                    + score + "\n");
+
+            if (score > topScore)
+            {
+                topDog = p;
+                topScore = score;
+            }
+        }
+
+        if(topDog != null)
+        {
+            LogText("Player " + topDog.getPlayerNumber() + " Wins!");
+        }
     }
 
     @Override
@@ -868,7 +892,7 @@ public class BoardLayersListener extends JFrame implements IView
     {
         try
         {
-            addText(textPane, text);
+            addText(textPane, text + "\n");
         } catch (Exception e)
         {
             e.printStackTrace();
