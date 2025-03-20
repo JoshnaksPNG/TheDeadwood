@@ -291,9 +291,9 @@ public class BoardLayersListener extends JFrame implements IView
         for (int i = 0; i < 10; i++) { // There are 10 rooms that are sets and they should be 0-9 inclusive
             if (rooms.get(i) instanceof Set) {
                 Set s = (Set) rooms.get(i);
-                s.printTakesList();
+                // s.printTakesList();
                 placeScene(s);
-                // placeCardBack(s);
+                placeCardBack(s);
                 placeTakes(s);
             }
         }
@@ -306,7 +306,8 @@ public class BoardLayersListener extends JFrame implements IView
         cardlabel.setIcon(cardImage);
         cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
         cardlabel.setOpaque(true);
-        s.setCardBack(cardlabel);
+        
+        s.getScene().setImage(cardlabel);
         // Add the card to the lower layer
         bPane.add(cardlabel, Integer.valueOf(2));        
         bPane.revalidate();
@@ -321,7 +322,8 @@ public class BoardLayersListener extends JFrame implements IView
         cardlabel.setIcon(cardImage);
         cardlabel.setBounds(s.getX(),s.getY(),cardImage.getIconWidth(),cardImage.getIconHeight());
         cardlabel.setOpaque(true);
-        s.getScene().setImage(cardlabel);
+        
+        s.setCardBack(cardlabel);
         // Add the card back on top of card
         bPane.add(cardlabel, Integer.valueOf(3));
         bPane.revalidate();
@@ -475,6 +477,9 @@ public class BoardLayersListener extends JFrame implements IView
     @Override
     public void PostPlayerMove(Player player, Room room) {
         PlayerDetails details = PlayerBoardDetails.get(player);
+        
+        // issues with referencing objects, must create a new object for each image label
+        bPane.remove(playerlabel);
 
         playerlabel = new JLabel(details.PlayerIcon);
         ImageIcon pIcon = details.PlayerIcon;
@@ -484,12 +489,24 @@ public class BoardLayersListener extends JFrame implements IView
         playerlabel.setVisible(true);
         bPane.add(playerlabel, Integer.valueOf(3));
 
+        // issues with referencing objects, must create a new object for each image label
+        bPane.remove(pRankLabel);
+
         pRankLabel = new JLabel(PlayerRankDice.get(player.getRank()));
         pRankLabel.setOpaque(false);
         pRankLabel.setBounds(room.getX(),room.getY(),pIcon.getIconWidth(),pIcon.getIconHeight());
         pRankLabel.setVisible(false);
         pRankLabel.setVisible(true);
         bPane.add(pRankLabel, Integer.valueOf(4));
+
+
+        if(room instanceof Set) {
+            Set set = (Set) room;
+            if(set.getScene() != null) {
+                set.getScene().flipCard();
+                flipCard(set);
+            }
+        }
         bPane.revalidate();
         bPane.repaint();
 
