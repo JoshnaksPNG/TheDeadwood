@@ -77,10 +77,13 @@ public class PlayerInitializerFrame extends JFrame
         setVisible(false);
 
         BufferedImage img;
+        BufferedImage pawn;
 
         try {
             img = ImageIO.read(new File("src/main/java/org/assets/dice/DieBase.png"));
+            pawn = ImageIO.read(new File("src/main/java/org/assets/dice/PawnBase.png"));
 
+            // Die
             for(int y = 0; y < img.getHeight(); ++y)
             {
                 for(int x = 0; x < img.getWidth(); ++x)
@@ -98,10 +101,29 @@ public class PlayerInitializerFrame extends JFrame
                     img.setRGB(x, y, pc.getRGB());
                 }
             }
+
+            // Pawn
+            for(int y = 0; y < pawn.getHeight(); ++y)
+            {
+                for(int x = 0; x < pawn.getWidth(); ++x)
+                {
+                    //img.getRGB()
+                    Color c = new Color(pawn.getRGB(x, y), true);
+
+                    float[] pxlHSB = Color.RGBtoHSB(c.getRed(), c.getGreen(), c.getBlue(), null);
+                    float[] plrHSB = Color.RGBtoHSB(_PlayerColor.getRed(), _PlayerColor.getGreen(), _PlayerColor.getBlue(), null);
+
+                    Color nc = new Color(Color.HSBtoRGB(plrHSB[0], plrHSB[1], pxlHSB[2]));
+
+                    Color pc = new Color(nc.getRed(), nc.getGreen(), nc.getBlue(), c.getAlpha());
+
+                    pawn.setRGB(x, y, pc.getRGB());
+                }
+            }
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
 
-        return new BoardLayersListener.PlayerDetails(_PlayerName, _PlayerColor, new ImageIcon(img));
+        return new BoardLayersListener.PlayerDetails(_PlayerName, _PlayerColor, new ImageIcon(img), new ImageIcon(pawn));
     }
 }

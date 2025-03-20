@@ -140,7 +140,11 @@ public class System
 
                     availableActions = p.CanTakeSecondaryAction();
 
-                    if(details.TurnType == TurnDetails.ActionType.Skip)
+                    if(
+                            details.TurnType == TurnDetails.ActionType.Skip ||
+                            details.TurnType == TurnDetails.ActionType.TakeRole ||
+                            details.TurnType == TurnDetails.ActionType.Rehearse ||
+                            details.TurnType == TurnDetails.ActionType.Act)
                     {
                         availableActions = false;
                     }

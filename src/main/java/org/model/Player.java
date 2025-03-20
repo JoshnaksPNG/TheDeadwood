@@ -151,7 +151,7 @@ public class Player
     public boolean CanTakeSecondaryAction()
     {
         canUpgrade = (currentRoom instanceof CastingOffice) && CastingOffice.CanUpgradePlayer(this);
-        boolean canTakeRole = (currentRoom instanceof Set) && ( ((Set)currentRoom).GetAvailableRoles().size() > 0 );
+        boolean canTakeRole = (currentRoom instanceof Set) && ( ((Set)currentRoom).getScene() != null) && ( ((Set)currentRoom).GetAvailableRoles().size() > 0 );
 
         return canUpgrade || canTakeRole;
     }

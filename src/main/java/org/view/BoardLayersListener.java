@@ -23,7 +23,7 @@ import java.util.LinkedList;
 
 public class BoardLayersListener extends JFrame implements IView
 {
-    ArrayList<Player> _AllPlayers;
+    ArrayList<Player> _AllPlayers = new ArrayList<>(8);
     private static HashMap<String, JLabel[]> playerLabels = new HashMap<>();
 
     HashMap<Player, PlayerDetails> PlayerBoardDetails;
@@ -471,6 +471,8 @@ public class BoardLayersListener extends JFrame implements IView
         
         initializePlayerInfo(player);
 
+        _AllPlayers.add(player);
+
         setPlayerDie(player, 164, 287);
     }
 
@@ -569,6 +571,7 @@ public class BoardLayersListener extends JFrame implements IView
         } else {
             LogText("Player " + player.getPlayerNumber()+" paid " + amount + " Credits");
         }
+
         updatePlayerInfo();
     }
 
@@ -861,6 +864,11 @@ public class BoardLayersListener extends JFrame implements IView
 
     }
 
+    private void loadPlayerLocations()
+    {
+
+    }
+
 
 
 
@@ -959,11 +967,12 @@ public class BoardLayersListener extends JFrame implements IView
 
     public static class PlayerDetails
     {
-        public PlayerDetails(String name, Color color, ImageIcon icon)
+        public PlayerDetails(String name, Color color, ImageIcon icon, ImageIcon pawn)
         {
             PlayerColor = color;
             PlayerName = name;
             PlayerIcon = icon;
+            PlayerPawn = pawn;
         }
 
         public Color PlayerColor;
@@ -971,5 +980,7 @@ public class BoardLayersListener extends JFrame implements IView
         public String PlayerName;
 
         public ImageIcon PlayerIcon;
+
+        public ImageIcon PlayerPawn;
     }
 }
