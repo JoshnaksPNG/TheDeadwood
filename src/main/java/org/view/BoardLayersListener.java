@@ -524,14 +524,23 @@ public class BoardLayersListener extends JFrame implements IView
         playerlabel = new JLabel(details.PlayerIcon);
         ImageIcon pIcon = details.PlayerIcon;
         playerlabel.setOpaque(false);
-        playerlabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+        if (role.isMain()) {
+            playerlabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+        } else {
+            playerlabel.setBounds(area[0],area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+        }
         playerlabel.setVisible(false);
         playerlabel.setVisible(true);
         bPane.add(playerlabel, Integer.valueOf(3));
 
         pRankLabel = new JLabel(PlayerRankDice.get(player.getRank()));
         pRankLabel.setOpaque(false);
-        pRankLabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+        if (role.isMain()) {
+            pRankLabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+        } else {
+            pRankLabel.setBounds(area[0],area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
+        }
+        // pRankLabel.setBounds(room.getX() + area[0],room.getY() + area[1],pIcon.getIconWidth(),pIcon.getIconHeight());
         pRankLabel.setVisible(false);
         pRankLabel.setVisible(true);
         bPane.add(pRankLabel, Integer.valueOf(4));
