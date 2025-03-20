@@ -251,8 +251,8 @@ public class BoardLayersListener extends JFrame implements IView
 
     public void updatePlayerInfo() {
         for (Player player : _AllPlayers) {
-            if (playerLabels.containsKey(player.getPlayerNumber())) {
-                JLabel[] labels = playerLabels.get(player.getPlayerNumber());
+            if (playerLabels.containsKey("" + player.getPlayerNumber())) {
+                JLabel[] labels = playerLabels.get("" + player.getPlayerNumber());
                 labels[0].setText("Rank: " + player.getRank());
                 labels[1].setText("Money: $" + player.getMoney());
                 labels[2].setText("Credits: " + player.getCredit());
@@ -473,7 +473,9 @@ public class BoardLayersListener extends JFrame implements IView
 
         _AllPlayers.add(player);
 
-        setPlayerDie(player, 164, 287);
+        initPlayerDie(player);
+
+        setPlayerDie(player, BoardManager.Instance.GetTrailer().getX(), BoardManager.Instance.GetTrailer().getY());
     }
 
     @Override
@@ -481,6 +483,7 @@ public class BoardLayersListener extends JFrame implements IView
         PlayerDetails details = PlayerBoardDetails.get(player);
         
         // issues with referencing objects, must create a new object for each image label
+        /*
         bPane.remove(playerlabel);
 
         playerlabel = new JLabel(details.PlayerIcon);
@@ -500,7 +503,9 @@ public class BoardLayersListener extends JFrame implements IView
         pRankLabel.setVisible(false);
         pRankLabel.setVisible(true);
         bPane.add(pRankLabel, Integer.valueOf(4));
+        */
 
+        setPlayerDie(player, room.getX(), room.getY());
 
         if(room instanceof Set) {
             Set set = (Set) room;
@@ -509,6 +514,7 @@ public class BoardLayersListener extends JFrame implements IView
                 flipCard(set);
             }
         }
+
         bPane.revalidate();
         bPane.repaint();
 
@@ -578,6 +584,15 @@ public class BoardLayersListener extends JFrame implements IView
     @Override
     public TurnDetails PromptPlayerTurnAction(Player player)
     {
+        for(Player p: _AllPlayers)
+        {
+            updatePlayerDieRank(p);
+            viewPlayerdie(p, false);
+
+        }
+
+        viewPlayerdie(player, true);
+
         LogText("Prompt player turn action");
         boolean isWorkValid = player.isInRole();
 
@@ -626,7 +641,7 @@ public class BoardLayersListener extends JFrame implements IView
         optionArray = ActionOptions.toArray(optionArray);
 
         int optionIDX = JOptionPane.showOptionDialog(null, "What action would you like to take?",
-                "Action Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
+                PlayerBoardDetails.get(player).PlayerName + " (Player " + player.getPlayerNumber() + ") Action Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
 
         String ChosenOption = optionArray[optionIDX];
 
@@ -688,7 +703,7 @@ public class BoardLayersListener extends JFrame implements IView
         optionArray = UpgradeOptions.toArray(optionArray);
 
         int optionIDX = JOptionPane.showOptionDialog(null, "How do you want to upgrade your rank?",
-                "Upgrade Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
+                PlayerBoardDetails.get(player).PlayerName + " (Player " + player.getPlayerNumber() + ") Upgrade Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
 
         String ChosenOption = optionArray[optionIDX];
 
@@ -706,6 +721,8 @@ public class BoardLayersListener extends JFrame implements IView
                 currency = TurnDetails.UpgradeCurrency.Credits;
             }
         }
+
+
 
         return new TurnDetails(ActionType.Upgrade, currency);
     }
@@ -726,7 +743,7 @@ public class BoardLayersListener extends JFrame implements IView
         optionArray = RoleOptions.toArray(optionArray);
 
         int optionIDX = JOptionPane.showOptionDialog(null, "Which role would you like to take?",
-                "Role Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
+                PlayerBoardDetails.get(player).PlayerName + " (Player " + player.getPlayerNumber() + ") Role Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
 
         String ChosenOption = optionArray[optionIDX];
 
@@ -748,7 +765,7 @@ public class BoardLayersListener extends JFrame implements IView
         optionArray = RoomOptions.toArray(optionArray);
 
         int optionIDX = JOptionPane.showOptionDialog(null, "Which room would you like to move to?",
-                "Room Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
+                PlayerBoardDetails.get(player).PlayerName + " (Player " + player.getPlayerNumber() + ") Room Selection", JOptionPane.DEFAULT_OPTION, JOptionPane.PLAIN_MESSAGE, null, optionArray, optionArray[0]);
 
         String ChosenOption = optionArray[optionIDX];
 
@@ -870,21 +887,49 @@ public class BoardLayersListener extends JFrame implements IView
     {
         PlayerDetails details = PlayerBoardDetails.get(p);
 
-        playerlabel = new JLabel(details.PlayerIcon);
+        playerlabel = PlayerBoardDetails.get(p).DiePanel;
         ImageIcon pIcon = details.PlayerIcon;
         playerlabel.setOpaque(false);
         playerlabel.setBounds(x,y,pIcon.getIconWidth(),pIcon.getIconHeight());
         playerlabel.setVisible(false);
         playerlabel.setVisible(true);
-        bPane.add(playerlabel, Integer.valueOf(3));
+        //bPane.add(playerlabel, Integer.valueOf(3));
 
-        pRankLabel = new JLabel(PlayerRankDice.get(p.getRank()));
+        pRankLabel = PlayerBoardDetails.get(p).RankPanel;
         pRankLabel.setOpaque(false);
         pRankLabel.setBounds(x,y,pIcon.getIconWidth(),pIcon.getIconHeight());
         pRankLabel.setVisible(false);
         pRankLabel.setVisible(true);
-        bPane.add(pRankLabel, Integer.valueOf(4));
+        //bPane.add(pRankLabel, Integer.valueOf(4));
+    }
 
+    private void initPlayerDie(Player p)
+    {
+        PlayerDetails deets = PlayerBoardDetails.get(p);
+
+        deets.DiePanel = new JLabel(deets.PlayerIcon);
+        deets.RankPanel = new JLabel(PlayerRankDice.get(1));
+
+        bPane.add(deets.DiePanel, Integer.valueOf(3));
+        bPane.add(deets.RankPanel, Integer.valueOf(4));
+    }
+
+    private void updatePlayerDieRank(Player p)
+    {
+        PlayerDetails deets = PlayerBoardDetails.get(p);
+
+        //deets.RankPanel.setVisible(false);
+
+        deets.RankPanel.setIcon(PlayerRankDice.get(p.getRank()));
+        // java.lang.System.out.println(p.getRank());
+    }
+
+    private void viewPlayerdie(Player p, boolean b)
+    {
+        PlayerDetails deets = PlayerBoardDetails.get(p);
+
+        deets.DiePanel.setVisible(b);
+        deets.RankPanel.setVisible(b);
     }
 
     private void loadPlayerLocations()
@@ -1005,5 +1050,9 @@ public class BoardLayersListener extends JFrame implements IView
         public ImageIcon PlayerIcon;
 
         public ImageIcon PlayerPawn;
+
+        public JLabel DiePanel;
+
+        public JLabel RankPanel;
     }
 }
